@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ibah Misbah — Freelance Web Developer &amp; Systems Builder</title>
+  <meta name="description" content="Portfolio resmi Ibah Misbah — Freelance Web Developer & mahasiswa Sistem Informasi UBSI Tasikmalaya. Spesialis pembuatan website instansi, portal UMKM, sistem informasi, dan aplikasi web modern berbasis Laravel & PHP.">
+  <meta name="keywords" content="Ibah Misbah, Freelance Web Developer, Jasa Pembuatan Website, Web Developer Ciamis, Web Developer Tasikmalaya, Laravel Developer, Sistem Informasi UBSI, PHP MySQL, Frontend Developer">
+  <meta name="author" content="Ibah Misbah">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph Basic Metadata -->
+  <meta property="og:title" content="Ibah Misbah — Freelance Web Developer">
+  <meta property="og:description" content="Membangun solusi website praktis, efisien, dan berkinerja tinggi untuk kebutuhan akademik, organisasi, instansi, dan UMKM.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/images/profile.jpg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
+  <!-- Google Fonts: Poppins (Headline & Body) + Plus Jakarta Sans + JetBrains Mono (Code/Badges) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background Decorative Gradient Blobs -->
+  <div class="bg-glow-orb orb-1" aria-hidden="true"></div>
+  <div class="bg-glow-orb orb-2" aria-hidden="true"></div>
+  <div class="bg-grid-overlay" aria-hidden="true"></div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-notification" id="toastNotification" role="alert" aria-live="polite">
+    <i class="fa-solid fa-circle-check toast-icon"></i>
+    <span class="toast-message" id="toastMessage">Teks berhasil disalin!</span>
+  </div>
+
+  <!-- ==================== HEADER & STICKY NAVBAR ==================== -->
+  <header class="navbar-wrapper" id="navbar">
+    <div class="nav-container">
+      
+      <!-- Brand Logo / Name -->
+      <a href="#home" class="nav-brand" aria-label="Ibah Misbah Home">
+        <div class="brand-avatar-badge">IM</div>
+        <div class="brand-text-group">
+          <span class="brand-text">IBAH MISBAH</span>
+          <span class="brand-role">FREELANCE DEVELOPER</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="nav-links-desktop" aria-label="Main Navigation">
+        <ul class="nav-list">
+          <li><a href="#home" class="nav-link active">Home</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#services" class="nav-link">Services</a></li>
+          <li><a href="#skills" class="nav-link">Skills</a></li>
+          <li><a href="#experience" class="nav-link">Experience</a></li>
+          <li><a href="#projects" class="nav-link">Projects</a></li>
+          <li><a href="#education" class="nav-link">Education</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Right Action, Theme Toggle & Hamburger -->
+      <div class="nav-actions">
+        <!-- Theme Toggle Button (Light / Dark) -->
+        <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Ganti Mode Gelap / Terang" title="Ganti Mode Tampilan (Dark/Light)">
+          <i class="fa-solid fa-moon theme-icon-moon"></i>
+          <i class="fa-solid fa-sun theme-icon-sun"></i>
+          <span class="theme-text">Mode</span>
+        </button>
+
+        <!-- Quick AI Trigger in Nav -->
+        <button class="btn-nav-ai" onclick="openChatWithQuery('Bisa jelaskan ringkasan keahlian dan layanan yang disediakan Ibah?')" title="Tanya AI Assistant">
+          <i class="fa-solid fa-robot"></i>
+          <span>Tanya AI</span>
+          <span class="nav-ai-dot"></span>
+        </button>
+
+        <!-- Direct WhatsApp CTA -->
+        <a href="https://wa.me/6282219678296?text=Halo%20Ibah,%20saya%20melihat%20portfolio%20Anda%20dan%20ingin%20berdiskusi%20mengenai%20project." target="_blank" rel="noopener noreferrer" class="btn btn-nav-cta">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span>Let's Talk</span>
+        </a>
+
+        <!-- Mobile Hamburger Button -->
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Buka Menu Navigasi" aria-expanded="false">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true">
+      <ul class="mobile-nav-list">
+        <li><a href="#home" class="mobile-nav-link active">Home</a></li>
+        <li><a href="#about" class="mobile-nav-link">About Me</a></li>
+        <li><a href="#services" class="mobile-nav-link">Services (Layanan)</a></li>
+        <li><a href="#skills" class="mobile-nav-link">Technical Skills</a></li>
+        <li><a href="#experience" class="mobile-nav-link">Riwayat Pengalaman</a></li>
+        <li><a href="#projects" class="mobile-nav-link">Projects Portfolio</a></li>
+        <li><a href="#education" class="mobile-nav-link">Pendidikan &amp; Sertifikasi</a></li>
+        <li><a href="#contact" class="mobile-nav-link">Kontak Langsung</a></li>
+      </ul>
+      <div class="mobile-nav-footer">
+        <div class="mobile-nav-theme-row">
+          <span>Mode Tampilan:</span>
+          <button class="theme-toggle-btn mobile-theme-btn" id="mobileThemeToggleBtn">
+            <i class="fa-solid fa-moon"></i>
+            <span id="mobileThemeLabel">Dark Mode</span>
+          </button>
+        </div>
+        <a href="https://wa.me/6282219678296?text=Halo%20Ibah,%20saya%20melihat%20portfolio%20Anda%20dan%20ingin%20berdiskusi%20mengenai%20project." target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-full mt-2">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span>Hubungi via WhatsApp</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ==================== 1. HERO SECTION ==================== -->
+    <section class="hero-section" id="home">
+      <div class="container hero-container">
+        
+        <!-- Left Hero Content -->
+        <div class="hero-content reveal-on-scroll">
+          
+          <!-- Live Status Badge -->
+          <div class="status-pill">
+            <span class="status-dot"></span>
+            <span class="status-text">AVAILABLE FOR FREELANCE / REMOTE / PART-TIME</span>
+          </div>
+
+          <div class="hero-intro">
+            <span class="intro-tag">HALO, SAYA</span>
+          </div>
+
+          <h1 class="hero-name">IBAH MISBAH</h1>
+
+          <div class="hero-role-wrapper">
+            <span class="role-bracket">&lt;</span>
+            <span class="hero-role-typing" id="heroRoleText">FREELANCE WEB DEVELOPER</span>
+            <span class="role-cursor">|</span>
+            <span class="role-bracket">/&gt;</span>
+          </div>
+
+          <p class="hero-description">
+            Spesialis pengembangan aplikasi website terstruktur berbasis <strong>PHP</strong> &amp; <strong>Laravel</strong>, database <strong>MySQL</strong> yang efisien, dan interface yang responsif. Siap membantu mendigitalisasi proses kerja instansi, memajukan promosi UMKM, serta membangun solusi sistem informasi sesuai target Anda.
+          </p>
+
+          <!-- Micro Proof Bar (Metrics) -->
+          <div class="hero-micro-proof">
+            <div class="proof-item">
+              <i class="fa-solid fa-code-branch proof-icon"></i>
+              <span><strong>4+</strong> Proyek Nyata</span>
+            </div>
+            <div class="proof-item">
+              <i class="fa-solid fa-layer-group proof-icon"></i>
+              <span><strong>5+</strong> Pengalaman Kerja &amp; Org</span>
+            </div>
+            <div class="proof-item">
+              <i class="fa-solid fa-bolt proof-icon"></i>
+              <span>Fast &amp; Responsive Code</span>
+            </div>
+          </div>
+
+          <!-- Hero Action Buttons -->
+          <div class="hero-cta-group">
+            <a href="https://wa.me/6282219678296?text=Halo%20Ibah,%20saya%20melihat%20portfolio%20Anda%20dan%20ingin%20berdiskusi%20mengenai%20project." target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-hero-main">
+              <i class="fa-brands fa-whatsapp"></i>
+              <span>Konsultasi Proyek (WhatsApp)</span>
+            </a>
+            <a href="#projects" class="btn btn-outline btn-hero-secondary">
+              <i class="fa-solid fa-laptop-code"></i>
+              <span>Jelajahi Proyek</span>
+            </a>
+            <button class="btn btn-outline btn-hero-cv" onclick="openCVModal()">
+              <i class="fa-solid fa-file-lines"></i>
+              <span>Lihat CV</span>
+            </button>
+          </div>
+
+          <!-- Verified Direct Social Links -->
+          <div class="hero-social-links">
+            <span class="social-label">KONEKSI RESMI:</span>
+            <a href="https://wa.me/6282219678296?text=Halo%20Ibah,%20saya%20melihat%20portfolio%20Anda%20dan%20ingin%20berdiskusi%20mengenai%20project." target="_blank" rel="noopener noreferrer" class="social-icon whatsapp" title="Chat WhatsApp (+62 822-1967-8296)">
+              <i class="fa-brands fa-whatsapp"></i>
+            </a>
+            <a href="https://github.com/githu423" target="_blank" rel="noopener noreferrer" class="social-icon github" title="GitHub Repository (@githu423)">
+              <i class="fa-brands fa-github"></i>
+            </a>
+            <a href="https://linkedin.com/in/ibah-misbah" target="_blank" rel="noopener noreferrer" class="social-icon linkedin" title="LinkedIn Profile (Ibah Misbah)">
+              <i class="fa-brands fa-linkedin-in"></i>
+            </a>
+            <a href="mailto:ibahmisbahh6@gmail.com" class="social-icon email" title="Kirim Email (ibahmisbahh6@gmail.com)">
+              <i class="fa-solid fa-envelope"></i>
+            </a>
+            <a href="tel:082219678296" class="social-icon phone" title="Hubungi Telepon (082219678296)">
+              <i class="fa-solid fa-phone"></i>
+            </a>
+            <a href="https://instagram.com/ibah.codes" target="_blank" rel="noopener noreferrer" class="social-icon instagram" title="Instagram Profile">
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+          </div>
+
+        </div>
+
+        <!-- Right Hero Visual: Interactive Terminal & Profile Card -->
+        <div class="hero-visual-wrapper reveal-on-scroll">
+          <div class="profile-card-container">
+            
+            <!-- Window Control Header -->
+            <div class="profile-window-bar">
+              <div class="window-buttons">
+                <span class="win-btn win-red"></span>
+                <span class="win-btn win-yellow"></span>
+                <span class="win-btn win-green"></span>
+              </div>
+              <div class="window-title">developer_profile.sh</div>
+              <div class="window-badge">v2.4 Live</div>
+            </div>
+
+            <!-- Profile Photo Container -->
+            <div class="profile-image-frame">
+              <img src="assets/images/profile.jpg" alt="Foto Resmi Ibah Misbah" class="profile-photo" id="heroProfileImg">
+              <div class="profile-location-chip">
+                <i class="fa-solid fa-location-dot"></i>
+                <a href="https://maps.google.com/?q=Kabupaten+Ciamis,+Jawa+Barat" target="_blank" rel="noopener noreferrer" class="chip-map-link">Kabupaten Ciamis, ID</a>
+              </div>
+            </div>
+
+            <!-- Profile Card Mini Stats -->
+            <div class="profile-card-footer">
+              <div class="stat-mini-box">
+                <span class="stat-mini-num counter" data-target="4">4</span>
+                <span class="stat-mini-label">Proyek Selesai</span>
+              </div>
+              <div class="stat-mini-divider"></div>
+              <div class="stat-mini-box">
+                <span class="stat-mini-num counter" data-target="5">5</span>
+                <span class="stat-mini-label">Pengalaman Kerja</span>
+              </div>
+              <div class="stat-mini-divider"></div>
+              <div class="stat-mini-box">
+                <span class="stat-mini-num">100%</span>
+                <span class="stat-mini-label">Komitmen</span>
+              </div>
+            </div>
+
+            <!-- Interactive Terminal Code Card Switcher -->
+            <div class="hero-code-snippet">
+              <div class="code-header-tabs">
+                <button class="code-tab active" data-tab="config" onclick="switchCodeTab('config')">ibah.json</button>
+                <button class="code-tab" data-tab="stack" onclick="switchCodeTab('stack')">stack.ts</button>
+                <button class="code-tab" data-tab="contact" onclick="switchCodeTab('contact')">contact.env</button>
+              </div>
+              <pre class="code-content" id="codeContentDisplay"><code>{
+  <span class="code-key">"developer"</span>: <span class="code-str">"Ibah Misbah"</span>,
+  <span class="code-key">"role"</span>: <span class="code-str">"Freelance Web Developer"</span>,
+  <span class="code-key">"status"</span>: <span class="code-str">"Available for Projects"</span>,
+  <span class="code-key">"location"</span>: <span class="code-str">"Kab. Ciamis, Jawa Barat"</span>,
+  <span class="code-key">"frameworks"</span>: [<span class="code-str">"Laravel"</span>, <span class="code-str">"PHP"</span>, <span class="code-str">"MySQL"</span>]
+}</code></pre>
+            </div>
+
+            <!-- Floating AI Prompt Pill -->
+            <div class="floating-callout-pill" onclick="openChatWithQuery('Halo! Apa saja pengalaman Ibah di instansi pemerintahan dan organisasi kampus?')">
+              <div class="callout-icon">
+                <i class="fa-solid fa-sparkles"></i>
+              </div>
+              <div class="callout-text">
+                <strong>Ingin tahu pengalaman Ibah?</strong>
+                <span>Klik untuk Tanya AI Asisten</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==================== 2. ABOUT ME SECTION ==================== -->
+    <section class="section-wrapper bg-light" id="about">
+      <div class="container">
+        
+        <div class="section-title-wrapper reveal-on-scroll">
+          <span class="section-eyebrow">TENTANG SAYA</span>
+          <h2 class="section-heading">Mengenal Lebih Dekat Ibah Misbah</h2>
+          <div class="heading-line"></div>
+          <p class="section-subtext">Dedikasi tinggi dalam merancang website fungsional, kode bersih, dan solusi sistem informasi yang teruji.</p>
+        </div>
+
+        <div class="about-grid">
+          
+          <!-- Left: Secondary Photo & Strengths -->
+          <div class="about-photo-col reveal-on-scroll">
+            <div class="about-photo-card">
+              <img src="assets/images/profile.jpg" alt="Ibah Misbah Web Developer" class="about-photo">
+              <div class="about-photo-overlay">
+                <div class="overlay-badge">
+                  <i class="fa-solid fa-award"></i>
+                  <span>Mahasiswa Sistem Informasi UBSI (2024–2027)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Strengths Card -->
+            <div class="strengths-box">
+              <h4 class="strengths-title">
+                <i class="fa-solid fa-circle-check text-blue"></i>
+                Keunggulan &amp; Etos Kerja:
+              </h4>
+              <ul class="strengths-list">
+                <li>
+                  <i class="fa-solid fa-check text-blue"></i>
+                  <span><strong>Struktur Database &amp; MVC Rapi:</strong> Memudahkan proses maintenance jangka panjang.</span>
+                </li>
+                <li>
+                  <i class="fa-solid fa-check text-blue"></i>
+                  <span><strong>Komunikasi Proaktif:</strong> Diskusi transparan mengenai progres dan spesifikasi project.</span>
+                </li>
+                <li>
+                  <i class="fa-solid fa-check text-blue"></i>
+                  <span><strong>Kepemimpinan Teruji:</strong> Berpengalaman memimpin organisasi mahasiswa dan divisi media.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Right: Detailed Narrative & Profile Facts -->
+          <div class="about-info-col reveal-on-scroll">
+            
+            <div class="lead-quote-box">
+              <p class="about-paragraph-lead">
+                "Bagi saya, website bukan sekadar kumpulan kode, melainkan instrumen digital yang menyelesaikan masalah nyata—mulai dari automasi dokumen instansi hingga memperluas pasar UMKM."
+              </p>
+            </div>
+
+            <p class="about-paragraph">
+              Saya adalah <strong>Freelance Web Developer</strong> sekaligus mahasiswa aktif Program Studi <strong>Sistem Informasi di Universitas Bina Sarana Informatika (UBSI) Kampus Tasikmalaya</strong> (periode 2024 – 2027). Saya memiliki pengalaman praktis dalam mengembangkan solusi berbasis web untuk kebutuhan instansi pemerintahan (seperti <em>Dinas Pariwisata Ciamis</em>), organisasi kampus (<em>BEM</em> dan <em>HIMASI</em>), serta sektor UMKM lokal.
+            </p>
+
+            <!-- Quick Data Grid -->
+            <div class="info-cards-grid">
+              
+              <div class="info-card">
+                <span class="info-key"><i class="fa-solid fa-user"></i> NAMA LENGKAP</span>
+                <span class="info-val">Ibah Misbah</span>
+              </div>
+
+              <div class="info-card">
+                <span class="info-key"><i class="fa-solid fa-graduation-cap"></i> PENDIDIKAN</span>
+                <span class="info-val">S1 Sistem Informasi — UBSI</span>
+              </div>
+
+              <div class="info-card">
+                <span class="info-key"><i class="fa-solid fa-location-dot"></i> DOMISILI</span>
+                <span class="info-val">Kabupaten Ciamis, Jawa Barat</span>
+              </div>
+
+              <div class="info-card">
+                <span class="info-key"><i class="fa-solid fa-briefcase"></i> STATUS KERJA</span>
+                <span class="info-val text-green font-bold">Open for Freelance / Remote</span>
+              </div>
+
+              <div class="info-card">
+                <span class="info-key"><i class="fa-solid fa-envelope"></i> EMAIL RESMI</span>
+                <a href="mailto:ibahmisbahh6@gmail.com" class="info-val email-link">ibahmisbahh6@gmail.com</a>
+              </div>
+
+              <div class="info-card">
+                <span class="info-key"><i class="fa-brands fa-whatsapp"></i> WHATSAPP</span>
+                <a href="https://wa.me/6282219678296" target="_blank" rel="noopener noreferrer" class="info-val wa-link">0822-1967-8296</a>
+              </div>
+
+            </div>
+
+            <!-- About CTAs -->
+            <div class="about-actions-row">
+              <button class="btn btn-primary" onclick="openCVModal()">
+                <i class="fa-solid fa-file-pdf"></i>
+                <span>Buka Interactive CV</span>
+              </button>
+              <a href="assets/cv/cv.pdf" download="CV_Ibah_Misbah.pdf" class="btn btn-outline" title="Unduh file CV PDF">
+                <i class="fa-solid fa-download"></i>
+                <span>Download CV PDF</span>
+              </a>
+              <a href="#contact" class="btn btn-outline">
+                <i class="fa-solid fa-comments"></i>
+                <span>Hubungi Saya</span>
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==================== 3. SERVICES SECTION ==================== -->
+    <section class="section-wrapper bg-white" id="services">
+      <div class="container">
+        
+        <div class="section-title-wrapper reveal-on-scroll">
+          <span class="section-eyebrow">LAYANAN KAMI</span>
+          <h2 class="section-heading">Layanan Pengembangan Web Profesional</h2>
+          <div class="heading-line"></div>
+          <p class="section-subtext">Solusi rekayasa perangkat lunak terintegrasi yang disesuaikan dengan kebutuhan alur kerja dan anggaran Anda.</p>
+        </div>
+
+        <div class="services-grid">
+          
+          <!-- Service Card 01 -->
+          <div class="service-card reveal-on-scroll">
+            <div class="service-card-top">
+              <span class="service-number">01</span>
+              <div class="service-icon">
+                <i class="fa-solid fa-globe"></i>
+              </div>
+            </div>
+            <h3 class="service-title">WEBSITE DEVELOPMENT</h3>
+            <p class="service-description">
+              Pengembangan website menyeluruh (*end-to-end*) sesuai kebutuhan akademik, organisasi, portal instansi dinas, maupun landing page bisnis komersial.
+            </p>
+            <div class="service-footer-action">
+              <a href="https://wa.me/6282219678296?text=Halo%20Ibah,%20saya%20ingin%20berkonsultasi%20pembuatan%20Website%20Development" target="_blank" rel="noopener noreferrer" class="service-link">
+                Konsultasikan <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Service Card 02 -->
+          <div class="service-card reveal-on-scroll">
+            <div class="service-card-top">
+              <span class="service-number">02</span>
+              <div class="service-icon">
+                <i class="fa-solid fa-laptop-code"></i>
+              </div>
+            </div>
+            <h3 class="service-title">FRONT-END DEVELOPMENT</h3>
+            <p class="service-description">
+              Membangun antarmuka (*UI*) website yang responsif di semua perangkat ponsel dan desktop menggunakan HTML5, CSS3 modern, JavaScript, Tailwind CSS, &amp; Bootstrap.
+            </p>
+            <div class="service-footer-action">
+              <a href="https://wa.me/6282219678296?text=Halo%20Ibah,%20saya%20ingin%20berkonsultasi%20layanan%20Front-End%20Development" target="_blank" rel="noopener noreferrer" class="service-link">
+                Konsultasikan <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Service Card 03 -->
+          <div class="service-card reveal-on-scroll">
+            <div class="service-card-top">
+              <span class="service-number">03</span>
+              <div class="service-icon">
+                <i class="fa-solid fa-gears"></i>
+              </div>
+            </div>
+            <h3 class="service-title">BACK-END DEVELOPMENT</h3>
+            <p class="service-description">
+              Mengembangkan logika aplikasi website yang aman, cepat, dan terstruktur menggunakan bahasa PHP murni dan Framework Laravel dengan arsitektur MVC.
+            </p>
+            <div class="service-footer-action">
+              <a href="https://wa.me/6282219678296?text=Halo%20Ibah,%20saya%20ingin%20berkonsultasi%20layanan%20Back-End%20Laravel" target="_blank" rel="noopener noreferrer" class="service-link">
+                Konsultasikan <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Service Card 04 -->
+          <div class="service-card reveal-on-scroll">
+            <div class="service-card-top">
+              <span class="service-number">04</span>
+              <div class="service-icon">
+                <i class="fa-solid fa-database"></i>
+              </div>
+            </div>
+            <h3 class="service-title">DATABASE / MYSQL</h3>
+            <p class="service-description">
+              Perancangan skema relasional tabel database, optimasi query CRUD, integrasi data transaksi, dan manajemen database menggunakan MySQL &amp; XAMPP.
+            </p>
+            <div class="service-footer-action">
+              <a href="https://wa.me/6282219678296?text=Halo%20Ibah,%20saya%20ingin%20berkonsultasi%20layanan%20Database%20MySQL" target="_blank" rel="noopener noreferrer" class="service-link">
+                Konsultasikan <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==================== 4. SKILLS SECTION ==================== -->
+    <section class="section-wrapper bg-light" id="skills">
+      <div class="container">
+        
+        <div class="section-title-wrapper reveal-on-scroll">
+          <span class="section-eyebrow">KEAHLIAN TEKNIS</span>
+          <h2 class="section-heading">Keahlian &amp; Penguasaan Tools</h2>
+          <div class="heading-line"></div>
+          <p class="section-subtext">Tingkat kemahiran terverifikasi sesuai riwayat pengerjaan proyek dan sertifikasi kompetensi.</p>
+        </div>
+
+        <!-- Interactive Skill Category Filter Tabs -->
+        <div class="skills-filter-tabs reveal-on-scroll">
+          <button class="skill-tab-btn active" data-filter="all" onclick="filterSkills('all')">Semua Keahlian</button>
+          <button class="skill-tab-btn" data-filter="web" onclick="filterSkills('web')">Web Development</button>
+          <button class="skill-tab-btn" data-filter="tools" onclick="filterSkills('tools')">Dev Tools</button>
+          <button class="skill-tab-btn" data-filter="design" onclick="filterSkills('design')">Desain &amp; Office</button>
+        </div>
+
+        <div class="skills-grid">
+          
+          <!-- Group 1: Web Development -->
+          <div class="skills-group-card reveal-on-scroll" data-category="web">
+            <div class="group-header">
+              <div class="group-icon-box">
+                <i class="fa-solid fa-code"></i>
+              </div>
+              <div>
+                <h3 class="group-title">Web Development</h3>
+                <span class="group-subtitle">Bahasa Pemrograman &amp; Framework</span>
+              </div>
+            </div>
+
+            <div class="skill-rows">
+              
+              <div class="skill-row">
+                <div class="skill-meta">
+                  <span class="skill-name"><i class="fa-brands fa-php text-blue"></i> PHP</span>
+                  <span class="skill-badge badge-advanced">Advanced / Mahir</span>
+                </div>
+                <div class="skill-track"><div class="skill-bar" data-width="90%" style="width: 0%;"></div></div>
+              </div>
+
+              <div class="skill-row">
+                <div class="skill-meta">
+                  <span class="skill-name"><i class="fa-brands fa-laravel text-red"></i> Laravel</span>
+                  <span class="skill-badge badge-advanced">Advanced / Mahir</span>
+                </div>
+                <div class="skill-track"><div class="skill-bar" data-width="90%" style="width: 0%;"></div></div>
+              </div>
+
+              <div class="skill-row">
+                <div class="skill-meta">
+                  <span class="skill-name"><i class="fa-solid fa-database text-orange"></i> MySQL</span>
+                  <span class="skill-badge badge-advanced">Advanced / Mahir</span>
+                </div>
+                <div class="skill-track"><div class="skill-bar" data-width="90%" style="width: 0%;"></div></div>
+              </div>
+
+              <div class="skill-row">
+                <div class="skill-meta">
+                  <span class="skill-name"><i class="fa-brands fa-html5 text-orange"></i> HTML</span>
+                  <span class="skill-badge badge-advanced">Advanced / Mahir</span>
+                </div>
+                <div class="skill-track"><div class="skill-bar" data-width="95%" style="width: 0%;"></div></div>
+              </div>
+
+              <div class="skill-row">
+                <div class="skill-meta">
+                  <span class="skill-name"><i class="fa-brands fa-css3-alt text-blue"></i> CSS</span>
+                  <span class="skill-badge badge-advanced">Advanced / Mahir</span>
+                </div>
+                <div class="skill-track"><div class="skill-bar" data-width="90%" style="width: 0%;"></div></div>
+              </div>
+
+              <div class="skill-row">
+                <div class="skill-meta">
+                  <span class="skill-name"><i class="fa-brands fa-js text-yellow"></i> JavaScript</span>
+                  <span class="skill-badge badge-advanced">Advanced / Mahir</span>
+                </div>
+                <div class="skill-track"><div class="skill-bar" data-width="85%" style="width: 0%;"></div></div>
+              </div>
+
+              <div class="skill-row">
+                <div class="skill-meta">
+                  <span class="skill-name"><i class="fa-brands fa-bootstrap text-purple"></i> Bootstrap</span>
+                  <span class="skill-badge badge-advanced">Advanced / Mahir</span>
+                </div>
+                <div class="skill-track"><div class="skill-bar" data-width="90%" style="width: 0%;"></div></div>
+              </div>
+
+              <div class="skill-row">
+                <div class="skill-meta">
+                  <span class="skill-name"><i class="fa-solid fa-wind text-teal"></i> Tailwind CSS</span>
+                  <span class="skill-badge badge-advanced">Advanced / Mahir</span>
+                </div>
+                <div class="skill-track"><div class="skill-bar" data-width="88%" style="width: 0%;"></div></div>
+              </div>
+
+              <div class="skill-row">
+                <div class="skill-meta">
+                  <span class="skill-name"><i class="fa-brands fa-node-js text-green"></i> Node.js</span>
+                  <span class="skill-badge badge-basic">Basic / Dasar</span>
+                </div>
+                <div class="skill-track"><div class="skill-bar" data-width="50%" style="width: 0%;"></div></div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Group 2: Development Tools & Multimedia -->
+          <div class="skills-group-card reveal-on-scroll" data-category="tools design">
+            <div class="group-header">
+              <div class="group-icon-box">
+                <i class="fa-solid fa-toolbox"></i>
+              </div>
+              <div>
+                <h3 class="group-title">Development Tools &amp; Multimedia</h3>
+                <span class="group-subtitle">Software, Workflow &amp; Productivity</span>
+              </div>
+            </div>
+
+            <div class="skill-rows">
+              
+              <div class="skill-row">
+                <div class="skill-meta">
+                  <span class="skill-name"><i class="fa-brands fa-github text-blue"></i> Git / GitHub</span>
+                  <span class="skill-badge badge-advanced">Advanced / Mahir</span>
+                </div>
+                <div class="skill-track"><div class="skill-bar" data-width="90%" style="width: 0%;"></div></div>
+              </div>
+
+              <div class="skill-row">
+                <div class="skill-meta">
+                  <span class="skill-name"><i class="fa-solid fa-server text-orange"></i> XAMPP</span>
+                  <span class="skill-badge badge-advanced">Advanced / Mahir</span>
+                </div>
+                <div class="skill-track"><div class="skill-bar" data-width="95%" style="width: 0%;"></div></div>
+              </div>
+
+              <div class="skill-row">
+                <div class="skill-meta">
+                  <span class="skill-name"><i class="fa-solid fa-terminal text-blue"></i> Visual Studio Code</span>
+                  <span class="skill-badge badge-advanced">Advanced / Mahir</span>
+                </div>
+                <div class="skill-track"><div class="skill-bar" data-width="95%" style="width: 0%;"></div></div>
+              </div>
+
+              <div class="skill-row">
+                <div class="skill-meta">
+                  <span class="skill-name"><i class="fa-solid fa-palette text-purple"></i> Canva / CapCut / PixelLab</span>
+                  <span class="skill-badge badge-advanced">Advanced / Mahir</span>
+                </div>
+                <div class="skill-track"><div class="skill-bar" data-width="92%" style="width: 0%;"></div></div>
+              </div>
+
+              <div class="skill-row">
+                <div class="skill-meta">
+                  <span class="skill-name"><i class="fa-solid fa-image text-blue"></i> Photoshop &amp; After Effects</span>
+                  <span class="skill-badge badge-intermediate">Intermediate / Menengah</span>
+                </div>
+                <div class="skill-track"><div class="skill-bar" data-width="70%" style="width: 0%;"></div></div>
+              </div>
+
+              <div class="skill-row">
+                <div class="skill-meta">
+                  <span class="skill-name"><i class="fa-solid fa-file-word text-blue"></i> Microsoft Word &amp; Google Docs</span>
+                  <span class="skill-badge badge-advanced">Advanced / Mahir</span>
+                </div>
+                <div class="skill-track"><div class="skill-bar" data-width="95%" style="width: 0%;"></div></div>
+              </div>
+
+              <div class="skill-row">
+                <div class="skill-meta">
+                  <span class="skill-name"><i class="fa-solid fa-file-excel text-green"></i> Google Sheets &amp; MS Excel</span>
+                  <span class="skill-badge badge-advanced">Advanced / Mahir</span>
+                </div>
+                <div class="skill-track"><div class="skill-bar" data-width="88%" style="width: 0%;"></div></div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==================== 5. EXPERIENCE SECTION ==================== -->
+    <section class="section-wrapper bg-white" id="experience">
+      <div class="container">
+        
+        <div class="section-title-wrapper reveal-on-scroll">
+          <span class="section-eyebrow">RIWAYAT PENGALAMAN</span>
+          <h2 class="section-heading">Pengalaman Praktik &amp; Organisasi</h2>
+          <div class="heading-line"></div>
+          <p class="section-subtext">5 Pengalaman nyata dalam pengembangan sistem instansi dan kepemimpinan organisasi.</p>
+        </div>
+
+        <div class="timeline-wrapper">
+          
+          <!-- Experience 01 -->
+          <div class="timeline-block reveal-on-scroll">
+            <div class="timeline-marker"></div>
+            <div class="timeline-card">
+              <div class="timeline-card-header">
+                <span class="timeline-period"><i class="fa-regular fa-calendar"></i> Agustus – Oktober 2026</span>
+                <span class="timeline-badge badge-pkl">Praktik Kerja Lapangan (PKL)</span>
+              </div>
+              <h3 class="timeline-org">Dinas Pariwisata Ciamis</h3>
+              <h4 class="timeline-role">Web Developer — Bidang Perencanaan, Sekretariat</h4>
+              <ul class="timeline-points">
+                <li>Mengembangkan website internal untuk mendukung kebutuhan rapat dan mengurangi penggunaan dokumen berbasis kertas melalui alur digital.</li>
+                <li>Mengembangkan website penyortiran slip gaji untuk membantu pengolahan data gaji dari Excel menjadi dokumen Word/PDF siap cetak secara otomatis.</li>
+                <li>Bekerja sama secara intensif dalam tim pengembangan 2 orang.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Experience 02 -->
+          <div class="timeline-block reveal-on-scroll">
+            <div class="timeline-marker"></div>
+            <div class="timeline-card">
+              <div class="timeline-card-header">
+                <span class="timeline-period"><i class="fa-regular fa-calendar"></i> 2026 – 2027</span>
+                <span class="timeline-badge badge-active">Kepengurusan Terkini</span>
+              </div>
+              <h3 class="timeline-org">HIMASI (Himpunan Mahasiswa Sistem Informasi)</h3>
+              <h4 class="timeline-role">Ketua Umum</h4>
+              <ul class="timeline-points">
+                <li>Memimpin dan mengelola arah kebijakan organisasi kemahasiswaan tingkat program studi.</li>
+                <li>Membuat keputusan strategis, mengoordinasikan seluruh divisi, dan memastikan keberlangsungan program kerja.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Experience 03 -->
+          <div class="timeline-block reveal-on-scroll">
+            <div class="timeline-marker"></div>
+            <div class="timeline-card">
+              <div class="timeline-card-header">
+                <span class="timeline-period"><i class="fa-regular fa-calendar"></i> 2025 – 2026</span>
+                <span class="timeline-badge">Organisasi Wilayah</span>
+              </div>
+              <h3 class="timeline-org">BEM Setasik</h3>
+              <h4 class="timeline-role">Anggota Bidang Kominfo</h4>
+              <ul class="timeline-points">
+                <li>Membuat dokumentasi kegiatan dan poster visual publikasi resmi.</li>
+                <li>Terlibat aktif dalam kegiatan lapangan sebagai tim media dokumentasi.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Experience 04 -->
+          <div class="timeline-block reveal-on-scroll">
+            <div class="timeline-marker"></div>
+            <div class="timeline-card">
+              <div class="timeline-card-header">
+                <span class="timeline-period"><i class="fa-regular fa-calendar"></i> 2024 – 2025</span>
+                <span class="timeline-badge">Organisasi Kampus</span>
+              </div>
+              <h3 class="timeline-org">BEM UBSI Tasikmalaya</h3>
+              <h4 class="timeline-role">Koordinator Kominfo</h4>
+              <ul class="timeline-points">
+                <li>Mengelola akun media sosial Instagram dan konten publikasi digital resmi organisasi.</li>
+                <li>Membuat poster, editing video, copywriting caption, dan publikasi agenda kampus.</li>
+                <li>Menangani komunikasi lintas organisasi dan kegiatan pengiklanan event.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Experience 05 -->
+          <div class="timeline-block reveal-on-scroll">
+            <div class="timeline-marker"></div>
+            <div class="timeline-card">
+              <div class="timeline-card-header">
+                <span class="timeline-period"><i class="fa-regular fa-calendar"></i> 2024 – 2025</span>
+                <span class="timeline-badge">Riset &amp; Pengembangan</span>
+              </div>
+              <h3 class="timeline-org">HIMASI (Himpunan Mahasiswa Sistem Informasi)</h3>
+              <h4 class="timeline-role">Anggota Penelitian &amp; Pengembangan (Litbang)</h4>
+              <ul class="timeline-points">
+                <li>Mendukung riset dan pengembangan sumber daya mahasiswa jurusan Sistem Informasi.</li>
+                <li>Melakukan evaluasi kegiatan organisasi serta menyusun rekomendasi pengembangan kepada ketua.</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==================== 6. PROJECTS SECTION ==================== -->
+    <section class="section-wrapper bg-light" id="projects">
+      <div class="container">
+        
+        <div class="section-title-wrapper reveal-on-scroll">
+          <span class="section-eyebrow">PORTOFOLIO PROYEK</span>
+          <h2 class="section-heading">Karya &amp; Implementasi Nyata</h2>
+          <div class="heading-line"></div>
+          <p class="section-subtext">Daftar proyek aplikasi web yang dirancang untuk mengatasi persoalan efisiensi dan alur kerja pengguna.</p>
+        </div>
+
+        <!-- Project Filter Buttons -->
+        <div class="project-filter-buttons reveal-on-scroll">
+          <button class="proj-filter-btn active" data-filter="all" onclick="filterProjects('all')">Semua Proyek (4)</button>
+          <button class="proj-filter-btn" data-filter="instansi" onclick="filterProjects('instansi')">Instansi &amp; Kantor</button>
+          <button class="proj-filter-btn" data-filter="laravel" onclick="filterProjects('laravel')">Laravel &amp; Database</button>
+          <button class="proj-filter-btn" data-filter="umkm" onclick="filterProjects('umkm')">Desa &amp; UMKM</button>
+        </div>
+
+        <div class="projects-grid">
+          
+          <!-- Project Card 01 -->
+          <div class="project-card reveal-on-scroll" data-category="instansi">
+            <div class="project-card-image">
+              <img src="assets/images/project-01.jpg" alt="Website Sortir Slip Gaji">
+              <span class="project-badge">01 — Web Tools / Automation</span>
+            </div>
+            <div class="project-card-body">
+              <h3 class="project-title">Website Sortir Slip Gaji</h3>
+              <p class="project-description">
+                Proyek individu untuk membantu proses penyortiran dan pengolahan data slip gaji dari format Excel menjadi dokumen Word/PDF siap cetak secara digital dan otomatis.
+              </p>
+              <div class="project-tech-badges">
+                <span class="tech-badge">HTML5</span>
+                <span class="tech-badge">CSS3</span>
+                <span class="tech-badge">JavaScript</span>
+              </div>
+              <div class="project-card-actions">
+                <button class="btn btn-primary btn-sm" onclick="openProjectModal('proj-1')">
+                  <i class="fa-solid fa-circle-info"></i>
+                  <span>Detail &amp; Arsitektur</span>
+                </button>
+                <a href="https://github.com/githu423/website-slip-gaji" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm ml-2" title="Source Code di GitHub">
+                  <i class="fa-brands fa-github"></i>
+                  <span>Repo</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Card 02 -->
+          <div class="project-card reveal-on-scroll" data-category="laravel umkm">
+            <div class="project-card-image">
+              <img src="assets/images/project-02.jpg" alt="Cipakat-Hub Sistem Informasi Desa">
+              <span class="project-badge">02 — Public Services / Full Stack</span>
+            </div>
+            <div class="project-card-body">
+              <h3 class="project-title">Cipakat-Hub</h3>
+              <p class="project-description">
+                Platform sistem informasi terpadu desa untuk mendukung alur pengaduan masyarakat, pengajuan surat pengantar, pinjaman, booking fasilitas desa, dan promosi produk UMKM desa.
+              </p>
+              <div class="project-tech-badges">
+                <span class="tech-badge">Laravel</span>
+                <span class="tech-badge">PHP</span>
+                <span class="tech-badge">MySQL</span>
+                <span class="tech-badge">Bootstrap</span>
+              </div>
+              <div class="project-card-actions">
+                <button class="btn btn-primary btn-sm" onclick="openProjectModal('proj-2')">
+                  <i class="fa-solid fa-circle-info"></i>
+                  <span>Detail &amp; Arsitektur</span>
+                </button>
+                <a href="https://github.com/githu423/cipakat-hub" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm ml-2" title="Source Code di GitHub">
+                  <i class="fa-brands fa-github"></i>
+                  <span>Repo</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Card 03 -->
+          <div class="project-card reveal-on-scroll" data-category="instansi laravel">
+            <div class="project-card-image">
+              <img src="assets/images/project-03.jpg" alt="Website Internal Dinas Pariwisata">
+              <span class="project-badge">03 — Government Internal System</span>
+            </div>
+            <div class="project-card-body">
+              <h3 class="project-title">Website Internal Dinas Pariwisata</h3>
+              <p class="project-description">
+                Solusi portal informasi dan dashboard internal untuk mendukung alur kerja koordinasi rapat dinas, arsip agenda, dan mengurangi penggunaan dokumen berbasis kertas (*paperless*).
+              </p>
+              <div class="project-tech-badges">
+                <span class="tech-badge">Laravel</span>
+                <span class="tech-badge">PHP</span>
+                <span class="tech-badge">MySQL</span>
+                <span class="tech-badge">Tailwind CSS</span>
+              </div>
+              <div class="project-card-actions">
+                <button class="btn btn-primary btn-sm" onclick="openProjectModal('proj-3')">
+                  <i class="fa-solid fa-circle-info"></i>
+                  <span>Detail &amp; Arsitektur</span>
+                </button>
+                <a href="https://github.com/githu423/dinas-pariwisata-internal" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm ml-2" title="Source Code di GitHub">
+                  <i class="fa-brands fa-github"></i>
+                  <span>Repo</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Card 04 -->
+          <div class="project-card reveal-on-scroll" data-category="umkm laravel">
+            <div class="project-card-image">
+              <img src="assets/images/project-04.jpg" alt="Landing Page UMKM Rajut Tasikmalaya">
+              <span class="project-badge">04 — Commercial Landing Page</span>
+            </div>
+            <div class="project-card-body">
+              <h3 class="project-title">Landing Page UMKM Rajut Tasikmalaya</h3>
+              <p class="project-description">
+                Landing page modern responsif untuk memperluas jangkauan promosi produk kerajinan rajut lokal dan meningkatkan daya jual produk UMKM Tasikmalaya.
+              </p>
+              <div class="project-tech-badges">
+                <span class="tech-badge">Laravel</span>
+                <span class="tech-badge">PHP</span>
+                <span class="tech-badge">MySQL</span>
+                <span class="tech-badge">JavaScript</span>
+              </div>
+              <div class="project-card-actions">
+                <button class="btn btn-primary btn-sm" onclick="openProjectModal('proj-4')">
+                  <i class="fa-solid fa-circle-info"></i>
+                  <span>Detail &amp; Arsitektur</span>
+                </button>
+                <a href="https://github.com/githu423/umkm-rajut-tasik" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm ml-2" title="Source Code di GitHub">
+                  <i class="fa-brands fa-github"></i>
+                  <span>Repo</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==================== 7. EDUCATION & CERTIFICATIONS ==================== -->
+    <section class="section-wrapper bg-white" id="education">
+      <div class="container">
+        
+        <div class="two-column-equal">
+          
+          <!-- Column 1: Formal Education -->
+          <div class="reveal-on-scroll">
+            <div class="section-title-wrapper text-left">
+              <span class="section-eyebrow">PENDIDIKAN FORMAL</span>
+              <h2 class="section-heading">Latar Belakang Akademik</h2>
+              <div class="heading-line"></div>
+            </div>
+
+            <div class="edu-card">
+              <div class="edu-card-icon">
+                <i class="fa-solid fa-graduation-cap"></i>
+              </div>
+              <div class="edu-card-content">
+                <span class="edu-period">2024 – 2027 (Sedang Menempuh)</span>
+                <h3 class="edu-inst">Universitas Bina Sarana Informatika (UBSI)</h3>
+                <h4 class="edu-prog">Program Studi Sistem Informasi (S1)</h4>
+                <p class="edu-fac">Fakultas Teknik &amp; Informatika — Kampus Tasikmalaya</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 2: Certifications & Training -->
+          <div class="reveal-on-scroll">
+            <div class="section-title-wrapper text-left">
+              <span class="section-eyebrow">SERTIFIKASI &amp; PELATIHAN</span>
+              <h2 class="section-heading">Kualifikasi Kompetensi</h2>
+              <div class="heading-line"></div>
+            </div>
+
+            <div class="certs-list">
+              
+              <div class="cert-item">
+                <div class="cert-icon">
+                  <i class="fa-solid fa-certificate"></i>
+                </div>
+                <div>
+                  <h4 class="cert-name">Database Competency Certificate (SerKom Database)</h4>
+                  <span class="cert-year">Lembaga Sertifikasi Profesi / Kampus — 2025</span>
+                </div>
+              </div>
+
+              <div class="cert-item">
+                <div class="cert-icon">
+                  <i class="fa-solid fa-database"></i>
+                </div>
+                <div>
+                  <h4 class="cert-name">Database Training &amp; Administration</h4>
+                  <span class="cert-year">Pelatihan Resmi Kampus &amp; Mitra Industri — 2025</span>
+                </div>
+              </div>
+
+              <div class="cert-item">
+                <div class="cert-icon">
+                  <i class="fa-solid fa-users-gear"></i>
+                </div>
+                <div>
+                  <h4 class="cert-name">Organization &amp; Committee Certificates</h4>
+                  <span class="cert-year">BEM &amp; HIMASI UBSI — 2024 – 2026</span>
+                </div>
+              </div>
+
+              <div class="cert-item">
+                <div class="cert-icon">
+                  <i class="fa-solid fa-chalkboard-user"></i>
+                </div>
+                <div>
+                  <h4 class="cert-name">Technology Seminars &amp; IT Workshops</h4>
+                  <span class="cert-year">Partisipasi Aktif — 2024 – 2026</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==================== 8. LANGUAGES ==================== -->
+    <section class="section-wrapper bg-light" id="languages">
+      <div class="container">
+        
+        <div class="section-title-wrapper reveal-on-scroll">
+          <span class="section-eyebrow">KOMUNIKASI &amp; BAHASA</span>
+          <h2 class="section-heading">Bahasa yang Digunakan</h2>
+          <div class="heading-line"></div>
+        </div>
+
+        <div class="languages-grid reveal-on-scroll">
+          
+          <div class="language-card">
+            <div class="lang-flag-box">
+              <i class="fa-solid fa-language"></i>
+            </div>
+            <div>
+              <h3 class="lang-title">Bahasa Indonesia</h3>
+              <p class="lang-level">Penutur Asli (Native / Fluent) — Komunikasi Profesional &amp; Formal</p>
+            </div>
+          </div>
+
+          <div class="language-card">
+            <div class="lang-flag-box">
+              <i class="fa-solid fa-earth-americas"></i>
+            </div>
+            <div>
+              <h3 class="lang-title">Bahasa Inggris (English)</h3>
+              <p class="lang-level">Menengah (Intermediate) — Dokumentasi Teknis, Syntax Code &amp; API Reference</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==================== 9. AVAILABILITY CTA ==================== -->
+    <section class="availability-section">
+      <div class="container">
+        <div class="availability-box reveal-on-scroll">
+          <span class="avail-tag">KETERSEDIAAN WAKTU &amp; KERJA SAMA</span>
+          <h2 class="avail-title">Siap Membantu Proyek Website Anda Berikutnya</h2>
+          <p class="avail-text">
+            Menerima proyek freelance pengembangan website baru, pembuatan sistem informasi instansi, penambahan fitur Laravel, atau konsultasi tugas akhir akademik.
+          </p>
+          <div class="avail-pills">
+            <span class="avail-pill"><i class="fa-solid fa-check"></i> Freelance Part-Time</span>
+            <span class="avail-pill"><i class="fa-solid fa-check"></i> Remote Collaboration</span>
+            <span class="avail-pill"><i class="fa-solid fa-check"></i> Evening Availability</span>
+          </div>
+          <a href="https://wa.me/6282219678296?text=Halo%20Ibah,%20saya%20ingin%20berdiskusi%20mengenai%20project%20website" target="_blank" rel="noopener noreferrer" class="btn-avail-cta">
+            <i class="fa-brands fa-whatsapp"></i>
+            <span>Mulai Diskusi di WhatsApp</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ==================== 10. CONTACT SECTION ==================== -->
+    <section class="section-wrapper bg-white" id="contact">
+      <div class="container">
+        
+        <div class="section-title-wrapper reveal-on-scroll">
+          <span class="section-eyebrow">HUBUNGI SAYA</span>
+          <h2 class="section-heading">Mari Diskusikan Ide Anda</h2>
+          <div class="heading-line"></div>
+          <p class="section-subtext">Isi formulir berikut untuk langsung terhubung ke WhatsApp saya, atau hubungi melalui kanal resmi di bawah.</p>
+        </div>
+
+        <div class="contact-grid">
+          
+          <!-- Left: Verified Contact Channels -->
+          <div class="contact-info-panel reveal-on-scroll">
+            
+            <h3 class="contact-panel-title">Kanal Komunikasi Langsung</h3>
+            <p class="contact-panel-desc">
+              Respons cepat setiap hari. Silakan pilih kanal komunikasi yang paling nyaman bagi Anda:
+            </p>
+
+            <div class="contact-channels-list">
+              
+              <div class="contact-channel-item">
+                <div class="channel-icon-box whatsapp-box">
+                  <i class="fa-brands fa-whatsapp"></i>
+                </div>
+                <div class="channel-content">
+                  <span class="channel-label">WHATSAPP / TELEPON</span>
+                  <a href="https://wa.me/6282219678296?text=Halo%20Ibah,%20saya%20melihat%20portfolio%20Anda%20dan%20ingin%20berdiskusi%20mengenai%20project." target="_blank" rel="noopener noreferrer" class="channel-link">0822-1967-8296</a>
+                </div>
+                <button class="btn-copy-mini" onclick="copyToClipboard('082219678296', 'Nomor WhatsApp')" title="Salin nomor">
+                  <i class="fa-regular fa-copy"></i>
+                </button>
+              </div>
+
+              <div class="contact-channel-item">
+                <div class="channel-icon-box">
+                  <i class="fa-solid fa-envelope"></i>
+                </div>
+                <div class="channel-content">
+                  <span class="channel-label">EMAIL RESMI</span>
+                  <a href="mailto:ibahmisbahh6@gmail.com" class="channel-link">ibahmisbahh6@gmail.com</a>
+                </div>
+                <button class="btn-copy-mini" onclick="copyToClipboard('ibahmisbahh6@gmail.com', 'Alamat Email')" title="Salin email">
+                  <i class="fa-regular fa-copy"></i>
+                </button>
+              </div>
+
+              <div class="contact-channel-item">
+                <div class="channel-icon-box">
+                  <i class="fa-brands fa-github"></i>
+                </div>
+                <div class="channel-content">
+                  <span class="channel-label">GITHUB REPOSITORY</span>
+                  <a href="https://github.com/githu423" target="_blank" rel="noopener noreferrer" class="channel-link">github.com/githu423</a>
+                </div>
+              </div>
+
+              <div class="contact-channel-item">
+                <div class="channel-icon-box">
+                  <i class="fa-brands fa-linkedin"></i>
+                </div>
+                <div class="channel-content">
+                  <span class="channel-label">LINKEDIN PROFILE</span>
+                  <a href="https://linkedin.com/in/ibah-misbah" target="_blank" rel="noopener noreferrer" class="channel-link">linkedin.com/in/ibah-misbah</a>
+                </div>
+              </div>
+
+              <div class="contact-channel-item">
+                <div class="channel-icon-box">
+                  <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <div class="channel-content">
+                  <span class="channel-label">LOKASI / DOMISILI</span>
+                  <a href="https://maps.google.com/?q=Kabupaten+Ciamis,+Jawa+Barat" target="_blank" rel="noopener noreferrer" class="channel-link">Kabupaten Ciamis, Jawa Barat, ID</a>
+                </div>
+              </div>
+
+            </div>
+
+            <a href="https://wa.me/6282219678296?text=Halo%20Ibah,%20saya%20melihat%20portfolio%20Anda%20dan%20ingin%20berdiskusi%20mengenai%20project." target="_blank" rel="noopener noreferrer" class="btn-whatsapp">
+              <i class="fa-brands fa-whatsapp"></i>
+              <span>Langsung Chat via WhatsApp</span>
+            </a>
+
+          </div>
+
+          <!-- Right: Interactive Validated Contact Form -->
+          <div class="contact-form-panel reveal-on-scroll">
+            <form id="contactForm" class="contact-form" novalidate>
+              
+              <div class="form-group">
+                <label for="senderName" class="form-label">Nama Lengkap Anda <span class="text-red">*</span></label>
+                <input type="text" id="senderName" name="senderName" class="form-input" placeholder="Contoh: Budi Santoso" required>
+                <span class="form-error-msg" id="nameError"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="senderSubject" class="form-label">Jenis Proyek / Topik <span class="text-red">*</span></label>
+                <select id="senderSubject" name="senderSubject" class="form-input" required>
+                  <option value="" disabled selected>Pilih Kebutuhan Anda</option>
+                  <option value="Website Development (Laravel / PHP)">Website Development (Laravel / PHP)</option>
+                  <option value="Front-End / UI Website">Front-End / UI Website</option>
+                  <option value="Perancangan Database & MySQL">Perancangan Database &amp; MySQL</option>
+                  <option value="Sistem Informasi Instansi / Kampus">Sistem Informasi Instansi / Kampus</option>
+                  <option value="Konsultasi & Lainnya">Konsultasi &amp; Lainnya</option>
+                </select>
+                <span class="form-error-msg" id="subjectError"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="senderMessage" class="form-label">Deskripsi Singkat / Pesan <span class="text-red">*</span></label>
+                <textarea id="senderMessage" name="senderMessage" rows="4" class="form-textarea" placeholder="Ceritakan kebutuhan project atau target website yang ingin Anda buat..." required></textarea>
+                <span class="form-error-msg" id="messageError"></span>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-submit">
+                <i class="fa-brands fa-whatsapp"></i>
+                <span>Kirim Pesan ke WhatsApp Ibah</span>
+              </button>
+
+              <div class="form-alert-success" id="formSuccessAlert" style="display: none;">
+                <i class="fa-solid fa-circle-check alert-icon"></i>
+                <div>
+                  <strong>Pesan Sedang Dialihkan!</strong>
+                  <p>Browser Anda akan membuka WhatsApp dengan pesan yang sudah diformat rapi.</p>
+                </div>
+              </div>
+
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+
+  <!-- ==================== 11. FOOTER ==================== -->
+  <footer class="footer-wrapper">
+    <div class="container footer-container">
+      
+      <!-- Footer Col 1 -->
+      <div class="footer-col">
+        <h3 class="footer-name">IBAH MISBAH</h3>
+        <span class="footer-role">FREELANCE WEB DEVELOPER</span>
+        <p class="footer-tagline">
+          Membangun solusi aplikasi website terstruktur, responsif, dan aman berbasis PHP, Laravel &amp; MySQL untuk instansi, UMKM, dan akademik.
+        </p>
+      </div>
+
+      <!-- Footer Col 2 -->
+      <div class="footer-col">
+        <h4 class="footer-heading">Navigasi Cepat</h4>
+        <ul class="footer-nav">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">Tentang Saya</a></li>
+          <li><a href="#services">Layanan Web</a></li>
+          <li><a href="#skills">Keahlian Teknis</a></li>
+          <li><a href="#experience">Riwayat Pengalaman</a></li>
+          <li><a href="#projects">Portofolio Proyek</a></li>
+          <li><a href="#education">Pendidikan &amp; Sertifikasi</a></li>
+          <li><a href="#contact">Kontak Langsung</a></li>
+        </ul>
+      </div>
+
+      <!-- Footer Col 3 -->
+      <div class="footer-col">
+        <h4 class="footer-heading">Tautan Resmi</h4>
+        <div class="footer-social-icons">
+          <a href="https://wa.me/6282219678296?text=Halo%20Ibah,%20saya%20melihat%20portfolio%20Anda" target="_blank" rel="noopener noreferrer" title="WhatsApp (+62 822-1967-8296)">
+            <i class="fa-brands fa-whatsapp"></i>
+          </a>
+          <a href="https://github.com/githu423" target="_blank" rel="noopener noreferrer" title="GitHub Profile">
+            <i class="fa-brands fa-github"></i>
+          </a>
+          <a href="https://linkedin.com/in/ibah-misbah" target="_blank" rel="noopener noreferrer" title="LinkedIn Profile">
+            <i class="fa-brands fa-linkedin-in"></i>
+          </a>
+          <a href="mailto:ibahmisbahh6@gmail.com" title="Email Ibah Misbah">
+            <i class="fa-solid fa-envelope"></i>
+          </a>
+          <a href="https://instagram.com/ibah.codes" target="_blank" rel="noopener noreferrer" title="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+        </div>
+        <p class="footer-location mt-3">
+          <i class="fa-solid fa-location-dot"></i> Kabupaten Ciamis, Jawa Barat, Indonesia
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="footer-bottom-bar">
+      <div class="container footer-bottom-container">
+        <p class="copyright">
+          &copy; 2026 <strong>Ibah Misbah</strong>. All Rights Reserved. Clean &amp; Modern Personal Portfolio.
+        </p>
+        <a href="#home" class="btn-back-to-top" id="btnBackToTop" title="Kembali ke atas">
+          <span>Ke Atas</span>
+          <i class="fa-solid fa-arrow-up"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ==================== 12. PROJECT DETAIL MODAL POPUP ==================== -->
+  <div class="modal-backdrop" id="projectModal" role="dialog" aria-modal="true" aria-labelledby="modalProjectTitle">
+    <div class="modal-dialog">
+      <button class="modal-close-button" id="modalCloseBtn" aria-label="Tutup Detail Proyek">&times;</button>
+      
+      <div class="modal-scroll-body">
+        <div class="modal-image-container">
+          <img src="" alt="" id="modalProjectImg" class="modal-image">
+        </div>
+
+        <div class="modal-content-container">
+          <h3 class="modal-title" id="modalProjectTitle">Nama Proyek</h3>
+          
+          <div class="modal-tech-row" id="modalProjectTechs">
+            <!-- Tech Badges populated dynamically -->
+          </div>
+
+          <div class="modal-section-block">
+            <h4 class="modal-label"><i class="fa-solid fa-bullseye text-blue"></i> Deskripsi &amp; Masalah</h4>
+            <p class="modal-text" id="modalProjectDesc"></p>
+          </div>
+
+          <div class="modal-section-block">
+            <h4 class="modal-label"><i class="fa-solid fa-lightbulb text-yellow"></i> Tujuan &amp; Solusi</h4>
+            <p class="modal-text" id="modalProjectPurpose"></p>
+          </div>
+
+          <div class="modal-buttons-row">
+            <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary" id="modalLiveDemoBtn">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              <span>Buka Demo / Link</span>
+            </a>
+            <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-outline" id="modalGithubBtn">
+              <i class="fa-brands fa-github"></i>
+              <span>Lihat Kode (GitHub)</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==================== 13. INTERACTIVE CV VIEWER MODAL ==================== -->
+  <div class="modal-backdrop" id="cvModal" role="dialog" aria-modal="true" aria-labelledby="modalCvTitle">
+    <div class="modal-dialog cv-modal-dialog">
+      <button class="modal-close-button" onclick="closeCVModal()" aria-label="Tutup CV Modal">&times;</button>
+      
+      <div class="modal-scroll-body cv-modal-body">
+        <div class="cv-preview-header">
+          <div class="cv-header-badge">CURRICULUM VITAE RESMI</div>
+          <h3 class="cv-name" id="modalCvTitle">IBAH MISBAH</h3>
+          <p class="cv-role">FREELANCE WEB DEVELOPER &amp; SISTEM INFORMASI</p>
+          <div class="cv-header-links">
+            <a href="mailto:ibahmisbahh6@gmail.com"><i class="fa-solid fa-envelope"></i> ibahmisbahh6@gmail.com</a>
+            <a href="tel:082219678296"><i class="fa-solid fa-phone"></i> 0822-1967-8296</a>
+            <a href="https://github.com/githu423" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i> github.com/githu423</a>
+            <a href="https://linkedin.com/in/ibah-misbah" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-linkedin"></i> linkedin.com/in/ibah-misbah</a>
+          </div>
+        </div>
+
+        <div class="cv-preview-content">
+          <div class="cv-section">
+            <h4 class="cv-section-title"><i class="fa-solid fa-user text-blue"></i> Profil Singkat</h4>
+            <p>Mahasiswa Sistem Informasi Universitas Bina Sarana Informatika (UBSI) Tasikmalaya yang aktif mengembangkan aplikasi website menggunakan PHP, Laravel, dan MySQL. Berpengalaman dalam pengembangan sistem informasi instansi pemerintahan dan kepemimpinan organisasi.</p>
+          </div>
+
+          <div class="cv-section">
+            <h4 class="cv-section-title"><i class="fa-solid fa-briefcase text-blue"></i> Pengalaman Kerja &amp; Praktik</h4>
+            <div class="cv-entry">
+              <strong>Web Developer (PKL) — Dinas Pariwisata Ciamis</strong> (Agt – Okt 2026)
+              <p>Membangun website internal sistem rapat instansi (*paperless*) dan aplikasi sortir slip gaji otomatis dari file Excel ke Word/PDF.</p>
+            </div>
+            <div class="cv-entry">
+              <strong>Ketua Umum — HIMASI UBSI</strong> (2026 – 2027)
+              <p>Memimpin arah kebijakan dan koordinasi seluruh kegiatan organisasi kemahasiswaan Sistem Informasi.</p>
+            </div>
+            <div class="cv-entry">
+              <strong>Koordinator Kominfo — BEM UBSI Tasikmalaya</strong> (2024 – 2025)
+              <p>Mengelola media sosial, publikasi desain visual, video reels, dan komunikasi lintas organisasi.</p>
+            </div>
+          </div>
+
+          <div class="cv-section">
+            <h4 class="cv-section-title"><i class="fa-solid fa-laptop-code text-blue"></i> Proyek Unggulan</h4>
+            <p>• <strong>Website Sortir Slip Gaji</strong> (HTML, CSS, JS)<br>
+               • <strong>Cipakat-Hub</strong> (Laravel, PHP, MySQL, Bootstrap)<br>
+               • <strong>Website Internal Dinas Pariwisata</strong> (Laravel, PHP, MySQL, Tailwind)<br>
+               • <strong>Landing Page UMKM Rajut Tasikmalaya</strong> (Laravel, PHP, MySQL, JS)</p>
+          </div>
+        </div>
+
+        <div class="cv-preview-footer">
+          <a href="assets/cv/cv.pdf" download="CV_Ibah_Misbah.pdf" class="btn btn-primary">
+            <i class="fa-solid fa-download"></i>
+            <span>Download CV Lengkap (PDF)</span>
+          </a>
+          <a href="https://wa.me/6282219678296?text=Halo%20Ibah,%20saya%20sudah%20melihat%20CV%20Anda%20dan%20ingin%20berdiskusi" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+            <i class="fa-brands fa-whatsapp"></i>
+            <span>Hubungi via WhatsApp</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==================== 14. FLOATING AI CHATBOT (ASK IBAH) ==================== -->
+  
+  <!-- Floating FAB Button -->
+  <button class="ai-fab-button" id="aiFabBtn" aria-label="Buka Chatbot AI Ask Ibah" title="Tanya AI seputar Ibah Misbah">
+    <i class="fa-solid fa-robot fab-icon"></i>
+    <span class="fab-online-dot"></span>
+  </button>
+
+  <!-- AI Chat Window -->
+  <div class="ai-chat-window" id="aiChatWindow" role="region" aria-label="Asisten AI Ask Ibah">
+    
+    <!-- Header -->
+    <div class="ai-window-header">
+      <div class="ai-header-profile">
+        <div class="ai-avatar-icon">
+          <i class="fa-solid fa-microchip"></i>
+        </div>
+        <div>
+          <div class="ai-title-row">
+            <h3 class="ai-name">ASK IBAH</h3>
+            <span class="ai-status-indicator">
+              <span class="status-dot-green"></span> Online
+            </span>
+          </div>
+          <span class="ai-subtitle">Asisten AI Resmi Portofolio Ibah Misbah</span>
+        </div>
+      </div>
+      <button class="ai-window-close" id="aiCloseBtn" aria-label="Tutup Window Chat">&times;</button>
+    </div>
+
+    <!-- Quick Question Chips -->
+    <div class="ai-quick-chips-wrapper">
+      <button class="ai-chip" onclick="handleQuickChip('Apa saja 4 proyek unggulan yang pernah dibuat Ibah?')">📁 4 Proyek</button>
+      <button class="ai-chip" onclick="handleQuickChip('Bagaimana pengalaman PKL Ibah di Dinas Pariwisata Ciamis?')">🏢 PKL Dispar</button>
+      <button class="ai-chip" onclick="handleQuickChip('Keahlian pemrograman dan teknologi apa saja yang dikuasai Ibah?')">💻 Tech Stack</button>
+      <button class="ai-chip" onclick="handleQuickChip('Kenapa Ibah memilih framework Laravel untuk pengembangan website?')">💡 Kenapa Laravel?</button>
+      <button class="ai-chip" onclick="handleQuickChip('Ceritakan peran Ibah sebagai Ketua Umum HIMASI UBSI')">👑 Ketua HIMASI</button>
+      <button class="ai-chip" onclick="handleQuickChip('Bagaimana alur kerja sama dan estimasi biaya pembuatan website?')">💰 Alur &amp; Biaya</button>
+      <button class="ai-chip" onclick="handleQuickChip('Bagaimana cara menghubungi Ibah langsung via WhatsApp?')">📞 Kontak &amp; WA</button>
+    </div>
+
+    <!-- Message History -->
+    <div class="ai-messages-container" id="aiMessagesContainer">
+      <div class="ai-chat-bubble bot">
+        <div class="bubble-content">
+          Halo! 👋 Saya adalah asisten AI resmi portofolio <strong>Ibah Misbah</strong>.<br><br>
+          Silakan tanyakan apa saja seputar keahlian web development (Laravel, PHP, MySQL), 4 proyek nyata, pengalaman organisasi &amp; PKL di Dinas Pariwisata Ciamis, atau cara memulai kerja sama!
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Bar -->
+    <div class="ai-input-bar">
+      <form id="aiChatForm" class="ai-form">
+        <textarea id="aiMessageInput" class="ai-textarea" placeholder="Ketik pertanyaan Anda seputar Ibah..." rows="1" required></textarea>
+        <button type="submit" class="ai-send-btn" id="aiSendBtn" aria-label="Kirim Pesan">
+          <i class="fa-solid fa-paper-plane"></i>
+        </button>
+      </form>
+    </div>
+
+  </div>
+
+  <!-- Main JavaScript File -->
+  <script src="script.js"></script>
+</body>
+</html>

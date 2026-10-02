@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19"/>
+      <stop offset="100%" stop-color="#04060a"/>
+    </linearGradient>
+    <linearGradient id="pgrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="rgba(255, 255, 255, 0.04)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <rect width="800" height="500" fill="url(#grid)"/>
+  
+  <!-- Subtle ambient glow -->
+  <circle cx="400" cy="250" r="180" fill="#7c3aed" opacity="0.12" filter="blur(50px)"/>
+  
+  <!-- Browser / UI Window Card -->
+  <g transform="translate(60, 50)">
+    <rect width="680" height="400" rx="16" fill="#111827" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+    
+    <!-- Window Bar -->
+    <rect width="680" height="45" rx="16" fill="#1e293b"/>
+    <rect y="35" width="680" height="10" fill="#1e293b"/>
+    <circle cx="25" cy="22" r="5" fill="#ef4444"/>
+    <circle cx="42" cy="22" r="5" fill="#f59e0b"/>
+    <circle cx="59" cy="22" r="5" fill="#10b981"/>
+    
+    <!-- URL Pill -->
+    <rect x="150" y="10" width="380" height="24" rx="6" fill="#0f172a"/>
+    <text x="340" y="26" fill="#94a3b8" font-family="monospace" font-size="11" text-anchor="middle">https://hotel-reservation-system.app</text>
+    
+    <!-- Inside UI Mockup -->
+    <rect x="30" y="70" width="200" height="20" rx="5" fill="url(#pgrad)"/>
+    <rect x="30" y="105" width="320" height="12" rx="4" fill="#334155"/>
+    <rect x="30" y="125" width="240" height="12" rx="4" fill="#334155" opacity="0.6"/>
+    
+    <!-- Stat Cards Mockup -->
+    <rect x="30" y="160" width="180" height="90" rx="10" fill="#1e293b" stroke="rgba(255,255,255,0.05)"/>
+    <rect x="45" y="180" width="80" height="12" rx="3" fill="#64748b"/>
+    <rect x="45" y="205" width="120" height="22" rx="4" fill="#7c3aed" opacity="0.9"/>
+    
+    <rect x="230" y="160" width="180" height="90" rx="10" fill="#1e293b" stroke="rgba(255,255,255,0.05)"/>
+    <rect x="245" y="180" width="80" height="12" rx="3" fill="#64748b"/>
+    <rect x="245" y="205" width="100" height="22" rx="4" fill="#ec4899" opacity="0.9"/>
+    
+    <!-- Chart Wireframe -->
+    <rect x="430" y="70" width="220" height="180" rx="10" fill="#0f172a" stroke="rgba(255,255,255,0.08)"/>
+    <path d="M450 210 L480 180 L520 195 L560 130 L600 150 L630 100" fill="none" stroke="url(#pgrad)" stroke-width="3"/>
+    
+    <!-- Bottom Tech Pills -->
+    <g transform="translate(30, 320)">
+      <text x="0" y="15" fill="#ffffff" font-family="system-ui, sans-serif" font-size="20" font-weight="bold">Hotel Reservation System</text>
+      <text x="0" y="38" fill="#94a3b8" font-family="monospace" font-size="12">Category: Web Application | Stack: Laravel, PHP, MySQL, Bootstrap</text>
+    </g>
+  </g>
+</svg>
