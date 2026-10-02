@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EFF6FF"/>
+      <stop offset="100%" stop-color="#DBEAFE"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#1D4ED8"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#bg)"/>
+  <circle cx="300" cy="300" r="220" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="4"/>
+  
+  <!-- Subtle circular accent ring -->
+  <circle cx="300" cy="300" r="190" fill="none" stroke="url(#accent)" stroke-width="2" stroke-dasharray="8 6"/>
+
+  <!-- Male/Neutral Developer Avatar with Modern Look -->
+  <g transform="translate(180, 130)">
+    <!-- Head & Hair -->
+    <rect x="70" y="30" width="100" height="120" rx="40" fill="#FDE047"/>
+    <path d="M55 40 Q120 -10 185 40 L185 80 Q120 20 55 80 Z" fill="#1E293B"/>
+    <!-- Glasses -->
+    <rect x="70" y="70" width="42" height="28" rx="6" fill="none" stroke="#1E293B" stroke-width="4"/>
+    <rect x="128" y="70" width="42" height="28" rx="6" fill="none" stroke="#1E293B" stroke-width="4"/>
+    <line x1="112" y1="84" x2="128" y2="84" stroke="#1E293B" stroke-width="4"/>
+    <!-- Smile -->
+    <path d="M100 120 Q120 135 140 120" fill="none" stroke="#B45309" stroke-width="3" stroke-linecap="round"/>
+    <!-- Body / Shirt -->
+    <path d="M20 200 Q120 160 220 200 L230 310 L10 310 Z" fill="#2563EB"/>
+    <polygon points="120,200 100,240 140,240" fill="#FFFFFF"/>
+    <polygon points="120,240 110,310 130,310" fill="#1D4ED8"/>
+  </g>
+  
+  <!-- Modern Clean Badge -->
+  <g transform="translate(180, 470)">
+    <rect width="240" height="50" rx="25" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2" filter="drop-shadow(0 4px 12px rgba(0,0,0,0.06))"/>
+    <circle cx="30" cy="25" r="8" fill="#10B981"/>
+    <text x="50" y="31" fill="#111827" font-family="system-ui, sans-serif" font-weight="700" font-size="14">IBAH MISBAH</text>
+    <text x="155" y="31" fill="#2563EB" font-family="system-ui, sans-serif" font-weight="600" font-size="12">WEB DEV</text>
+  </g>
+</svg>
