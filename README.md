@@ -147,3 +147,9 @@ Untuk menambah/mengubah teks: cukup edit entri yang sesuai di `i18n.js` (keduany
 © 2026 **Ibah Misbah**. All rights reserved.
 
 Catatan: identitas/avatar sengaja tidak ditampilkan di navbar; nama dan foto tetap tampil di hero, CV, dan footer. Pada layar mobile, foto profil berada paling atas tepat di bawah navbar.
+
+## Status Link Proyek
+
+- Semua proyek di bagian _Karya & Implementasi_ masih berupa **repositori GitHub** — belum di-hosting atau dipublikasikan. Karena itu setiap kartu proyek memakai chip status "Repositori GitHub — belum di-hosting", dan tombol "Demo / Link" pada modal detail sengaja dinonaktifkan dengan label "Demo Belum Tersedia".
+- Link repositori disesuaikan dengan akun asli: `slip_gaji` dan `Cipakat-Hub` (publik), Website Internal Dinas Pariwisata (privat → mengarah ke profil GitHub), dan Landing Page UMKM Rajut (belum ada repo → mengarah ke daftar repositori).
+- Saat sebuah proyek nanti di-hosting, cukup isi `liveUrl` pada `PROJECT_LINKS` di `script.js`; tombol demo akan aktif otomatis dan labelnya kembali normal.

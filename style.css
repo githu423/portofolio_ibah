@@ -356,6 +356,15 @@ body {
   outline: none;
 }
 
+.btn.is-disabled,
+.btn.is-disabled:hover {
+  opacity: 0.55;
+  cursor: not-allowed;
+  border-style: dashed;
+  transform: none;
+  box-shadow: none;
+}
+
 .btn-primary {
   background-color: var(--accent-blue);
   color: #ffffff;
@@ -1871,6 +1880,28 @@ body {
   padding: 0.3rem 0.65rem;
   border-radius: var(--radius-sm);
   backdrop-filter: blur(6px);
+}
+
+/* Status chip: proyek masih repositori GitHub, belum di-hosting (overlay gambar, kontras di kedua tema) */
+.project-status-chip {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: rgba(15, 23, 42, 0.88);
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.28rem 0.6rem;
+  border-radius: var(--radius-sm);
+  backdrop-filter: blur(6px);
+}
+
+.project-status-chip i {
+  color: #fbbf24;
 }
 
 .project-card-body {

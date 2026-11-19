@@ -210,7 +210,7 @@ const I18N = {
     t_8907dfa3be: "PORTOFOLIO PROYEK",
     t_de42c8ae67: "Karya & Implementasi Nyata",
     t_b05880c299:
-      "Daftar proyek aplikasi web yang dirancang untuk mengatasi persoalan efisiensi dan alur kerja pengguna.",
+      "Daftar proyek aplikasi web yang dirancang untuk mengatasi persoalan efisiensi dan alur kerja pengguna. Semua proyek masih berbentuk repositori GitHub — belum di-hosting atau dipublikasikan, jadi demo online belum tersedia.",
     t_375fc254e7: "Semua Proyek (4)",
     t_1810829a33: "Instansi & Kantor",
     t_493b2df668: "Laravel & Database",
@@ -223,6 +223,15 @@ const I18N = {
     t_2be25667a8: "CSS3",
     t_982d5e6613: "Detail & Arsitektur",
     t_0f74adf138: "Repo",
+    t_repo_status: "Repositori GitHub — belum di-hosting",
+    t_repo_status_private: "Repositori privat — belum di-hosting",
+    t_btn_repo_profile: "Lihat Profil GitHub",
+    t_btn_repo_list: "Lihat Semua Repository",
+    t_demo_notready: "Demo Belum Tersedia (Belum Di-hosting)",
+    a_demo_notready:
+      "Proyek masih berupa repositori GitHub dan belum di-hosting, jadi demo online belum tersedia",
+    a_repo_private: "Repositori privat — hubungi Ibah untuk akses",
+    a_repo_list: "Lihat daftar semua repository githu423",
     t_a350584c8f: "02 — Public Services / Full Stack",
     t_68242368e1: "Cipakat-Hub",
     t_9117e4dfde:
@@ -752,7 +761,7 @@ const I18N = {
     t_8907dfa3be: "PROJECT PORTFOLIO",
     t_de42c8ae67: "Real Work & Implementation",
     t_b05880c299:
-      "A selection of web applications designed to solve efficiency and workflow problems.",
+      "A selection of web applications designed to solve efficiency and workflow problems. All projects are still GitHub repositories — not hosted or published yet, so online demos are not available.",
     t_375fc254e7: "All Projects (4)",
     t_1810829a33: "Agencies & Offices",
     t_493b2df668: "Laravel & Database",
@@ -765,6 +774,15 @@ const I18N = {
     t_2be25667a8: "CSS3",
     t_982d5e6613: "Details & Architecture",
     t_0f74adf138: "Repo",
+    t_repo_status: "GitHub repository — not hosted yet",
+    t_repo_status_private: "Private repository — not hosted yet",
+    t_btn_repo_profile: "View GitHub Profile",
+    t_btn_repo_list: "View All Repositories",
+    t_demo_notready: "Demo Not Available (Not Hosted Yet)",
+    a_demo_notready:
+      "The project is still a GitHub repository and is not hosted yet, so no online demo is available",
+    a_repo_private: "Private repository — contact Ibah for access",
+    a_repo_list: "View the list of all githu423 repositories",
     t_a350584c8f: "02 — Public Services / Full Stack",
     t_68242368e1: "Cipakat-Hub",
     t_9117e4dfde:
