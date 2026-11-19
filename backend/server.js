@@ -9,7 +9,9 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const nodemailer = require('nodemailer');
 const IBAH_PROFILE = require('./data/ibah-profile');
+const { getEnglishReply, getEnglishFallback } = require('./data/chat-english');
 
 const app = express();
 const PORT = process.env.PORT || 5173;
@@ -39,12 +41,139 @@ function rateLimiter(req, res, next) {
 
   if (clientData.count > MAX_REQUESTS_PER_WINDOW) {
     return res.status(429).json({
-      error: 'Terlalu banyak pesan dalam waktu singkat. Mohon tunggu beberapa detik.'
+      error: 'Terlalu banyak pesan dalam waktu singkat. Mohon tunggu beberapa detik.',
     });
   }
 
   next();
 }
+
+// -----------------------------------------------------------------------------
+// CONTACT: send the visitor's message straight to Ibah's email inbox.
+// SMTP can be configured through environment variables. If it is not configured
+// yet, the API returns a prefilled mailto: link so the form still reaches Ibah.
+// -----------------------------------------------------------------------------
+const CONTACT_EMAIL_TO = process.env.CONTACT_EMAIL_TO || 'ibahmisbahh6@gmail.com';
+const SMTP_CONFIGURED = Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS);
+let mailTransporter = null;
+
+function getMailTransporter() {
+  if (!SMTP_CONFIGURED) return null;
+  if (!mailTransporter) {
+    mailTransporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT) || 587,
+      secure: process.env.SMTP_SECURE === 'true',
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
+  }
+  return mailTransporter;
+}
+
+const contactRateMap = new Map();
+const CONTACT_WINDOW_MS = 10 * 60 * 1000;
+const MAX_CONTACT_PER_WINDOW = 12;
+
+function contactRateLimiter(req, res, next) {
+  const ip = req.ip || req.connection.remoteAddress || 'client';
+  const now = Date.now();
+  const entry = contactRateMap.get(ip) || { count: 0, first: now };
+  if (now - entry.first > CONTACT_WINDOW_MS) {
+    entry.count = 1;
+    entry.first = now;
+  } else {
+    entry.count += 1;
+  }
+  contactRateMap.set(ip, entry);
+  if (entry.count > MAX_CONTACT_PER_WINDOW) {
+    return res.status(429).json({
+      success: false,
+      error: 'Too many messages in a short time. Please try again in a few minutes.',
+    });
+  }
+  next();
+}
+
+function buildMailtoLink(payload) {
+  const body = `Nama: ${payload.name}\nEmail: ${payload.email}\nTopik: ${payload.subject}\n\n${payload.message}`;
+  return `mailto:${CONTACT_EMAIL_TO}?subject=${encodeURIComponent(`[Portfolio] ${payload.subject}`)}&body=${encodeURIComponent(body)}`;
+}
+
+function escapeHtml(value) {
+  return String(value).replace(
+    /[&<>"']/g,
+    (char) =>
+      ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+      })[char],
+  );
+}
+
+app.post('/api/contact', contactRateLimiter, async (req, res) => {
+  const clean = (value) => (typeof value === 'string' ? value.replace(/[\r\n]+/g, ' ').trim() : '');
+  const payload = {
+    name: clean(req.body && req.body.name),
+    email: clean(req.body && req.body.email),
+    subject: clean(req.body && req.body.subject),
+    message: typeof (req.body && req.body.message) === 'string' ? req.body.message.trim() : '',
+  };
+  const mailto = buildMailtoLink(payload);
+
+  if (
+    payload.name.length < 2 ||
+    payload.name.length > 100 ||
+    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email) ||
+    payload.subject.length < 3 ||
+    payload.subject.length > 150 ||
+    payload.message.length < 10 ||
+    payload.message.length > 5000
+  ) {
+    return res.status(400).json({
+      success: false,
+      error: 'Please complete all fields with valid details (message at least 10 characters).',
+    });
+  }
+
+  const transporter = getMailTransporter();
+  if (!transporter) {
+    return res.json({ success: false, mode: 'mailto', mailto });
+  }
+
+  try {
+    const info = await transporter.sendMail({
+      from: process.env.CONTACT_EMAIL_FROM || process.env.SMTP_USER,
+      to: CONTACT_EMAIL_TO,
+      replyTo: payload.email,
+      subject: `[Portfolio] ${payload.subject} — from ${payload.name}`,
+      text: `Nama: ${payload.name}\nEmail: ${payload.email}\nTopik: ${payload.subject}\n\n${payload.message}`,
+      html: `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#0F172A">
+        <h2>New message from your portfolio</h2>
+        <p><strong>Name:</strong> ${escapeHtml(payload.name)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(payload.email)}</p>
+        <p><strong>Topic:</strong> ${escapeHtml(payload.subject)}</p>
+        <hr style="border:none;border-top:1px solid #E2E8F0">
+        <p>${escapeHtml(payload.message).replace(/\n/g, '<br>')}</p>
+        <p style="color:#64748B;font-size:12px">Sent from ibahmisbahh6@gmail.com portfolio contact form.</p>
+      </div>`,
+    });
+    return res.json({ success: true, mode: 'smtp', messageId: info.messageId });
+  } catch (error) {
+    console.error('Contact email error:', error.message);
+    return res.status(502).json({
+      success: false,
+      mode: 'mailto',
+      mailto,
+      error: 'Email could not be sent right now. A prefilled email has been prepared instead.',
+    });
+  }
+});
 
 app.get('/api/profile', (req, res) => {
   res.json({ success: true, data: IBAH_PROFILE });
@@ -55,7 +184,7 @@ app.get('/api/profile', (req, res) => {
 // -----------------------------------------------------------------------------
 app.post('/api/chat', rateLimiter, async (req, res) => {
   try {
-    const { message } = req.body;
+    const { message, language } = req.body;
 
     if (!message || typeof message !== 'string' || message.trim().length === 0) {
       return res.status(400).json({ error: 'Pesan tidak boleh kosong.' });
@@ -70,8 +199,9 @@ app.post('/api/chat', rateLimiter, async (req, res) => {
     // 1. OpenAI Integration if API Key is available
     if (process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY !== 'YOUR_API_KEY') {
       try {
-        const systemPrompt = `You are ASK IBAH, the friendly, articulate, highly detailed AI Assistant for IBAH MISBAH (Freelance Web Developer & Information Systems student at UBSI Tasikmalaya).
+        const systemPrompt = `You are ASK IBAH, the friendly, articulate, highly detailed AI Assistant for IBAH MISBAH (Web Developer & Information Systems student at UBSI Tasikmalaya, open to full-time and freelance roles).
 Your goal is to provide deep, exhaustive, comprehensive, empathetic, and beautifully formatted answers about Ibah Misbah.
+Reply in ${language === 'en' ? 'English' : 'Bahasa Indonesia'} — match the language the visitor used.
 Always answer with rich context, structured bullet points, bold highlights, code snippets if relevant, and direct clickable action links.
 WhatsApp for consultation: 0822-1967-8296. Email: ibahmisbahh6@gmail.com. GitHub: https://github.com/githu423.
 
@@ -82,17 +212,17 @@ ${JSON.stringify(IBAH_PROFILE, null, 2)}`;
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
+            Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
           },
           body: JSON.stringify({
             model: 'gpt-3.5-turbo',
             messages: [
               { role: 'system', content: systemPrompt },
-              { role: 'user', content: userMessage }
+              { role: 'user', content: userMessage },
             ],
             temperature: 0.6,
-            max_tokens: 700
-          })
+            max_tokens: 700,
+          }),
         });
 
         if (response.ok) {
@@ -106,13 +236,13 @@ ${JSON.stringify(IBAH_PROFILE, null, 2)}`;
     }
 
     // 2. Comprehensive Deep NLP Dialogue Engine
-    const reply = generateComprehensiveDialogue(userMessage);
+    const reply = generateComprehensiveDialogue(userMessage, language);
     return res.json({ reply });
-
   } catch (error) {
     console.error('Server Error:', error);
     return res.status(500).json({
-      reply: 'Halo! Terjadi kendala teknis sementara. Anda dapat langsung terhubung dengan Ibah via WhatsApp di **0822-1967-8296** atau email **ibahmisbahh6@gmail.com**.'
+      reply:
+        'Halo! Terjadi kendala teknis sementara. Anda dapat langsung terhubung dengan Ibah via WhatsApp di **0822-1967-8296** atau email **ibahmisbahh6@gmail.com**.',
     });
   }
 });
@@ -122,13 +252,17 @@ ${JSON.stringify(IBAH_PROFILE, null, 2)}`;
  * EXHAUSTIVE DEEP DIALOGUE ENGINE
  * ==============================================================================
  */
-function generateComprehensiveDialogue(rawQuery) {
+function generateComprehensiveDialogue(rawQuery, language = 'id') {
+  if (language === 'en') {
+    return getEnglishReply(rawQuery) || getEnglishFallback();
+  }
+
   const text = rawQuery.toLowerCase();
   const clean = text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"']/g, ' ');
   const words = clean.split(/\s+/).filter(Boolean);
 
-  const has = (...terms) => terms.some(t => text.includes(t));
-  const hasWord = (...terms) => terms.some(t => words.includes(t));
+  const has = (...terms) => terms.some((t) => text.includes(t));
+  const hasWord = (...terms) => terms.some((t) => words.includes(t));
 
   // 1. GREETINGS & CASUAL DIALOGUE
   if (has('assalamu', 'assalamualaikum', 'samlikum', 'kulonuwun')) {
@@ -136,7 +270,7 @@ function generateComprehensiveDialogue(rawQuery) {
   }
 
   if (hasWord('pagi', 'siang', 'sore', 'malam') && has('selamat', 'halo', 'hai', 'met')) {
-    const timeMatch = words.find(w => ['pagi', 'siang', 'sore', 'malam'].includes(w)) || 'hari';
+    const timeMatch = words.find((w) => ['pagi', 'siang', 'sore', 'malam'].includes(w)) || 'hari';
     return `Selamat ${timeMatch}! 👋 Semoga hari Anda menyenangkan dan penuh kelancaran.\n\nSaya adalah asisten virtual resmi **Ibah Misbah**. Saya siap memandu Anda menelusuri detail keahlian teknis, demonstrasi 4 proyek nyata, pengalaman PKL di Dinas Pariwisata, atau membantu konsultasi pembuatan website baru. Silakan tanyakan apa saja yang Anda butuhkan!`;
   }
 
@@ -148,16 +282,64 @@ function generateComprehensiveDialogue(rawQuery) {
     return `Saya sedang siap siaga mendampingi Anda menjelajahi seluruh portofolio dan menjawab pertanyaan seputar karya, keterampilan pemrograman, serta layanan web developer dari **Ibah Misbah**! 🚀\n\nSementara itu, Ibah Misbah aktif mengembangkan solusi web berbasis Laravel & MySQL serta memimpin organisasi kemahasiswaan HIMASI UBSI. Anda ingin mendiskusikan topik tertentu?`;
   }
 
-  if (hasWord('halo', 'hai', 'hi', 'hey', 'helo', 'hello', 'hola', 'oy', 'oi', 'bro', 'min', 'gan', 'bang', 'mas', 'kak', 'cuy') && words.length <= 4) {
+  if (
+    hasWord(
+      'halo',
+      'hai',
+      'hi',
+      'hey',
+      'helo',
+      'hello',
+      'hola',
+      'oy',
+      'oi',
+      'bro',
+      'min',
+      'gan',
+      'bang',
+      'mas',
+      'kak',
+      'cuy',
+    ) &&
+    words.length <= 4
+  ) {
     return `Halo juga! 👋 Senang bisa menyapa Anda.\n\nSaya asisten virtual cerdas **Ibah Misbah**. Anda bisa bertanya apa saja seputar:\n• 💻 **Keahlian Teknis & Tech Stack** (Laravel, PHP, MySQL, Tailwind CSS, JS)\n• 📁 **4 Proyek Nyata & Arsitekturnya** (Aplikasi Slip Gaji, Cipakat-Hub, Sistem Dinas Pariwisata, UMKM Rajut)\n• 🏢 **Riwayat PKL & Kepemimpinan** (Dinas Pariwisata Ciamis, Ketua Umum HIMASI UBSI)\n• 📋 **Alur Pemesanan Website & Estimasi Biaya**\n• 🟢 **Kontak WhatsApp Langsung (0822-1967-8296)**\n\nApa yang ingin Anda ketahui lebih lanjut?`;
   }
 
   // 2. GRATITUDE & COMPLIMENTS
-  if (has('terima kasih', 'makasih', 'makasi', 'matursuwun', 'hatur nuhun', 'thanks', 'thank you', 'tengkyu', 'arigato')) {
+  if (
+    has(
+      'terima kasih',
+      'makasih',
+      'makasi',
+      'matursuwun',
+      'hatur nuhun',
+      'thanks',
+      'thank you',
+      'tengkyu',
+      'arigato',
+    )
+  ) {
     return `Sama-sama! Senang sekali bisa membantu Anda 😊\n\nJika ada kebutuhan pembuatan website kustom, penambahan fitur Laravel, atau kerja sama proyek, jangan ragu untuk menghubungi Ibah langsung via WhatsApp di **0822-1967-8296** atau email **ibahmisbahh6@gmail.com**. Sukses selalu untuk semua rencana Anda! ✨`;
   }
 
-  if (has('keren', 'bagus', 'mantap', 'top', 'hebat', 'kece', 'cakep', 'rapi', 'smooth', 'clean', 'suka', 'keren banget', 'luar biasa')) {
+  if (
+    has(
+      'keren',
+      'bagus',
+      'mantap',
+      'top',
+      'hebat',
+      'kece',
+      'cakep',
+      'rapi',
+      'smooth',
+      'clean',
+      'suka',
+      'keren banget',
+      'luar biasa',
+    )
+  ) {
     return `Terima kasih banyak atas apresiasi positifnya! ✨\n\nPortofolio ini dirancang dengan standar kualitas profesional: mengutamakan kebersihan tampilan, kemudahan navigasi, responsivitas smartphone, kecepatan akses, dan keamanan. Ibah selalu menerapkan standar tinggi yang sama untuk setiap website klien yang dikerjakan.`;
   }
 
@@ -173,7 +355,16 @@ function generateComprehensiveDialogue(rawQuery) {
   }
 
   // 3c. Dinas Pariwisata Project (Specific website project)
-  if (has('website internal', 'sistem internal dinas', 'web dinas pariwisata', 'proyek dinas', 'paperless dinas', 'sistem rapat dinas')) {
+  if (
+    has(
+      'website internal',
+      'sistem internal dinas',
+      'web dinas pariwisata',
+      'proyek dinas',
+      'paperless dinas',
+      'sistem rapat dinas',
+    )
+  ) {
     return `🏢 **Proyek 03: Website Internal Dinas Pariwisata Ciamis**\n\n• **Latar Belakang Masalah:** Koordinasi agenda rapat instansi di Bidang Perencanaan & Sekretariat sering terhambat oleh penumpukan dokumen fisik berbasis kertas dan lambatnya distribusi materi rapat.\n• **Solusi yang Dibuat Ibah:** Merancang portal dashboard internal *paperless* dengan otentikasi multi-role (Admin, Kepala Bidang, Notulis, Peserta), manajemen jadwal rapat terpusat, pengunggahan materi presentasi digital, dan arsip notulensi rapat.\n• **Fitur Utama:** Manajemen jadwal rapat, repository bahan tayang PDF/PPT, modul notulensi digital langsung terdistribusi, dan hemat kertas (*paperless*).\n• **Teknologi:** Laravel Framework, PHP, MySQL, Tailwind CSS.\n• **Tautan Repositori:** [github.com/githu423/dinas-pariwisata-internal](https://github.com/githu423/dinas-pariwisata-internal)`;
   }
 
@@ -199,30 +390,83 @@ function generateComprehensiveDialogue(rawQuery) {
   }
 
   // 5. TECH COMPARISON: WHY LARAVEL & WHY MYSQL
-  if (has('kenapa laravel', 'mengapa laravel', 'apa itu laravel', 'kelebihan laravel', 'laravel vs', 'laravel dan bukan', 'laravel dibanding', 'milih laravel', 'pilih laravel')) {
+  if (
+    has(
+      'kenapa laravel',
+      'mengapa laravel',
+      'apa itu laravel',
+      'kelebihan laravel',
+      'laravel vs',
+      'laravel dan bukan',
+      'laravel dibanding',
+      'milih laravel',
+      'pilih laravel',
+    )
+  ) {
     return `**Kenapa Ibah Memilih Framework Laravel untuk Web Development?** 🚀\n\n1. 🏗️ **Arsitektur MVC (Model-View-Controller):** Kode terstruktur rapi dan modular, memisahkan logika query database, pemrosesan bisnis, dan tampilan antarmuka.\n2. 🛡️ **Keamanan Bawaan (Built-in Security):** Proteksi otomatis terhadap ancaman web umum seperti CSRF (Cross-Site Request Forgery), XSS (Cross-Site Scripting), dan SQL Injection.\n3. ⚡ **Eloquent ORM:** Mempermudah manipulasi database relasional dengan sintaks yang ekspresif, cepat, dan minim bug.\n4. 📦 **Ekosistem Modern & Scalable:** Didukung fitur Blade Templating, Migration, Seeder, dan REST API routing yang memudahkan penambahan fitur baru di masa depan.`;
   }
 
-  if (has('kenapa mysql', 'mengapa mysql', 'apa itu mysql', 'kelebihan mysql', 'mysql vs', 'mysql dibanding')) {
+  if (
+    has('kenapa mysql', 'mengapa mysql', 'apa itu mysql', 'kelebihan mysql', 'mysql vs', 'mysql dibanding')
+  ) {
     return `**Kenapa Ibah Menggunakan MySQL?** 🗄️\n\nMySQL adalah sistem basis data relasional (RDBMS) standar industri yang sangat teruji, cepat, andal, dan aman.\n\nIbah memanfaatkannya untuk merancang skema relasi tabel yang terstruktur rapi (1NF–3NF), memastikan relasi antar tabel (foreign keys) berjalan optimal, serta mengoptimasi query data instansi, transaksi UMKM, maupun portal publik agar tidak mengalami *bottleneck*.`;
   }
 
   // 6. WHO IS IBAH / PROFILE & BIO
-  if (has('siapa ibah', 'profil', 'biodata', 'tentang ibah', 'latar belakang', 'siapakah', 'siapa anda', 'siapa developer', 'ceritakan tentang', 'kenalan')) {
-    return `**Ibah Misbah** adalah seorang **Freelance Web Developer** berdedikasi dan mahasiswa aktif S1 **Sistem Informasi di Universitas Bina Sarana Informatika (UBSI) Kampus Tasikmalaya** (periode 2024–2027).\n\n📌 **Ringkasan Profil & Dedikasi:**\n• **Spesialisasi:** Pengembangan aplikasi web terstruktur berbasis PHP & Framework Laravel, optimasi database relasional MySQL, dan antarmuka responsif modern.\n• **Domisili:** Kabupaten Ciamis, Jawa Barat, Indonesia.\n• **Pengalaman Nyata:** Berpengalaman membangun sistem internal instansi (*paperless meeting system* di Dinas Pariwisata Ciamis), platform pelayanan desa (*Cipakat-Hub*), landing page UMKM, serta dipercaya menjabat sebagai **Ketua Umum HIMASI UBSI Tasikmalaya (2026–2027)**.\n• **Filosofi Kerja:** Menghasilkan kode yang rapi (*clean code*), arsitektur database yang efisien, dan website yang menyelesaikan masalah nyata pengguna.`;
+  if (
+    has(
+      'siapa ibah',
+      'profil',
+      'biodata',
+      'tentang ibah',
+      'latar belakang',
+      'siapakah',
+      'siapa anda',
+      'siapa developer',
+      'ceritakan tentang',
+      'kenalan',
+    )
+  ) {
+    return `**Ibah Misbah** adalah seorang **web developer** berdedikasi dan mahasiswa aktif S1 **Sistem Informasi di Universitas Bina Sarana Informatika (UBSI) Kampus Tasikmalaya** (periode 2024–2027).\n\n📌 **Ringkasan Profil & Dedikasi:**\n• **Spesialisasi:** Pengembangan aplikasi web terstruktur berbasis PHP & Framework Laravel, optimasi database relasional MySQL, dan antarmuka responsif modern.\n• **Domisili:** Kabupaten Ciamis, Jawa Barat, Indonesia.\n• **Pengalaman Nyata:** Berpengalaman membangun sistem internal instansi (*paperless meeting system* di Dinas Pariwisata Ciamis), platform pelayanan desa (*Cipakat-Hub*), landing page UMKM, serta dipercaya menjabat sebagai **Ketua Umum HIMASI UBSI Tasikmalaya (2026–2027)**.\n• **Filosofi Kerja:** Menghasilkan kode yang rapi (*clean code*), arsitektur database yang efisien, dan website yang menyelesaikan masalah nyata.\n• **Ketersediaan:** Terbuka untuk peran **full-time**, proyek **freelance**, dan kolaborasi tim.`;
   }
 
   // 4. LOCATION & REACH
-  if (has('tinggal di mana', 'tinggal dimana', 'orang mana', 'domisili', 'lokasi', 'asal mana', 'alamat', 'kota mana', 'daerah mana', 'ciamis')) {
+  if (
+    has(
+      'tinggal di mana',
+      'tinggal dimana',
+      'orang mana',
+      'domisili',
+      'lokasi',
+      'asal mana',
+      'alamat',
+      'kota mana',
+      'daerah mana',
+      'ciamis',
+    )
+  ) {
     return `📍 **Domisili & Lokasi Kerja Ibah Misbah:**\nIbah berdomisili di **Kabupaten Ciamis, Jawa Barat, Indonesia**.\n\n🌐 **Jangkauan Layanan:**\n• Siap melayani proyek secara **Remote (Daring)** dari seluruh wilayah Indonesia maupun luar negeri.\n• Untuk wilayah Ciamis, Tasikmalaya, dan sekitarnya, sangat memungkinkan untuk koordinasi atau meeting tatap muka jika diperlukan.`;
   }
 
   // 5. TECH COMPARISON: WHY LARAVEL & WHY MYSQL
-  if (has('kenapa laravel', 'mengapa laravel', 'apa itu laravel', 'kelebihan laravel', 'laravel vs', 'laravel dan bukan', 'laravel dibanding', 'php native')) {
+  if (
+    has(
+      'kenapa laravel',
+      'mengapa laravel',
+      'apa itu laravel',
+      'kelebihan laravel',
+      'laravel vs',
+      'laravel dan bukan',
+      'laravel dibanding',
+      'php native',
+    )
+  ) {
     return `**Kenapa Ibah Memilih Framework Laravel untuk Web Development?** 🚀\n\n1. 🏗️ **Arsitektur MVC (Model-View-Controller):** Kode terstruktur rapi dan modular, memisahkan logika query database, pemrosesan bisnis, dan tampilan antarmuka.\n2. 🛡️ **Keamanan Bawaan (Built-in Security):** Proteksi otomatis terhadap ancaman web umum seperti CSRF (Cross-Site Request Forgery), XSS (Cross-Site Scripting), dan SQL Injection.\n3. ⚡ **Eloquent ORM:** Mempermudah manipulasi database relasional dengan sintaks yang ekspresif, cepat, dan minim bug.\n4. 📦 **Ekosistem Modern & Scalable:** Didukung fitur Blade Templating, Migration, Seeder, dan REST API routing yang memudahkan penambahan fitur baru di masa depan.`;
   }
 
-  if (has('kenapa mysql', 'mengapa mysql', 'apa itu mysql', 'kelebihan mysql', 'mysql vs', 'mysql dibanding')) {
+  if (
+    has('kenapa mysql', 'mengapa mysql', 'apa itu mysql', 'kelebihan mysql', 'mysql vs', 'mysql dibanding')
+  ) {
     return `**Kenapa Ibah Menggunakan MySQL?** 🗄️\n\nMySQL adalah sistem basis data relasional (RDBMS) standar industri yang sangat teruji, cepat, andal, dan aman.\n\nIbah memanfaatkannya untuk merancang skema relasi tabel yang terstruktur rapi (1NF–3NF), memastikan relasi antar tabel (foreign keys) berjalan optimal, serta mengoptimasi query data instansi, transaksi UMKM, maupun portal publik agar tidak mengalami *bottleneck*.`;
   }
 
@@ -248,7 +492,19 @@ function generateComprehensiveDialogue(rawQuery) {
   }
 
   // 6e. All Projects Overview
-  if (has('proyek', 'project', 'portofolio', 'portfolio', 'karya', 'bikin apa aja', 'hasil kerja', 'daftar proyek', 'contoh web')) {
+  if (
+    has(
+      'proyek',
+      'project',
+      'portofolio',
+      'portfolio',
+      'karya',
+      'bikin apa aja',
+      'hasil kerja',
+      'daftar proyek',
+      'contoh web',
+    )
+  ) {
     return `Berikut 4 proyek unggulan yang telah diselesaikan oleh **Ibah Misbah**:\n\n1. 📄 **Website Sortir Slip Gaji** (HTML, CSS, JS) — Otomasi pengolahan data slip gaji dari Excel ke Word/PDF siap cetak.\n2. 🏛️ **Cipakat-Hub** (Laravel, PHP, MySQL, Bootstrap) — Sistem informasi terpadu pelayanan warga desa & etalase produk UMKM.\n3. 🏢 **Website Internal Dinas Pariwisata Ciamis** (Laravel, PHP, MySQL, Tailwind) — Portal rapat instansi digital *paperless*.\n4. 🧶 **Landing Page UMKM Rajut Tasikmalaya** (Laravel, PHP, MySQL, JS) — Landing page komersial promosi produk rajut lokal.\n\nAnda dapat mengklik tombol **Detail & Arsitektur** pada kartu proyek di website untuk melihat modal detail dan repositori GitHub!`;
   }
 
@@ -269,7 +525,28 @@ function generateComprehensiveDialogue(rawQuery) {
   }
 
   // 8. TECHNICAL STACK & PROGRAMMING SKILLS
-  if (has('skill', 'keahlian', 'teknologi', 'stack', 'bahasa pemrograman', 'kuasai', 'bisa koding apa', 'tools', 'laravel', 'php', 'mysql', 'javascript', 'html', 'css', 'tailwind', 'bootstrap', 'git', 'canva')) {
+  if (
+    has(
+      'skill',
+      'keahlian',
+      'teknologi',
+      'stack',
+      'bahasa pemrograman',
+      'kuasai',
+      'bisa koding apa',
+      'tools',
+      'laravel',
+      'php',
+      'mysql',
+      'javascript',
+      'html',
+      'css',
+      'tailwind',
+      'bootstrap',
+      'git',
+      'canva',
+    )
+  ) {
     return `💻 **Keahlian Teknis & Pemrograman Ibah Misbah:**\n\n• **Back-End Development (Tingkat Mahir / Advanced):**\n  - PHP Native & OOP\n  - Framework Laravel (MVC, Eloquent ORM, REST API Routing, Auth Guards, Blade)\n  - Node.js (Dasar package management & runtime)\n• **Database Engineering (Tingkat Mahir / Advanced):**\n  - MySQL (Perancangan Skema Relasional, Foreign Keys, Normalisasi 1NF–3NF, Query Optimization, XAMPP)\n• **Front-End Development (Tingkat Mahir / Advanced):**\n  - HTML5 Semantic & Accessibility\n  - CSS3 Modern, Flexbox, Grid, Animations\n  - JavaScript ES6+ (DOM Manipulation, Fetch API, Async/Await)\n  - Tailwind CSS & Bootstrap 5\n• **Development & Multimedia Tools:**\n  - Git & GitHub, Visual Studio Code, XAMPP\n  - Canva, CapCut, PixelLab, Photoshop, After Effects, Word, Excel, Google Sheets.`;
   }
 
@@ -282,31 +559,106 @@ function generateComprehensiveDialogue(rawQuery) {
     return `Tentu saja! Ibah berpengalaman membangun **Landing Page dan Katalog Online untuk UMKM** (salah satu portofolionya adalah *Landing Page UMKM Rajut Tasikmalaya*). 🛍️\n\nFitur yang bisa disematkan:\n• Tampilan responsif & cepat di smartphone.\n• Galeri foto produk berkualitas dengan filter kategori.\n• Tombol 'Pesan Sekarang' yang langsung terhubung ke WhatsApp penjual dengan format teks otomatis.\n• Panel admin untuk update harga dan foto produk.\n\nIngin membuat katalog toko online Anda? Hubungi Ibah di WhatsApp: [0822-1967-8296](${IBAH_PROFILE.personal.whatsappUrl})`;
   }
 
-  if (has('benerin', 'error', 'bug', 'tambah fitur', 'perbaiki web', 'maintenance', 'ngedit web', 'bantu coding')) {
+  if (
+    has(
+      'benerin',
+      'error',
+      'bug',
+      'tambah fitur',
+      'perbaiki web',
+      'maintenance',
+      'ngedit web',
+      'bantu coding',
+    )
+  ) {
     return `Bisa! Ibah melayani **Bug Fixing, Penambahan Fitur, dan Maintenance Website** yang sudah ada, khususnya untuk proyek berbasis **PHP, Laravel, MySQL, JavaScript, HTML, atau CSS**.\n\nIbah akan menganalisis kode yang mengalami error dan memberikan solusi yang efektif. Silakan kirimkan kendala atau screenshot error ke WhatsApp Ibah: **0822-1967-8296**.`;
   }
 
   // 10. WHY HIRE IBAH / COMPARISON
-  if (has('kenapa harus', 'mengapa harus', 'alasan memilih', 'kelebihan ibah', 'keunggulan', 'apa bedanya', 'kenapa pilih ibah', 'kenapa rekrut')) {
+  if (
+    has(
+      'kenapa harus',
+      'mengapa harus',
+      'alasan memilih',
+      'kelebihan ibah',
+      'keunggulan',
+      'apa bedanya',
+      'kenapa pilih ibah',
+      'kenapa rekrut',
+    )
+  ) {
     return `Berikut 5 alasan mengapa **Ibah Misbah** adalah pilihan tepat untuk proyek website Anda:\n\n1. 🎯 **Struktur Kode & Database Rapi:** Mengikuti standar arsitektur MVC Laravel dan normalisasi MySQL, membuat website mudah dikembangkan di masa depan.\n2. 💡 **Solutif Berdasarkan Masalah Nyata:** Terbukti sukses membuat sistem digital untuk instansi pemerintah daerah dan masyarakat desa.\n3. ⚡ **Komunikasi Cepat & Transparan:** Ibah sangat komunikatif, memberikan update rutin, dan terbuka menerima masukan selama proses development.\n4. 👑 **Kombinasi Teknis & Jiwa Kepemimpinan:** Pengalaman memimpin organisasi mahasiswa melatih kemampuan manajemen waktu, ketelitian, dan kepemimpinan proyek.\n5. 🤝 **Fleksibel & Terjangkau:** Penawaran biaya yang adil dan dapat disesuaikan dengan skala kebutuhan Anda.`;
   }
 
   // 11. WORKFLOW & TIMELINE
-  if (has('cara kerja', 'alur kerja', 'cara pesan', 'cara order', 'gimana cara', 'langkah pemesanan', 'tahapan pembuatan', 'mau bikin web', 'pengen buat web')) {
+  if (
+    has(
+      'cara kerja',
+      'alur kerja',
+      'cara pesan',
+      'cara order',
+      'gimana cara',
+      'langkah pemesanan',
+      'tahapan pembuatan',
+      'mau bikin web',
+      'pengen buat web',
+    )
+  ) {
     return `Berikut 5 langkah mudah bekerja sama dengan **Ibah Misbah**:\n\n1. 💬 **Konsultasi Kebutuhan (Gratis):** Sampaikan ide, tujuan, dan fitur website yang Anda inginkan via WhatsApp (**0822-1967-8296**).\n2. 📋 **Penyusunan Rencana & Penawaran:** Ibah akan memberikan rekomendasi arsitektur sistem, estimasi waktu (timeline), dan penawaran biaya yang transparan.\n3. 💻 **Tahap Development (Koding):** Pengerjaan antarmuka UI/UX, backend logic Laravel/PHP, dan integrasi database MySQL dengan update progres berkala.\n4. 🧪 **Uji Coba & Revisi (Testing):** Pengecekan fungsionalitas, keamanan, dan responsivitas di smartphone bersama Anda.\n5. 🚀 **Peluncuran (Deployment) & Serah Terima:** Website di-online-kan (hosting & domain) lengkap dengan panduan penggunaan sistem.`;
   }
 
-  if (has('berapa lama', 'lama pengerjaan', 'durasi', 'deadline', 'waktu pengerjaan', 'bisa cepat', 'berapa hari')) {
+  if (
+    has(
+      'berapa lama',
+      'lama pengerjaan',
+      'durasi',
+      'deadline',
+      'waktu pengerjaan',
+      'bisa cepat',
+      'berapa hari',
+    )
+  ) {
     return `⏱️ **Estimasi Waktu Pengerjaan Website oleh Ibah:**\n\n• **Landing Page / Web Promosi UMKM:** 3 – 5 hari kerja.\n• **Sistem Informasi Standar / Profil Instansi:** 1 – 2 minggu.\n• **Aplikasi Web Kompleks (Multi-Role User, Database Custom):** 2 – 4 minggu.\n\n*Catatan:* Timeline bisa disesuaikan jika Anda memiliki tenggat waktu (deadline) khusus yang mendesak.`;
   }
 
   // 12. PRICING & PAYMENT TERMS
-  if (has('harga', 'tarif', 'biaya', 'rate', 'budget', 'duit', 'ongkos', 'mahal gak', 'bisa nego', 'bisa cicil', 'bayar berapa', 'kisaran harga')) {
+  if (
+    has(
+      'harga',
+      'tarif',
+      'biaya',
+      'rate',
+      'budget',
+      'duit',
+      'ongkos',
+      'mahal gak',
+      'bisa nego',
+      'bisa cicil',
+      'bayar berapa',
+      'kisaran harga',
+    )
+  ) {
     return `💰 **Biaya Pembuatan Website oleh Ibah Misbah:**\n\n• Biaya bersifat **fleksibel dan dapat disesuaikan dengan ruang lingkup fitur & anggaran Anda**.\n• Sangat terjangkau dan ramah bagi pelaku UMKM, organisasi kemahasiswaan, kantor instansi dinas, maupun mahasiswa tugas akhir.\n• Pembayaran dapat dilakukan bertahap (sistem termin/DP) selama proses development berjalan.\n\nSilakan diskusikan kebutuhan dan anggaran Anda langsung dengan Ibah via WhatsApp: **0822-1967-8296**.`;
   }
 
   // 13. CONTACT & SOCIALS
-  if (has('kontak', 'whatsapp', 'wa', 'nomor hp', 'no hp', 'nomor wa', 'email', 'telepon', 'hubungi', 'instagram', 'linkedin', 'github', 'sosmed')) {
+  if (
+    has(
+      'kontak',
+      'whatsapp',
+      'wa',
+      'nomor hp',
+      'no hp',
+      'nomor wa',
+      'email',
+      'telepon',
+      'hubungi',
+      'instagram',
+      'linkedin',
+      'github',
+      'sosmed',
+    )
+  ) {
     return `📬 **Kanal Kontak Resmi Ibah Misbah:**\n\n• 🟢 **WhatsApp / Telepon:** [0822-1967-8296](https://wa.me/6282219678296?text=Halo%20Ibah,%20saya%20melihat%20portfolio%20Anda)\n• ✉️ **Email Resmi:** [ibahmisbahh6@gmail.com](mailto:ibahmisbahh6@gmail.com)\n• 🐙 **GitHub:** [github.com/githu423](https://github.com/githu423)\n• 💼 **LinkedIn:** [linkedin.com/in/ibah-misbah](https://linkedin.com/in/ibah-misbah)\n• 📸 **Instagram:** [instagram.com/ibah.codes](https://instagram.com/ibah.codes)\n• 📍 **Domisili:** Kabupaten Ciamis, Jawa Barat, ID\n\nKlik tautan WhatsApp di atas untuk respon instan setiap hari!`;
   }
 
@@ -316,18 +668,67 @@ function generateComprehensiveDialogue(rawQuery) {
   }
 
   // 15. AVAILABILITY
-  if (has('tersedia', 'available', 'part time', 'remote', 'kapan bisa', 'bisa remote', 'jam kerja', 'waktu luang', 'malam bisa')) {
-    return `💼 **Ketersediaan Kerja Ibah Misbah:**\n\n• **Status:** Available for Projects (Tersedia menerima proyek baru)\n• **Tipe Kontrak:** Freelance Part-Time / Project-Based\n• **Metode Kolaborasi:** Remote (Daring) dari mana saja\n• **Waktu Kerja Aktif:** Fleksibel / Sore & Malam Hari.\n\nIbah sangat responsif dan siap berdiskusi daring mengenai ide proyek Anda.`;
+  if (
+    has(
+      'tersedia',
+      'available',
+      'part time',
+      'part-time',
+      'full time',
+      'full-time',
+      'rekrut',
+      'karier',
+      'karir',
+      'pekerjaan',
+      'magang',
+      'remote',
+      'kapan bisa',
+      'bisa remote',
+      'jam kerja',
+      'waktu luang',
+      'malam bisa',
+    )
+  ) {
+    return `💼 **Ketersediaan Kerja Ibah Misbah:**\n\n• **Status:** Open to Work (Terbuka untuk peluang baru)\n• **Tipe Kerja:** Full-Time / Freelance / Magang & Kolaborasi\n• **Metode Kolaborasi:** Remote, Hybrid, atau On-site (Ciamis–Tasikmalaya)\n• **Waktu Kerja:** Fleksibel.\n\nUntuk peran full-time maupun proyek freelance, hubungi Ibah via WhatsApp **0822-1967-8296** atau email **ibahmisbahh6@gmail.com**.`;
   }
 
   // 16. EDUCATION (GENERAL)
-  if (has('kuliah', 'kampus', 'universitas', 'sekolah', 'pendidikan', 'ubsi', 'jurusan', 'prodi', 'semester', 'sarjana', 's1', 'studi')) {
+  if (
+    has(
+      'kuliah',
+      'kampus',
+      'universitas',
+      'sekolah',
+      'pendidikan',
+      'ubsi',
+      'jurusan',
+      'prodi',
+      'semester',
+      'sarjana',
+      's1',
+      'studi',
+    )
+  ) {
     return `🎓 **Riwayat Pendidikan Ibah Misbah:**\n\n• **Institusi:** Universitas Bina Sarana Informatika (UBSI) Kampus Tasikmalaya\n• **Program Studi:** S1 Sistem Informasi\n• **Fakultas:** Fakultas Teknik & Informatika\n• **Periode:** 2024 – 2027 (Sedang Menempuh)\n• **Fokus Kompetensi:** Rekayasa Perangkat Lunak Berorientasi Objek (OOP), Basis Data Relasional (MySQL), Analisis & Perancangan Sistem Informasi, serta Manajemen Proyek Teknologi.`;
   }
 
   // 17. ENGLISH QUERY HANDLING
-  if (has('who is', 'tell me about', 'skills', 'projects', 'contact', 'hire', 'services', 'price', 'experience', 'hello', 'hi')) {
-    return `**Ibah Misbah** is a professional **Freelance Web Developer** and Information Systems student at Universitas Bina Sarana Informatika (UBSI), located in Ciamis, West Java, Indonesia.\n\n• **Core Stack:** PHP, Laravel (MVC), MySQL Relational Database, HTML5, CSS3, JavaScript, Tailwind CSS, Bootstrap.\n• **Featured Works:** Excel-to-Word Salary Slip Automated Sorter, Cipakat-Hub Village System, Internal Paperless Meeting System for Dinas Pariwisata Ciamis, and UMKM Knitting Landing Page.\n• **Contact & Hiring:** Direct WhatsApp: [+62 822-1967-8296](https://wa.me/6282219678296) | Email: [ibahmisbahh6@gmail.com](mailto:ibahmisbahh6@gmail.com).`;
+  if (
+    has(
+      'who is',
+      'tell me about',
+      'skills',
+      'projects',
+      'contact',
+      'hire',
+      'services',
+      'price',
+      'experience',
+      'hello',
+      'hi',
+    )
+  ) {
+    return `**Ibah Misbah** is a professional **web developer** and Information Systems student at Universitas Bina Sarana Informatika (UBSI), located in Ciamis, West Java, Indonesia.\n\n• **Core Stack:** PHP, Laravel (MVC), MySQL Relational Database, HTML5, CSS3, JavaScript, Tailwind CSS, Bootstrap.\n• **Featured Works:** Excel-to-Word Salary Slip Automated Sorter, Cipakat-Hub Village System, Internal Paperless Meeting System for Dinas Pariwisata Ciamis, and UMKM Knitting Landing Page.\n• **Open to:** full-time roles, freelance projects, and team collaborations.\n• **Contact & Hiring:** Direct WhatsApp: [+62 822-1967-8296](https://wa.me/6282219678296) | Email: [ibahmisbahh6@gmail.com](mailto:ibahmisbahh6@gmail.com).`;
   }
 
   // 18. NATURAL GUIDED FALLBACK
@@ -341,7 +742,7 @@ app.use((req, res) => {
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`===================================================`);
-  console.log(` IBAH MISBAH PORTFOLIO & ADVANCED AI SERVER RUNNING`);
+  console.log(` IBAH MISBAH PORTFOLIO & BILINGUAL AI SERVER RUNNING`);
   console.log(` Port: ${PORT}`);
   console.log(` Local: http://localhost:${PORT}`);
   console.log(`===================================================`);

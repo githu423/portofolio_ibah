@@ -1,151 +1,155 @@
-# Website Personal Portfolio Profesional — Ibah Misbah
+# Website Personal Portfolio — Ibah Misbah
 
-Website **Personal Portfolio Profesional & Responsif** untuk **Ibah Misbah** (*Freelance Web Developer*). Dibangun dengan arsitektur bersih menggunakan **HTML5, CSS3, Vanilla JavaScript, Node.js, Express, dan AI Chatbot Assistant (Ask Ibah)**.
+Website **portofolio personal** yang berfokus pada **memperkenalkan Ibah Misbah kepada dunia**: siapa saya, apa yang saya kerjakan, karya yang sudah dibuat, serta peluang kerja sama. Tidak hanya untuk freelance—portofolio ini juga menyampaikan bahwa saya terbuka untuk peran **full-time**, magang, dan kolaborasi tim.
+
+Dibangun dengan **HTML5, CSS3, Vanilla JavaScript, Node.js/Express, dan asisten virtual “Ask Ibah”**. Seluruh antarmuka tersedia dalam **dua bahasa: Bahasa Indonesia dan English**.
 
 ---
 
-## 1. 📁 Struktur Folder Proyek
+## 1. Fitur Utama
+
+| Fitur                       | Keterangan                                                                                                                                                                                                                         |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Personal branding**       | Hero, About, Focus, Experience, Projects, Education, dan Opportunities menyusun narasi “kenalan dengan Ibah”, bukan sekadar daftar jasa freelance.                                                                                 |
+| **Bilingual ID / EN**       | Tombol `ID / EN` di navbar dan menu mobile mengganti seluruh teks situs, placeholder, judul halaman, meta description, modal proyek, CV, notifikasi, dan balasan chatbot. Pilihan tersimpan di `localStorage`.                     |
+| **Kontak dua kanal**        | **WhatsApp** (membuka chat dengan pesan siap kirim) dan **Email** (form dikirim langsung ke `ibahmisbahh6@gmail.com` melalui API SMTP). Jika SMTP belum dikonfigurasi, sistem membuka email dengan subjek & isi yang sudah terisi. |
+| **Ask Ibah (AI Assistant)** | Chatbot dengan knowledge base resmi, anti-halusinasi, balasan bilingual, dan opsi integrasi OpenAI API.                                                                                                                            |
+| **Tampilan**                | Light/Dark mode, animasi scroll, typewriter, skill & project filter, modal detail proyek, CV viewer, toast, dan layout responsif.                                                                                                  |
+| **Navigasi**                | Navbar horizontal yang ringkas di desktop (link sekunder masuk menu “Lainnya”) dan drawer hamburger di tablet/mobile.                                                                                                              |
+
+---
+
+## 2. Struktur Proyek
 
 ```text
 portofolio_ibah/
-│
-├── index.html                   # Halaman utama (Struktur Semantic HTML5)
-├── style.css                    # Styling visual, Typography, Responsive & Theme System
-├── script.js                    # Interaktivitas frontend, Modal, Validasi Form & Client Chatbot
-│
+├── index.html                    # Struktur semantic HTML + atribut data-i18n-* (terformat rapi)
+├── style.css                     # Design system, navbar, tema, responsivitas
+├── i18n.js                       # Kamus Bahasa Indonesia ↔ English + mesin switch bahasa
+├── script.js                     # Interaksi, modal, filter, form WhatsApp/Email, chatbot
 ├── assets/
-│   ├── images/
-│   │   ├── profile.jpg          # Foto profil utama Ibah Misbah
-│   │   ├── profile.svg          # Vektor ilustrasi avatar profil cadangan
-│   │   ├── project-01.jpg       # Gambar proyek Website Sortir Slip Gaji
-│   │   ├── project-02.jpg       # Gambar proyek Cipakat-Hub
-│   │   ├── project-03.jpg       # Gambar proyek Website Internal Dinas Pariwisata
-│   │   └── project-04.jpg       # Gambar proyek Landing Page UMKM Rajut Tasikmalaya
-│   │
-│   └── cv/
-│       └── cv.pdf               # Dokumen resmi Curriculum Vitae (PDF)
-│
+│   ├── images/                   # Foto profil & 4 gambar proyek
+│   └── cv/cv.pdf                 # CV resmi (PDF)
 ├── backend/
-│   ├── server.js                # Server Node.js / Express & Endpoint POST /api/chat
-│   ├── package.json             # Dependensi backend (express, cors, dotenv)
-│   ├── .env.example             # Contoh konfigurasi environment variable
-│   └── data/
-│       └── ibah-profile.js      # Basis data pengetahuan resmi profil Ibah Misbah
-│
-├── .env.example                 # Template konfigurasi environment root
-├── .gitignore                   # Ignore file node_modules, .env, log
-└── README.md                    # Dokumentasi lengkap proyek
+│   ├── server.js                 # Express: static files, /api/chat, /api/profile, /api/contact
+│   ├── data/
+│   │   ├── ibah-profile.js       # Knowledge base resmi profil Ibah
+│   │   └── chat-english.js       # Balasan chatbot khusus bahasa Inggris
+│   ├── package.json
+│   ├── package-lock.json
+│   └── .env.example              # Template env backend
+├── .env.example                  # Template env root (sama dengan backend)
+├── .gitignore
+└── README.md
 ```
 
 ---
 
-## 2. ⚙️ Fungsi Setiap File
+## 3. Menjalankan Website
 
-1. **`index.html`**
-   - Struktur semantic HTML5 lengkap: **Navbar Sticky**, **Hero Section**, **About Me**, **Services (What I Do)**, **Technical Skills Matrix**, **Experience Timeline (PKL & Organisasi)**, **My Projects Showcase**, **Education & Certifications**, **Languages**, **Availability Banner**, **Contact Form & Direct WhatsApp**, **Footer**, **Project Detail Modal**, dan **Floating AI Chatbot (Ask Ibah)**.
+### Opsi A — Server Express (rekomendasi, diperlukan untuk email & AI)
 
-2. **`style.css`**
-   - Mengatur sistem desain minimalis, bersih, dan profesional:
-     - Latar Belakang: `#FFFFFF` & `#F7F8FA`
-     - Teks: `#111111` & `#555555`
-     - Aksen Utama: `#2563EB` (Royal Blue) & Hover `#1D4ED8`
-     - Tipografi: *Poppins* (Google Fonts) & *JetBrains Mono*
-     - Responsive Breakpoints: Desktop (>=1200px), Tablet (768px–1199px), Mobile (<768px), Small Mobile (<480px).
+```bash
+cd backend
+npm install
+cp .env.example .env       # lalu isi variabel(email/AI) sesuai kebutuhan
+npm start
+```
 
-3. **`script.js`**
-   - Mengontrol interaksi navbar sticky dan active state link saat scrolling.
-   - Mengelola pembukaan dan penutupan **Project Detail Modal** saat kartu proyek diklik.
-   - Validasi formulir kontak (Name, Email format, Subject, Message min. 10 karakter).
-   - Mengoperasikan **Ask Ibah AI Chatbot** (koneksi ke `/api/chat` dan fallback lokal anti-halusinasi).
-   - Tombol Back to Top halus.
+Buka `http://localhost:5173`.
 
-4. **`backend/server.js`**
-   - Server Node.js Express yang melayani file static frontend dan endpoint `POST /api/chat`.
-   - Mengamankan API key di sisi server (tidak terekspos ke browser).
-   - Dilengkapi *rate limiting* dan validasi input.
-   - Mendukung integrasi OpenAI API atau beralih otomatis ke *Knowledge Base Matcher*.
+### Opsi B — Buka langsung `index.html`
 
-5. **`backend/data/ibah-profile.js`**
-   - Berisi data terverifikasi riwayat pendidikan, skill, pengalaman, dan proyek Ibah Misbah sebagai sumber data anti-halusinasi chatbot.
+Seluruh tampilan, switch bahasa, modal, filter, dan chatbot lokal tetap berfungsi. Endpoint `/api/contact` tidak tersedia, sehingga form email otomatis membuka aplikasi email dengan pesan siap kirim.
 
 ---
 
-## 3. 🚀 Cara Menjalankan Website
+## 4. Mengirim Email dari Form Kontak
 
-### Opsi A: Menggunakan Node.js Backend Server (Rekomendasi)
-1. Pastikan Node.js telah terpasang.
-2. Masuk ke folder backend dan install dependensi:
-   ```bash
-   cd backend
-   npm install
-   ```
-3. Salin file `.env.example` menjadi `.env`:
-   ```bash
-   cp .env.example .env
-   ```
-4. Jalankan server:
-   ```bash
-   npm start
-   ```
-5. Buka browser pada alamat: **`http://localhost:5173`**
+Form kontak memiliki dua metode:
 
-### Opsi B: Membuka Langsung di Browser (Frontend Standalone)
-- Cukup klik dua kali pada file **`index.html`** di browser manapun (*Chrome, Firefox, Safari, Edge*).
-- Seluruh fitur UI, modal proyek, validasi form, dan chatbot AI (mode lokal anti-halusinasi) akan berjalan 100% normal tanpa perlu instalasi server.
+- **Email** — data dikirim ke `POST /api/contact`; server mengirim email ke `CONTACT_EMAIL_TO` via SMTP.
+- **WhatsApp** — membuka `wa.me/6282219678296` dengan pesan yang sudah dirapikan.
 
----
+### Menyiapkan SMTP (Gmail)
 
-## 4. ✏️ Panduan Kustomisasi
+1. Aktifkan 2-Step Verification di akun Google.
+2. Buat **App Password** di <https://myaccount.google.com/apppasswords>.
+3. Isi `backend/.env`:
 
-### A. Mengganti Foto Profil
-1. Siapkan foto profil Anda dengan format JPG/PNG (rasio 1:1 atau kotak).
-2. Simpan ke folder `assets/images/` dengan nama **`profile.jpg`**.
-3. File `index.html` sudah otomatis membaca file `assets/images/profile.jpg`.
+```env
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=ibahmisbahh6@gmail.com
+SMTP_PASS=APP_PASSWORD_16_KARAKTER
+CONTACT_EMAIL_TO=ibahmisbahh6@gmail.com
+CONTACT_EMAIL_FROM=ibahmisbahh6@gmail.com
+```
 
-### B. Mengganti Gambar Proyek
-1. Simpan screenshot/tampilan proyek ke `assets/images/` dengan nama:
-   - Proyek 1: `assets/images/project-01.jpg`
-   - Proyek 2: `assets/images/project-02.jpg`
-   - Proyek 3: `assets/images/project-03.jpg`
-   - Proyek 4: `assets/images/project-04.jpg`
+4. Restart server. Jika `SMTP_HOST`, `SMTP_USER`, dan `SMTP_PASS` terisi, email benar-benar dikirim (dengan `Reply-To` ke alamat pengirim). Jika belum, API mengembalikan `mailto:` dan browser membuka email siap kirim—pesan tetap bisa sampai ke Ibah.
 
-### C. Mengganti Link GitHub & LinkedIn
-1. Buka file **`index.html`**, cari tag `<a>` social media di Hero Section, Footer, dan Modal.
-2. Ganti URL placeholder:
-   ```html
-   <!-- Ganti dengan URL GitHub Anda -->
-   <a href="https://github.com/username-anda" class="social-icon">...</a>
+> Jangan pernah menyimpan `backend/.env` ke Git. File sudah masuk `.gitignore`.
 
-   <!-- Ganti dengan URL LinkedIn Anda -->
-   <a href="https://linkedin.com/in/username-anda" class="social-icon">...</a>
-   ```
-3. Sesuaikan juga pada file `backend/data/ibah-profile.js`.
+### Endpoint
 
-### D. Mengganti Dokumen CV (PDF)
-1. Simpan file PDF CV Anda ke folder `assets/cv/` dengan nama **`cv.pdf`**.
-
-### E. Memasang OpenAI API Key untuk Chatbot (Opsional)
-1. Buka file `backend/.env` (atau buat dari `.env.example`).
-2. Masukkan API key OpenAI Anda:
-   ```env
-   OPENAI_API_KEY=sk-proj-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-   ```
-3. Jika tidak diisi, chatbot akan secara otomatis menggunakan engine pencocokan data resmi Ibah Misbah tanpa biaya API dan tanpa halusinasi!
+| Method | Path           | Fungsi                                            |
+| ------ | -------------- | ------------------------------------------------- |
+| `GET`  | `/api/profile` | Data profil resmi (bilingual knowledge base)      |
+| `POST` | `/api/chat`    | Chatbot; body `{ message, language: "id"\|"en" }` |
+| `POST` | `/api/contact` | Kirim pesan kontak ke email Ibah                  |
 
 ---
 
-## 5. 🤖 Fitur AI Chatbot ("ASK IBAH")
+## 5. Cara Kerja Switch Bahasa
 
-- **Floating Action Button (60px)** di sudut kanan bawah dengan status `● Online`.
-- **Quick Question Chips**:
-  - *"Siapa Ibah Misbah?"*
-  - *"Apa skill Ibah?"*
-  - *"Project apa saja?"*
-  - *"Apakah Ibah menerima freelance?"*
-  - *"Di mana Ibah kuliah?"*
-  - *"Bagaimana cara menghubungi Ibah?"*
-- **Aturan Anti-Halusinasi:** Bot hanya memberikan informasi yang tercantum dalam CV/portofolio resmi. Pertanyaan di luar kualifikasi (seperti tarif pasti atau hal pribadi) akan diarahkan dengan sopan ke kontak WhatsApp/Email Ibah.
+1. Setiap teks di `index.html` diberi atribut `data-i18n`, `data-i18n-title`, `data-i18n-placeholder`, `data-i18n-aria`, `data-i18n-alt`, atau `data-i18n-options`.
+2. `i18n.js` menyimpan terjemahan di `I18N.id` dan `I18N.en`, lalu `applyTranslations()` menulis ulang teks di halaman.
+3. `setLanguage('en' | 'id')` mengubah `<html lang>`, `document.title`, meta description, tombol aktif, `localStorage`, dan memicu event `languagechange`.
+4. `script.js` mendengarkan event tersebut untuk memperbarui typewriter, kode terminal, modal proyek, label tombol form, dan balasan chatbot.
+
+Untuk menambah/mengubah teks: cukup edit entri yang sesuai di `i18n.js` (keduanya, `id` dan `en`).
+
+---
+
+## 6. Chatbot “ASK IBAH”
+
+- Tombol mengambang di kanan bawah + pintasan di navbar dan hero card.
+- Quick questions: 4 proyek, **Full-Time**, PKL Dispar, Tech Stack, Kenapa Laravel, Ketua HIMASI, Alur & Biaya, dan Kontak.
+- Aturan anti-halusinasi: hanya menjawab dari data resmi di `backend/data/ibah-profile.js`, knowledge base frontend, dan `chat-english.js`.
+- Pertanyaan di luar data diarahkan ke WhatsApp/Email resmi.
+- Jika `OPENAI_API_KEY` diisi, jawaban dibuat oleh OpenAI dengan instruksi bahasa sesuai pilihan pengunjung; jika gagal, otomatis jatuh ke engine lokal.
+
+---
+
+## 7. Konvensi & Kerapian Kode
+
+- Seluruh file HTML, CSS, dan JavaScript diformat dengan **Prettier** (`printWidth: 110`, `singleQuote: true`, `trailingComma: all`).
+- CSS dikelompokkan menjadi bagian bernomor dengan komentar deskriptif; variabel desain ada di `:root`.
+- Teks UI tidak ditanam langsung di banyak elemen: semuanya memakai atribut `data-i18n-*` dan diterjemahkan dari `i18n.js`.
+- Navbar desktop memakai `.nav-links-desktop` dengan dropdown `.nav-dropdown`; aktif link dikelola bersama menu mobile oleh `initNavbarScroll()` dan `initNavDropdown()` handles menu “Lainnya”.
+
+## 8. Kustomisasi Cepat
+
+| Yang diubah                               | Lokasi                                                                         |
+| ----------------------------------------- | ------------------------------------------------------------------------------ |
+| Foto profil                               | `assets/images/profile.jpg`                                                    |
+| Gambar proyek                             | `assets/images/project-01.jpg` … `project-04.jpg`                              |
+| CV                                        | `assets/cv/cv.pdf`                                                             |
+| Teks & terjemahan                         | `i18n.js`                                                                      |
+| Nomor WhatsApp / email                    | `index.html`, `script.js`, `backend/server.js`, `backend/data/ibah-profile.js` |
+| Skill, pengalaman, proyek (knowledge bot) | `backend/data/ibah-profile.js`                                                 |
+| Warna & tipografi                         | variabel di bagian atas `style.css`                                            |
+| Navbar & dropdown                         | blok `NAVBAR POLISH & LAYOUT RHYTHM` di `style.css`                            |
 
 ---
 
 © 2026 **Ibah Misbah**. All rights reserved.
+
+Catatan: identitas/avatar sengaja tidak ditampilkan di navbar; nama dan foto tetap tampil di hero, CV, dan footer. Pada layar mobile, foto profil berada paling atas tepat di bawah navbar.
+
+## Status Link Proyek
+
+- Semua proyek di bagian _Karya & Implementasi_ masih berupa **repositori GitHub** — belum di-hosting atau dipublikasikan. Karena itu setiap kartu proyek memakai chip status "Repositori GitHub — belum di-hosting", dan tombol "Demo / Link" pada modal detail sengaja dinonaktifkan dengan label "Demo Belum Tersedia".
+- Link repositori disesuaikan dengan akun asli: `slip_gaji` dan `Cipakat-Hub` (publik), Website Internal Dinas Pariwisata (privat → mengarah ke profil GitHub), dan Landing Page UMKM Rajut (repo `umkm-rajut-tasik` mengikuti judul proyek; buat repo dengan nama tersebut agar link aktif).
+- Saat sebuah proyek nanti di-hosting, cukup isi `liveUrl` pada `PROJECT_LINKS` di `script.js`; tombol demo akan aktif otomatis dan labelnya kembali normal.
