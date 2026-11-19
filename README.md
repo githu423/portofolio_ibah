@@ -145,3 +145,5 @@ Untuk menambah/mengubah teks: cukup edit entri yang sesuai di `i18n.js` (keduany
 ---
 
 © 2026 **Ibah Misbah**. All rights reserved.
+
+Catatan: identitas/avatar sengaja tidak ditampilkan di navbar; nama dan foto tetap tampil di hero, CV, dan footer. Pada layar mobile, foto profil berada paling atas tepat di bawah navbar.
