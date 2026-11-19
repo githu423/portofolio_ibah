@@ -9,7 +9,9 @@ function getEnglishReply(rawQuery) {
   const text = ` ${rawQuery.toLowerCase()} `;
   const has = (...terms) => terms.some((term) => text.includes(term));
 
-  if (has('assalamu', 'hello', 'hi ', ' hey', 'good morning', 'good afternoon', 'good evening', 'how are you')) {
+  if (
+    has('assalamu', 'hello', 'hi ', ' hey', 'good morning', 'good afternoon', 'good evening', 'how are you')
+  ) {
     return `Hello! 👋 Welcome to **Ibah Misbah**'s portfolio. I'm the official assistant here. You can ask about his background, tech stack, four real projects, internship and leadership experience, or full-time and freelance opportunities. What would you like to know?`;
   }
 
@@ -17,7 +19,19 @@ function getEnglishReply(rawQuery) {
     return `You're welcome! 😊 Happy to help. If you'd like to discuss a full-time role, a freelance project, or a collaboration, contact Ibah at **+62 822-1967-8296** or **ibahmisbahh6@gmail.com**.`;
   }
 
-  if (has('full-time', 'full time', 'recruit', 'hire', 'career', 'internship', 'opportunit', 'availability', 'available')) {
+  if (
+    has(
+      'full-time',
+      'full time',
+      'recruit',
+      'hire',
+      'career',
+      'internship',
+      'opportunit',
+      'availability',
+      'available',
+    )
+  ) {
     return `💼 **Ibah Misbah's Availability:**\n\n• **Full-time:** open to web developer / information systems roles\n• **Freelance:** website and information-system projects\n• **Internship & collaboration:** remote, hybrid, or on-site around Ciamis/Tasikmalaya\n\nTell Ibah about your opportunity via WhatsApp: [+62 822-1967-8296](https://wa.me/6282219678296) or email: [ibahmisbahh6@gmail.com](mailto:ibahmisbahh6@gmail.com).`;
   }
 

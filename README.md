@@ -8,13 +8,14 @@ Dibangun dengan **HTML5, CSS3, Vanilla JavaScript, Node.js/Express, dan asisten 
 
 ## 1. Fitur Utama
 
-| Fitur | Keterangan |
-|---|---|
-| **Personal branding** | Hero, About, Focus, Experience, Projects, Education, dan Opportunities menyusun narasi “kenalan dengan Ibah”, bukan sekadar daftar jasa freelance. |
-| **Bilingual ID / EN** | Tombol `ID / EN` di navbar dan menu mobile mengganti seluruh teks situs, placeholder, judul halaman, meta description, modal proyek, CV, notifikasi, dan balasan chatbot. Pilihan tersimpan di `localStorage`. |
-| **Kontak dua kanal** | **WhatsApp** (membuka chat dengan pesan siap kirim) dan **Email** (form dikirim langsung ke `ibahmisbahh6@gmail.com` melalui API SMTP). Jika SMTP belum dikonfigurasi, sistem membuka email dengan subjek & isi yang sudah terisi. |
-| **Ask Ibah (AI Assistant)** | Chatbot dengan knowledge base resmi, anti-halusinasi, balasan bilingual, dan opsi integrasi OpenAI API. |
-| **Tampilan** | Light/Dark mode, animasi scroll, typewriter, skill & project filter, modal detail proyek, CV viewer, toast, dan layout responsif. |
+| Fitur                       | Keterangan                                                                                                                                                                                                                         |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Personal branding**       | Hero, About, Focus, Experience, Projects, Education, dan Opportunities menyusun narasi “kenalan dengan Ibah”, bukan sekadar daftar jasa freelance.                                                                                 |
+| **Bilingual ID / EN**       | Tombol `ID / EN` di navbar dan menu mobile mengganti seluruh teks situs, placeholder, judul halaman, meta description, modal proyek, CV, notifikasi, dan balasan chatbot. Pilihan tersimpan di `localStorage`.                     |
+| **Kontak dua kanal**        | **WhatsApp** (membuka chat dengan pesan siap kirim) dan **Email** (form dikirim langsung ke `ibahmisbahh6@gmail.com` melalui API SMTP). Jika SMTP belum dikonfigurasi, sistem membuka email dengan subjek & isi yang sudah terisi. |
+| **Ask Ibah (AI Assistant)** | Chatbot dengan knowledge base resmi, anti-halusinasi, balasan bilingual, dan opsi integrasi OpenAI API.                                                                                                                            |
+| **Tampilan**                | Light/Dark mode, animasi scroll, typewriter, skill & project filter, modal detail proyek, CV viewer, toast, dan layout responsif.                                                                                                  |
+| **Navigasi**                | Sidebar vertikal di desktop (lebih rapi daripada menu horizontal yang padat) dan drawer hamburger di tablet/mobile.                                                                                                                |
 
 ---
 
@@ -22,8 +23,8 @@ Dibangun dengan **HTML5, CSS3, Vanilla JavaScript, Node.js/Express, dan asisten 
 
 ```text
 portofolio_ibah/
-├── index.html                    # Struktur semantic HTML + atribut data-i18n-*
-├── style.css                     # Design system, tema, responsivitas, komponen baru
+├── index.html                    # Struktur semantic HTML + atribut data-i18n-* (terformat rapi)
+├── style.css                     # Design system, sidebar desktop, tema, responsivitas
 ├── i18n.js                       # Kamus Bahasa Indonesia ↔ English + mesin switch bahasa
 ├── script.js                     # Interaksi, modal, filter, form WhatsApp/Email, chatbot
 ├── assets/
@@ -92,11 +93,11 @@ CONTACT_EMAIL_FROM=ibahmisbahh6@gmail.com
 
 ### Endpoint
 
-| Method | Path | Fungsi |
-|---|---|---|
-| `GET` | `/api/profile` | Data profil resmi (bilingual knowledge base) |
-| `POST` | `/api/chat` | Chatbot; body `{ message, language: "id"\|"en" }` |
-| `POST` | `/api/contact` | Kirim pesan kontak ke email Ibah |
+| Method | Path           | Fungsi                                            |
+| ------ | -------------- | ------------------------------------------------- |
+| `GET`  | `/api/profile` | Data profil resmi (bilingual knowledge base)      |
+| `POST` | `/api/chat`    | Chatbot; body `{ message, language: "id"\|"en" }` |
+| `POST` | `/api/contact` | Kirim pesan kontak ke email Ibah                  |
 
 ---
 
@@ -121,17 +122,25 @@ Untuk menambah/mengubah teks: cukup edit entri yang sesuai di `i18n.js` (keduany
 
 ---
 
-## 7. Kustomisasi Cepat
+## 7. Konvensi & Kerapian Kode
 
-| Yang diubah | Lokasi |
-|---|---|
-| Foto profil | `assets/images/profile.jpg` |
-| Gambar proyek | `assets/images/project-01.jpg` … `project-04.jpg` |
-| CV | `assets/cv/cv.pdf` |
-| Teks & terjemahan | `i18n.js` |
-| Nomor WhatsApp / email | `index.html`, `script.js`, `backend/server.js`, `backend/data/ibah-profile.js` |
-| Skill, pengalaman, proyek (knowledge bot) | `backend/data/ibah-profile.js` |
-| Warna & tipografi | variabel di bagian atas `style.css` |
+- Seluruh file HTML, CSS, dan JavaScript diformat dengan **Prettier** (`printWidth: 110`, `singleQuote: true`, `trailingComma: all`).
+- CSS dikelompokkan menjadi bagian bernomor dengan komentar deskriptif; variabel desain ada di `:root`.
+- Teks UI tidak ditanam langsung di banyak elemen: semuanya memakai atribut `data-i18n-*` dan diterjemahkan dari `i18n.js`.
+- Navigasi desktop memakai `.desktop-sidebar`; aktif link dikelola bersama menu mobile oleh `initNavbarScroll()`.
+
+## 8. Kustomisasi Cepat
+
+| Yang diubah                               | Lokasi                                                                         |
+| ----------------------------------------- | ------------------------------------------------------------------------------ |
+| Foto profil                               | `assets/images/profile.jpg`                                                    |
+| Gambar proyek                             | `assets/images/project-01.jpg` … `project-04.jpg`                              |
+| CV                                        | `assets/cv/cv.pdf`                                                             |
+| Teks & terjemahan                         | `i18n.js`                                                                      |
+| Nomor WhatsApp / email                    | `index.html`, `script.js`, `backend/server.js`, `backend/data/ibah-profile.js` |
+| Skill, pengalaman, proyek (knowledge bot) | `backend/data/ibah-profile.js`                                                 |
+| Warna & tipografi                         | variabel di bagian atas `style.css`                                            |
+| Sidebar desktop                           | blok `DESKTOP SIDEBAR & VISUAL POLISH` di `style.css`                          |
 
 ---
 

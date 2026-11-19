@@ -10,23 +10,23 @@ const PROJECT_LINKS = {
   'proj-1': {
     image: 'assets/images/project-01.jpg',
     liveUrl: 'https://githu423.github.io/website-slip-gaji',
-    githubUrl: 'https://github.com/githu423/website-slip-gaji'
+    githubUrl: 'https://github.com/githu423/website-slip-gaji',
   },
   'proj-2': {
     image: 'assets/images/project-02.jpg',
     liveUrl: 'https://cipakat-hub.example.com',
-    githubUrl: 'https://github.com/githu423/cipakat-hub'
+    githubUrl: 'https://github.com/githu423/cipakat-hub',
   },
   'proj-3': {
     image: 'assets/images/project-03.jpg',
     liveUrl: 'https://dispar-ciamis-internal.example.com',
-    githubUrl: 'https://github.com/githu423/dinas-pariwisata-internal'
+    githubUrl: 'https://github.com/githu423/dinas-pariwisata-internal',
   },
   'proj-4': {
     image: 'assets/images/project-04.jpg',
     liveUrl: 'https://umkm-rajut-tasik.example.com',
-    githubUrl: 'https://github.com/githu423/umkm-rajut-tasik'
-  }
+    githubUrl: 'https://github.com/githu423/umkm-rajut-tasik',
+  },
 };
 
 function getProjectData(projectId) {
@@ -38,7 +38,7 @@ function getProjectData(projectId) {
     tags: tArray(`proj.${number}.tags`),
     description: t(`proj.${number}.description`),
     purpose: t(`proj.${number}.purpose`),
-    ...links
+    ...links,
   };
 }
 
@@ -75,7 +75,6 @@ function initLanguageReactiveViews() {
     if (firstBotBubble && !hasUserMessage) firstBotBubble.innerHTML = t('chat.greeting');
   });
 }
-
 
 // -------------------- THEME (DARK / LIGHT MODE) --------------------
 function initTheme() {
@@ -114,7 +113,7 @@ function initTheme() {
 // -------------------- HERO CODE SNIPPET SWITCHER --------------------
 function switchCodeTab(tabKey) {
   const tabs = document.querySelectorAll('.code-tab');
-  tabs.forEach(tab => {
+  tabs.forEach((tab) => {
     tab.classList.toggle('active', tab.getAttribute('data-tab') === tabKey);
   });
   refreshActiveCodeTab();
@@ -131,12 +130,12 @@ function refreshActiveCodeTab() {
 // -------------------- SKILL & PROJECT FILTERING --------------------
 function filterSkills(category) {
   const tabs = document.querySelectorAll('.skill-tab-btn');
-  tabs.forEach(tab => {
+  tabs.forEach((tab) => {
     tab.classList.toggle('active', tab.getAttribute('data-filter') === category);
   });
 
   const cards = document.querySelectorAll('.skills-group-card');
-  cards.forEach(card => {
+  cards.forEach((card) => {
     if (category === 'all') {
       card.classList.remove('hidden');
     } else {
@@ -148,12 +147,12 @@ function filterSkills(category) {
 
 function filterProjects(category) {
   const buttons = document.querySelectorAll('.proj-filter-btn');
-  buttons.forEach(btn => {
+  buttons.forEach((btn) => {
     btn.classList.toggle('active', btn.getAttribute('data-filter') === category);
   });
 
   const cards = document.querySelectorAll('.project-card');
-  cards.forEach(card => {
+  cards.forEach((card) => {
     if (category === 'all') {
       card.classList.remove('hidden');
     } else {
@@ -167,51 +166,57 @@ function filterProjects(category) {
 function initScrollAnimations() {
   const revealElements = document.querySelectorAll('.reveal-on-scroll');
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('revealed');
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
 
-        const bars = entry.target.querySelectorAll('.skill-bar');
-        bars.forEach(bar => {
-          const width = bar.getAttribute('data-width');
-          if (width) bar.style.width = width;
-        });
-      }
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+          const bars = entry.target.querySelectorAll('.skill-bar');
+          bars.forEach((bar) => {
+            const width = bar.getAttribute('data-width');
+            if (width) bar.style.width = width;
+          });
+        }
+      });
+    },
+    { threshold: 0.12, rootMargin: '0px 0px -40px 0px' },
+  );
 
-  revealElements.forEach(el => observer.observe(el));
+  revealElements.forEach((el) => observer.observe(el));
 }
 
 function initCounters() {
   const counterElements = document.querySelectorAll('.counter');
   let hasAnimated = false;
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && !hasAnimated) {
-        hasAnimated = true;
-        counterElements.forEach(counter => {
-          const target = +counter.getAttribute('data-target');
-          let count = 0;
-          const speed = 120;
-          const increment = Math.ceil(target / speed) || 1;
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          hasAnimated = true;
+          counterElements.forEach((counter) => {
+            const target = +counter.getAttribute('data-target');
+            let count = 0;
+            const speed = 120;
+            const increment = Math.ceil(target / speed) || 1;
 
-          const updateCounter = () => {
-            count += increment;
-            if (count < target) {
-              counter.innerText = count + '+';
-              setTimeout(updateCounter, 25);
-            } else {
-              counter.innerText = target + '+';
-            }
-          };
-          updateCounter();
-        });
-      }
-    });
-  }, { threshold: 0.5 });
+            const updateCounter = () => {
+              count += increment;
+              if (count < target) {
+                counter.innerText = count + '+';
+                setTimeout(updateCounter, 25);
+              } else {
+                counter.innerText = target + '+';
+              }
+            };
+            updateCounter();
+          });
+        }
+      });
+    },
+    { threshold: 0.5 },
+  );
 
   const heroStats = document.querySelector('.profile-card-footer');
   if (heroStats) observer.observe(heroStats);
@@ -221,17 +226,13 @@ function initCounters() {
 function initNavbarScroll() {
   const navbar = document.getElementById('navbar');
   const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-link');
+  const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
 
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 30) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
-    }
+  function updateScrollState() {
+    if (navbar) navbar.classList.toggle('scrolled', window.scrollY > 30);
 
     let currentSection = '';
-    sections.forEach(section => {
+    sections.forEach((section) => {
       const sectionTop = section.offsetTop - 120;
       const sectionHeight = section.offsetHeight;
       if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
@@ -239,10 +240,13 @@ function initNavbarScroll() {
       }
     });
 
-    navLinks.forEach(link => {
+    navLinks.forEach((link) => {
       link.classList.toggle('active', link.getAttribute('href') === `#${currentSection}`);
     });
-  }, { passive: true });
+  }
+
+  window.addEventListener('scroll', updateScrollState, { passive: true });
+  updateScrollState();
 }
 
 // -------------------- MOBILE DRAWER NAV --------------------
@@ -260,7 +264,7 @@ function initMobileNav() {
       drawer.setAttribute('aria-hidden', String(isOpen));
     });
 
-    links.forEach(link => {
+    links.forEach((link) => {
       link.addEventListener('click', () => {
         drawer.classList.remove('open');
         hamburgerBtn.classList.remove('open');
@@ -315,11 +319,14 @@ function initTypewriter() {
 
 // -------------------- TOAST & CLIPBOARD --------------------
 function copyToClipboard(text, label) {
-  navigator.clipboard.writeText(text).then(() => {
-    showToast(t('toast.copied', { label }));
-  }).catch(() => {
-    showToast(t('toast.copied', { label: text }));
-  });
+  navigator.clipboard
+    .writeText(text)
+    .then(() => {
+      showToast(t('toast.copied', { label }));
+    })
+    .catch(() => {
+      showToast(t('toast.copied', { label: text }));
+    });
 }
 
 function showToast(message) {
@@ -367,7 +374,9 @@ function renderProjectModal() {
   if (desc) desc.textContent = project.description;
   if (purpose) purpose.textContent = project.purpose;
   if (techs) {
-    techs.innerHTML = project.tags.map(tag => `<span class="tech-badge">${escapeHTML(tag)}</span>`).join('');
+    techs.innerHTML = project.tags
+      .map((tag) => `<span class="tech-badge">${escapeHTML(tag)}</span>`)
+      .join('');
   }
   if (liveBtn) liveBtn.href = project.liveUrl;
   if (githubBtn) githubBtn.href = project.githubUrl;
@@ -446,7 +455,7 @@ function initContactForm() {
     if (submitIcon) submitIcon.className = isEmail ? 'fa-solid fa-envelope' : 'fa-brands fa-whatsapp';
   }
 
-  methodInputs.forEach(input => input.addEventListener('change', updateMethodUI));
+  methodInputs.forEach((input) => input.addEventListener('change', updateMethodUI));
   document.addEventListener('languagechange', updateMethodUI);
   updateMethodUI();
 
@@ -488,7 +497,7 @@ function initContactForm() {
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       });
       result = await response.json().catch(() => ({}));
 
@@ -520,7 +529,9 @@ function initContactForm() {
       window.open(waUrl, '_blank');
       form.reset();
       updateMethodUI();
-      setTimeout(() => { if (successAlert) successAlert.style.display = 'none'; }, 4000);
+      setTimeout(() => {
+        if (successAlert) successAlert.style.display = 'none';
+      }, 4000);
     }, 900);
   }
 
@@ -619,7 +630,7 @@ function initChatbot() {
         const response = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message, language: getLanguage() })
+          body: JSON.stringify({ message, language: getLanguage() }),
         });
 
         const data = await response.json();
@@ -726,7 +737,10 @@ function escapeHTML(str) {
 
 function formatMarkdown(text) {
   return text
-    .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="chat-link">$1</a>')
+    .replace(
+      /\[(.*?)\]\((.*?)\)/g,
+      '<a href="$2" target="_blank" rel="noopener noreferrer" class="chat-link">$1</a>',
+    )
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>')
     .replace(/\n\n/g, '<br><br>')
@@ -741,12 +755,15 @@ function getLocalDialogueReply(rawQuery, language = getLanguage()) {
   const text = rawQuery.toLowerCase();
 
   if (/terima kasih|makasih|matur suwun|hatur nuhun|thank|thanks/.test(text)) return t('chat.thanks');
-  if (/full.?time|full time|rekrut|career|karier|hire|magang|internship|peluang|opportunit/.test(text)) return t('chat.opportunities');
-  if (/kontak|contact|whatsapp|whats app|\bwa\b|email|hubungi|telepon|phone|mail/.test(text)) return t('chat.contact');
+  if (/full.?time|full time|rekrut|career|karier|hire|magang|internship|peluang|opportunit/.test(text))
+    return t('chat.opportunities');
+  if (/kontak|contact|whatsapp|whats app|\bwa\b|email|hubungi|telepon|phone|mail/.test(text))
+    return t('chat.contact');
   if (/siapa|profil|biodata|tentang|about|who/.test(text)) return t('chat.who');
   if (/proyek|project|karya|portfolio|portofolio/.test(text)) return t('chat.projects');
   if (/skill|keahlian|stack|laravel|php|mysql|javascript|tech|html|css/.test(text)) return t('chat.skills');
-  if (/pkl|magang|intern|pengalaman|experience|organisasi|organization|himasi|bem|ketua/.test(text)) return t('chat.experience');
+  if (/pkl|magang|intern|pengalaman|experience|organisasi|organization|himasi|bem|ketua/.test(text))
+    return t('chat.experience');
   if (/halo|hai|hi|hello|assalamu|selamat|hey|how are you|apa kabar/.test(text)) return t('chat.greeting');
   return t('chat.default');
 }
