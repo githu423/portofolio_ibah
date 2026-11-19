@@ -530,6 +530,22 @@ const I18N = {
     "ui.jump": "Lompat ke konten",
     "nav.more": "Lainnya",
     "nav.moreLabel": "Menu navigasi lainnya",
+    a_email_title: "Kirim Email (ibahmisbahh6@gmail.com)",
+    "wa.general":
+      "Halo Ibah, saya melihat portofolio Anda dan ingin berdiskusi.",
+    "wa.collab":
+      "Halo Ibah, saya ingin berdiskusi mengenai peluang kerja sama.",
+    "wa.backend":
+      "Halo Ibah, saya ingin berkonsultasi tentang Back-End Laravel.",
+    "wa.database":
+      "Halo Ibah, saya ingin berkonsultasi tentang Database MySQL.",
+    "wa.frontend":
+      "Halo Ibah, saya ingin berkonsultasi tentang Front-End Development.",
+    "wa.website":
+      "Halo Ibah, saya ingin berkonsultasi tentang pembuatan website.",
+    "wa.cv": "Halo Ibah, saya sudah melihat CV Anda dan ingin berdiskusi.",
+    "wa.message":
+      "Halo Ibah, saya {name}.\n\nSaya melihat portofolio Anda dan ingin berdiskusi:\nTopik: {subject}\nPesan: {message}",
   },
   en: {
     t_d0fb5811d2: "Text copied successfully!",
@@ -1053,6 +1069,19 @@ const I18N = {
     "ui.jump": "Skip to content",
     "nav.more": "More",
     "nav.moreLabel": "More navigation links",
+    a_email_title: "Send Email (ibahmisbahh6@gmail.com)",
+    "wa.general":
+      "Hi Ibah, I came across your portfolio and would like to connect.",
+    "wa.collab":
+      "Hi Ibah, I would like to discuss a collaboration opportunity.",
+    "wa.backend":
+      "Hi Ibah, I would like to discuss Laravel back-end development.",
+    "wa.database": "Hi Ibah, I would like to discuss a MySQL database project.",
+    "wa.frontend": "Hi Ibah, I would like to discuss front-end development.",
+    "wa.website": "Hi Ibah, I would like to discuss building a website.",
+    "wa.cv": "Hi Ibah, I have looked at your CV and would like to connect.",
+    "wa.message":
+      "Hi Ibah, I am {name}.\n\nI came across your portfolio and would like to discuss:\nTopic: {subject}\nMessage: {message}",
   },
 };
 

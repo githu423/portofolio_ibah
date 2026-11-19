@@ -50,6 +50,7 @@ function getCodeSnippet(tabKey) {
 // 3. INITIALIZE ON DOM READY
 document.addEventListener('DOMContentLoaded', () => {
   initLanguageSwitcher();
+  refreshWhatsAppLinks();
   initTheme();
   initNavbarScroll();
   initMobileNav();
@@ -67,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function initLanguageReactiveViews() {
   document.addEventListener('languagechange', () => {
     refreshActiveCodeTab();
+    refreshWhatsAppLinks();
     initTypewriter();
     if (document.getElementById('projectModal')?.classList.contains('open')) {
       renderProjectModal();
@@ -304,6 +306,15 @@ function initNavDropdown() {
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') closeDropdown();
+  });
+}
+
+// -------------------- LOCALIZED WHATSAPP PRE-FILL --------------------
+function refreshWhatsAppLinks(root = document) {
+  root.querySelectorAll('[data-wa-query]').forEach((link) => {
+    const href = link.getAttribute('href') || '';
+    const base = href.split('?')[0];
+    link.setAttribute('href', `${base}?text=${encodeURIComponent(t(link.getAttribute('data-wa-query')))}`);
   });
 }
 
@@ -554,7 +565,7 @@ function initContactForm() {
   }
 
   function sendViaWhatsApp(name, subject, message) {
-    const waText = `Halo Ibah, saya ${name}.\n\nSaya melihat portofolio Anda dan ingin berdiskusi mengenai:${'\n'}Topik: ${subject}\nPesan: ${message}`;
+    const waText = t('wa.message', { name, subject, message });
     const waUrl = `https://wa.me/6282219678296?text=${encodeURIComponent(waText)}`;
     showAlert('success', t('form.successWaTitle'), t('form.successWaText'));
     setTimeout(() => {
