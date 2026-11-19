@@ -2919,6 +2919,149 @@ body {
   background-color: var(--accent-blue-hover);
 }
 
+/* -------------------- LANGUAGE SWITCHER & ENHANCED CONTACT -------------------- */
+.lang-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+}
+
+.lang-btn {
+  min-width: 34px;
+  padding: 0.25rem 0.5rem;
+  border: none;
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.lang-btn:hover { color: var(--accent-blue); }
+
+.lang-btn.active {
+  background-color: var(--accent-blue);
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+.lang-divider {
+  width: 1px;
+  height: 14px;
+  background-color: var(--border-color);
+}
+
+.mobile-lang-switcher { flex-shrink: 0; }
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.contact-method-switch {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.method-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-secondary);
+  color: var(--text-body);
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.method-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.method-option:has(input:checked) {
+  border-color: var(--accent-blue);
+  background-color: var(--accent-blue-light);
+  color: var(--accent-blue);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.method-option:hover { border-color: var(--accent-blue); }
+.method-email i { color: var(--accent-blue); }
+.method-whatsapp i { color: var(--accent-green); }
+
+.form-help-text {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  text-align: center;
+}
+
+.form-alert-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  padding: 1rem 1.2rem;
+  background-color: #FEF2F2;
+  border: 1px solid #FECACA;
+  border-radius: var(--radius-sm);
+  color: #B91C1C;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+[data-theme="dark"] .form-alert-error {
+  background-color: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: #FCA5A5;
+}
+
+.form-alert-error .alert-icon { color: #EF4444; }
+
+.avail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.btn-avail-email {
+  background-color: transparent;
+  color: #FFFFFF;
+  padding: 0.9rem 2rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  transition: all var(--transition-fast);
+}
+
+.btn-avail-email:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+}
+
 /* -------------------- 19. RESPONSIVE BREAKPOINTS -------------------- */
 @media (max-width: 1200px) {
   .services-grid {
@@ -2997,6 +3140,10 @@ body {
     grid-template-columns: 1fr;
   }
 
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
   .services-grid {
     grid-template-columns: 1fr;
   }
@@ -3038,6 +3185,17 @@ body {
 
   .btn {
     width: 100%;
+  }
+
+  .contact-method-switch {
+    grid-template-columns: 1fr;
+  }
+
+  .avail-actions { width: 100%; }
+  .avail-actions .btn-avail-cta,
+  .avail-actions .btn-avail-email {
+    width: 100%;
+    justify-content: center;
   }
 
   .floating-callout-pill {

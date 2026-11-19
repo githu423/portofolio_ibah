@@ -8,19 +8,21 @@
 const IBAH_PROFILE = {
   personal: {
     name: "Ibah Misbah",
-    role: "Freelance Web Developer",
+    role: "Web Developer & Information Systems Student",
     location: "Kabupaten Ciamis",
     email: "ibahmisbahh6@gmail.com",
     phone: "082219678296",
     whatsappUrl: "https://wa.me/6282219678296?text=Halo%20Ibah,%20saya%20tertarik%20berdiskusi%20mengenai%20project%20website",
     githubUrl: "https://github.com/githu423",
     linkedinUrl: "https://linkedin.com/in/ibah-misbah",
-    bio: "Ibah Misbah adalah Freelance Web Developer dan mahasiswa Sistem Informasi dengan pengalaman mengembangkan solusi berbasis website untuk kebutuhan akademik, organisasi, dan instansi. Berfokus menghasilkan website yang sesuai kebutuhan client.",
+    bio: "Ibah Misbah adalah web developer dan mahasiswa Sistem Informasi yang ingin dikenal lewat karya dan kontribusinya. Berpengalaman membangun solusi website untuk kebutuhan akademik, organisasi, instansi, dan UMKM. Terbuka untuk peran full-time, proyek freelance, dan kolaborasi tim.",
     availability: {
-      status: "Available for Work",
-      type: "Freelance Part-Time",
-      workMode: "Remote",
-      time: "Evening Availability"
+      status: "Open to Work",
+      openTo: ["Full-Time Employment", "Freelance Projects", "Internship / Collaboration"],
+      type: "Full-Time or Freelance",
+      workMode: "Remote / Hybrid / On-Site (Ciamis–Tasikmalaya)",
+      time: "Flexible",
+      contactChannels: ["WhatsApp", "Email"]
     }
   },
 

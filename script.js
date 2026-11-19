@@ -5,55 +5,51 @@
  * ==============================================================================
  */
 
-// 1. DATA PROJECTS DEFINITION (RICH DETAILS)
-const PROJECTS_DATA = {
+// 1. PROJECT DATA — bilingual content comes from i18n.js
+const PROJECT_LINKS = {
   'proj-1': {
-    title: 'Website Sortir Slip Gaji',
     image: 'assets/images/project-01.jpg',
-    tags: ['HTML5', 'CSS3', 'JavaScript', 'Excel Parsing', 'Client-Side Export'],
-    description: 'Proyek otomasi pengolahan dokumen keuangan untuk menyelesaikan bottleneck penyortiran data slip gaji staf. Mengubah file spreadsheet Excel menjadi dokumen Word/PDF siap cetak secara digital tanpa upload ke server.',
-    purpose: 'Meningkatkan efisiensi kerja staf administrasi dinas dalam mendistribusikan slip gaji dan menghemat ribuan lembar penggunaan kertas melalui alur digital terstruktur.',
     liveUrl: 'https://githu423.github.io/website-slip-gaji',
     githubUrl: 'https://github.com/githu423/website-slip-gaji'
   },
   'proj-2': {
-    title: 'Cipakat-Hub (Sistem Informasi Desa)',
     image: 'assets/images/project-02.jpg',
-    tags: ['Laravel', 'PHP', 'MySQL', 'Bootstrap', 'JavaScript', 'MVC Architecture'],
-    description: 'Platform sistem informasi terpadu desa untuk mendukung alur pengaduan masyarakat secara transparan, pengajuan surat pengantar mandiri, permohonan pinjaman, booking fasilitas umum, dan showcase produk UMKM lokal.',
-    purpose: 'Mendigitalisasi layanan administrasi desa agar lebih cepat, transparan, dan memperluas pemasaran produk UMKM warga desa.',
     liveUrl: 'https://cipakat-hub.example.com',
     githubUrl: 'https://github.com/githu423/cipakat-hub'
   },
   'proj-3': {
-    title: 'Website Internal Dinas Pariwisata Ciamis',
     image: 'assets/images/project-03.jpg',
-    tags: ['Laravel', 'PHP', 'MySQL', 'Tailwind CSS', 'Role-Based Access', 'Paperless'],
-    description: 'Solusi portal informasi dan dashboard internal untuk mendukung alur kerja koordinasi rapat instansi, arsip notulensi, dan mengurangi ketergantungan dokumen fisik berbasis kertas.',
-    purpose: 'Mempercepat alur distribusi bahan rapat, transparansi agenda sekretariat, dan efisiensi arsip instansi pemerintahan daerah.',
     liveUrl: 'https://dispar-ciamis-internal.example.com',
     githubUrl: 'https://github.com/githu423/dinas-pariwisata-internal'
   },
   'proj-4': {
-    title: 'Landing Page UMKM Rajut Tasikmalaya',
     image: 'assets/images/project-04.jpg',
-    tags: ['Laravel', 'PHP', 'MySQL', 'JavaScript', 'Tailwind CSS', 'SEO Friendly'],
-    description: 'Landing page promosi komersial modern berkinerja tinggi untuk memperkenalkan produk kerajinan rajut lokal Tasikmalaya kepada pasar nasional dan internasional.',
-    purpose: 'Membantu pelaku UMKM rajut lokal memiliki etalase digital profesional yang responsif di smartphone serta meningkatkan konversi pemesanan produk.',
     liveUrl: 'https://umkm-rajut-tasik.example.com',
     githubUrl: 'https://github.com/githu423/umkm-rajut-tasik'
   }
 };
 
-// 2. CODE TAB CONTENT DEFINITIONS (HERO INTERACTION)
-const CODE_SNIPPETS = {
-  config: `{\n  <span class="code-key">"developer"</span>: <span class="code-str">"Ibah Misbah"</span>,\n  <span class="code-key">"role"</span>: <span class="code-str">"Freelance Web Developer"</span>,\n  <span class="code-key">"status"</span>: <span class="code-str">"Available for Projects"</span>,\n  <span class="code-key">"location"</span>: <span class="code-str">"Kab. Ciamis, Jawa Barat"</span>,\n  <span class="code-key">"frameworks"</span>: [<span class="code-str">"Laravel"</span>, <span class="code-str">"PHP"</span>, <span class="code-str">"MySQL"</span>]\n}`,
-  stack: `export const techStack = {\n  <span class="code-key">backend</span>: [<span class="code-str">"PHP"</span>, <span class="code-str">"Laravel (MVC)"</span>, <span class="code-str">"Node.js"</span>],\n  <span class="code-key">database</span>: [<span class="code-str">"MySQL Relational"</span>, <span class="code-str">"XAMPP"</span>],\n  <span class="code-key">frontend</span>: [<span class="code-str">"HTML5"</span>, <span class="code-str">"CSS3"</span>, <span class="code-str">"JavaScript"</span>, <span class="code-str">"Tailwind"</span>],\n  <span class="code-key">tools</span>: [<span class="code-str">"Git / GitHub"</span>, <span class="code-str">"VS Code"</span>]\n};`,
-  contact: `# Verified Direct Credentials\n<span class="code-key">WHATSAPP</span>=<span class="code-str">"082219678296"</span>\n<span class="code-key">EMAIL</span>=<span class="code-str">"ibahmisbahh6@gmail.com"</span>\n<span class="code-key">GITHUB</span>=<span class="code-str">"https://github.com/githu423"</span>\n<span class="code-key">LOCATION</span>=<span class="code-str">"Kabupaten Ciamis, ID"</span>`
-};
+function getProjectData(projectId) {
+  const links = PROJECT_LINKS[projectId];
+  if (!links) return null;
+  const number = projectId.split('-')[1];
+  return {
+    title: t(`proj.${number}.title`),
+    tags: tArray(`proj.${number}.tags`),
+    description: t(`proj.${number}.description`),
+    purpose: t(`proj.${number}.purpose`),
+    ...links
+  };
+}
+
+// 2. CODE TAB CONTENT — bilingual snippets from i18n.js
+function getCodeSnippet(tabKey) {
+  return t(`code.${tabKey}`);
+}
 
 // 3. INITIALIZE ON DOM READY
 document.addEventListener('DOMContentLoaded', () => {
+  initLanguageSwitcher();
   initTheme();
   initNavbarScroll();
   initMobileNav();
@@ -62,7 +58,24 @@ document.addEventListener('DOMContentLoaded', () => {
   initCounters();
   initContactForm();
   initChatbot();
+  initLanguageReactiveViews();
+  refreshActiveCodeTab();
 });
+
+// Re-render dynamic UI pieces whenever the language changes
+function initLanguageReactiveViews() {
+  document.addEventListener('languagechange', () => {
+    refreshActiveCodeTab();
+    initTypewriter();
+    if (document.getElementById('projectModal')?.classList.contains('open')) {
+      renderProjectModal();
+    }
+    const firstBotBubble = document.querySelector('#aiMessagesContainer .ai-chat-bubble.bot .bubble-content');
+    const hasUserMessage = document.querySelector('#aiMessagesContainer .ai-chat-bubble.user');
+    if (firstBotBubble && !hasUserMessage) firstBotBubble.innerHTML = t('chat.greeting');
+  });
+}
+
 
 // -------------------- THEME (DARK / LIGHT MODE) --------------------
 function initTheme() {
@@ -93,7 +106,7 @@ function initTheme() {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
     if (mobileThemeLabel) {
-      mobileThemeLabel.textContent = theme === 'dark' ? 'Light Mode' : 'Dark Mode';
+      mobileThemeLabel.textContent = t(theme === 'dark' ? 'theme.light' : 'theme.dark');
     }
   }
 }
@@ -104,10 +117,14 @@ function switchCodeTab(tabKey) {
   tabs.forEach(tab => {
     tab.classList.toggle('active', tab.getAttribute('data-tab') === tabKey);
   });
+  refreshActiveCodeTab();
+}
 
+function refreshActiveCodeTab() {
   const display = document.getElementById('codeContentDisplay');
-  if (display && CODE_SNIPPETS[tabKey]) {
-    display.innerHTML = `<code>${CODE_SNIPPETS[tabKey]}</code>`;
+  const activeTab = document.querySelector('.code-tab.active');
+  if (display && activeTab) {
+    display.innerHTML = `<code>${getCodeSnippet(activeTab.getAttribute('data-tab'))}</code>`;
   }
 }
 
@@ -255,24 +272,22 @@ function initMobileNav() {
 }
 
 // -------------------- TYPEWRITER ANIMATION --------------------
+let typeWriterTimeout = null;
+
 function initTypewriter() {
   const roleEl = document.getElementById('heroRoleText');
   if (!roleEl) return;
 
-  const roles = [
-    'FREELANCE WEB DEVELOPER',
-    'LARAVEL & PHP SPECIALIST',
-    'MYSQL DATABASE BUILDER',
-    'SISTEM INFORMASI UBSI'
-  ];
+  if (typeWriterTimeout) clearTimeout(typeWriterTimeout);
 
+  const roles = tArray('roles');
   let roleIdx = 0;
   let charIdx = 0;
   let isDeleting = false;
   let typeSpeed = 90;
 
   function type() {
-    const current = roles[roleIdx];
+    const current = roles[roleIdx] || '';
     if (isDeleting) {
       roleEl.textContent = current.substring(0, charIdx - 1);
       charIdx--;
@@ -292,7 +307,7 @@ function initTypewriter() {
       typeSpeed = 400;
     }
 
-    setTimeout(type, typeSpeed);
+    typeWriterTimeout = setTimeout(type, typeSpeed);
   }
 
   type();
@@ -301,9 +316,9 @@ function initTypewriter() {
 // -------------------- TOAST & CLIPBOARD --------------------
 function copyToClipboard(text, label) {
   navigator.clipboard.writeText(text).then(() => {
-    showToast(`${label} berhasil disalin ke clipboard!`);
+    showToast(t('toast.copied', { label }));
   }).catch(() => {
-    showToast(`Disalin: ${text}`);
+    showToast(t('toast.copied', { label: text }));
   });
 }
 
@@ -320,11 +335,22 @@ function showToast(message) {
 }
 
 // -------------------- PROJECT & CV MODALS --------------------
+let activeProjectId = null;
+
 function openProjectModal(projectId) {
-  const project = PROJECTS_DATA[projectId];
-  if (!project) return;
+  if (!getProjectData(projectId)) return;
+  activeProjectId = projectId;
+  renderProjectModal();
 
   const modal = document.getElementById('projectModal');
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function renderProjectModal() {
+  const project = getProjectData(activeProjectId);
+  if (!project) return;
+
   const title = document.getElementById('modalProjectTitle');
   const img = document.getElementById('modalProjectImg');
   const techs = document.getElementById('modalProjectTechs');
@@ -340,18 +366,11 @@ function openProjectModal(projectId) {
   }
   if (desc) desc.textContent = project.description;
   if (purpose) purpose.textContent = project.purpose;
-
   if (techs) {
-    techs.innerHTML = project.tags
-      .map(tag => `<span class="tech-badge">${tag}</span>`)
-      .join('');
+    techs.innerHTML = project.tags.map(tag => `<span class="tech-badge">${escapeHTML(tag)}</span>`).join('');
   }
-
   if (liveBtn) liveBtn.href = project.liveUrl;
   if (githubBtn) githubBtn.href = project.githubUrl;
-
-  modal.classList.add('open');
-  document.body.style.overflow = 'hidden';
 }
 
 function closeProjectModal() {
@@ -397,60 +416,158 @@ if (cvModal) {
   });
 }
 
-// -------------------- CONTACT FORM & WHATSAPP REDIRECT --------------------
+// -------------------- CONTACT FORM — EMAIL + WHATSAPP --------------------
 function initContactForm() {
   const form = document.getElementById('contactForm');
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
+  const nameInput = document.getElementById('senderName');
+  const emailInput = document.getElementById('senderEmail');
+  const subjectInput = document.getElementById('senderSubject');
+  const messageInput = document.getElementById('senderMessage');
+  const emailGroup = document.getElementById('emailGroup');
+  const submitLabel = document.getElementById('submitContactLabel');
+  const submitIcon = document.getElementById('submitContactIcon');
+  const submitBtn = document.getElementById('submitContactBtn');
+  const methodInputs = form.querySelectorAll('input[name="contactMethod"]');
+  const successAlert = document.getElementById('formSuccessAlert');
+  const errorAlert = document.getElementById('formErrorAlert');
 
-    const nameInput = document.getElementById('senderName');
-    const subjectInput = document.getElementById('senderSubject');
-    const messageInput = document.getElementById('senderMessage');
+  function selectedMethod() {
+    const checked = form.querySelector('input[name="contactMethod"]:checked');
+    return checked ? checked.value : 'email';
+  }
 
-    const nameError = document.getElementById('nameError');
-    const subjectError = document.getElementById('subjectError');
-    const messageError = document.getElementById('messageError');
+  function updateMethodUI() {
+    const isEmail = selectedMethod() === 'email';
+    if (emailGroup) emailGroup.style.display = isEmail ? '' : 'none';
+    if (emailInput) emailInput.required = isEmail;
+    if (submitLabel) submitLabel.textContent = t(isEmail ? 'form.submitEmail' : 'form.submitWhatsapp');
+    if (submitIcon) submitIcon.className = isEmail ? 'fa-solid fa-envelope' : 'fa-brands fa-whatsapp';
+  }
 
-    if (nameError) nameError.textContent = '';
-    if (subjectError) subjectError.textContent = '';
-    if (messageError) messageError.textContent = '';
+  methodInputs.forEach(input => input.addEventListener('change', updateMethodUI));
+  document.addEventListener('languagechange', updateMethodUI);
+  updateMethodUI();
 
-    let isValid = true;
+  function clearErrors() {
+    ['nameError', 'emailError', 'subjectError', 'messageError'].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = '';
+    });
+    if (successAlert) successAlert.style.display = 'none';
+    if (errorAlert) errorAlert.style.display = 'none';
+  }
 
-    if (!nameInput.value.trim()) {
-      if (nameError) nameError.textContent = 'Mohon masukkan nama Anda.';
-      isValid = false;
+  function showAlert(type, title, text) {
+    const alertEl = type === 'success' ? successAlert : errorAlert;
+    const titleEl = document.getElementById(type === 'success' ? 'formSuccessTitle' : 'formErrorTitle');
+    const textEl = document.getElementById(type === 'success' ? 'formSuccessText' : 'formErrorText');
+    if (titleEl) titleEl.textContent = title;
+    if (textEl) textEl.textContent = text;
+    if (alertEl) {
+      alertEl.style.display = 'flex';
+      alertEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+
+  function buildMailto(name, email, subject, message) {
+    const body = `Nama: ${name}\nEmail: ${email}\nTopik: ${subject}\n\n${message}`;
+    return `mailto:ibahmisbahh6@gmail.com?subject=${encodeURIComponent(`[Portfolio] ${subject}`)}&body=${encodeURIComponent(body)}`;
+  }
+
+  async function sendViaEmail(payload) {
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      const label = document.getElementById('submitContactLabel');
+      if (label) label.textContent = t('form.sending');
     }
 
-    if (!subjectInput.value) {
-      if (subjectError) subjectError.textContent = 'Mohon pilih topik kebutuhan proyek.';
-      isValid = false;
+    let result = null;
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      result = await response.json().catch(() => ({}));
+
+      if (result && result.mailto) {
+        window.location.href = result.mailto;
+        showAlert('error', t('form.errorTitle'), t('form.errorFallback'));
+      } else if (response.ok && result && result.success) {
+        showAlert('success', t('form.successEmailTitle'), t('form.successEmailText'));
+      } else {
+        const fallback = buildMailto(payload.name, payload.email, payload.subject, payload.message);
+        window.location.href = fallback;
+        showAlert('error', t('form.errorTitle'), t('form.errorFallback'));
+      }
+    } catch (err) {
+      const fallback = buildMailto(payload.name, payload.email, payload.subject, payload.message);
+      window.location.href = fallback;
+      showAlert('error', t('form.errorTitle'), t('form.errorFallback'));
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+      updateMethodUI();
     }
+  }
 
-    if (!messageInput.value.trim()) {
-      if (messageError) messageError.textContent = 'Mohon tuliskan pesan atau rincian project Anda.';
-      isValid = false;
-    }
-
-    if (!isValid) return;
-
-    const name = nameInput.value.trim();
-    const subject = subjectInput.value;
-    const message = messageInput.value.trim();
-
-    const waText = `Halo Ibah, saya ${name}.\n\nSaya melihat portfolio Anda dan ingin berdiskusi mengenai project:\n*Topik:* ${subject}\n*Deskripsi:* ${message}`;
+  function sendViaWhatsApp(name, subject, message) {
+    const waText = `Halo Ibah, saya ${name}.\n\nSaya melihat portofolio Anda dan ingin berdiskusi mengenai:${'\n'}Topik: ${subject}\nPesan: ${message}`;
     const waUrl = `https://wa.me/6282219678296?text=${encodeURIComponent(waText)}`;
-
-    const alertEl = document.getElementById('formSuccessAlert');
-    if (alertEl) alertEl.style.display = 'flex';
-
+    showAlert('success', t('form.successWaTitle'), t('form.successWaText'));
     setTimeout(() => {
       window.open(waUrl, '_blank');
       form.reset();
-      if (alertEl) alertEl.style.display = 'none';
+      updateMethodUI();
+      setTimeout(() => { if (successAlert) successAlert.style.display = 'none'; }, 4000);
     }, 900);
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearErrors();
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const subject = subjectInput.value;
+    const message = messageInput.value.trim();
+    const method = selectedMethod();
+    let isValid = true;
+
+    if (!name) {
+      const el = document.getElementById('nameError');
+      if (el) el.textContent = t('form.errName');
+      isValid = false;
+    }
+    if (method === 'email') {
+      if (!email) {
+        const el = document.getElementById('emailError');
+        if (el) el.textContent = t('form.errEmail');
+        isValid = false;
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        const el = document.getElementById('emailError');
+        if (el) el.textContent = t('form.errEmailInvalid');
+        isValid = false;
+      }
+    }
+    if (!subject) {
+      const el = document.getElementById('subjectError');
+      if (el) el.textContent = t('form.errSubject');
+      isValid = false;
+    }
+    if (message.length < 10) {
+      const el = document.getElementById('messageError');
+      if (el) el.textContent = t('form.errMessage');
+      isValid = false;
+    }
+    if (!isValid) return;
+
+    if (method === 'whatsapp') {
+      sendViaWhatsApp(name, subject, message);
+    } else {
+      await sendViaEmail({ name, email, subject, message });
+    }
   });
 }
 
@@ -502,7 +619,7 @@ function initChatbot() {
         const response = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message })
+          body: JSON.stringify({ message, language: getLanguage() })
         });
 
         const data = await response.json();
@@ -511,14 +628,22 @@ function initChatbot() {
         if (data.reply) {
           appendBotBubble(formatMarkdown(data.reply));
         } else {
-          appendBotBubble(formatMarkdown(getLocalDialogueReply(message)));
+          appendBotBubble(formatMarkdown(getLocalDialogueReply(message, getLanguage())));
         }
       } catch (err) {
         removeLoadingBubble(loadingBubble);
-        appendBotBubble(formatMarkdown(getLocalDialogueReply(message)));
+        appendBotBubble(formatMarkdown(getLocalDialogueReply(message, getLanguage())));
       }
     });
   }
+}
+
+function sendChip(key) {
+  handleQuickChip(t(`chip.${key}`));
+}
+
+function openChatWithChip(key) {
+  openChatWithQuery(t(`chip.${key}`));
 }
 
 function handleQuickChip(query) {
@@ -583,7 +708,7 @@ function appendBotLoading() {
 
   const bubble = document.createElement('div');
   bubble.className = 'ai-chat-bubble bot loading';
-  bubble.innerHTML = `<div class="bubble-content"><i class="fa-solid fa-spinner fa-spin"></i> Menyiapkan jawaban detail...</div>`;
+  bubble.innerHTML = `<div class="bubble-content"><i class="fa-solid fa-spinner fa-spin"></i> ${t('chat.loading')}</div>`;
   container.appendChild(bubble);
   container.scrollTop = container.scrollHeight;
   return bubble;
@@ -610,120 +735,18 @@ function formatMarkdown(text) {
 }
 
 /**
- * Client-Side Instant Fallback Dialogue Engine
+ * Client-Side Instant Fallback Dialogue Engine (bilingual)
  */
-function getLocalDialogueReply(rawQuery) {
+function getLocalDialogueReply(rawQuery, language = getLanguage()) {
   const text = rawQuery.toLowerCase();
-  const clean = text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"']/g, ' ');
-  const words = clean.split(/\s+/).filter(Boolean);
 
-  const has = (...terms) => terms.some(t => text.includes(t));
-  const hasWord = (...terms) => terms.some(t => words.includes(t));
-
-  // Greetings
-  if (has('assalamu', 'assalamualaikum', 'samlikum')) {
-    return `Wa'alaikumussalam Warahmatullahi Wabarakatuh! 🙏✨\n\nSelamat datang di portofolio **Ibah Misbah**! Ada yang bisa saya bantu terkait proyek website, keahlian, atau peluang kerja sama?`;
-  }
-
-  if (hasWord('pagi', 'siang', 'sore', 'malam') && has('selamat', 'halo', 'hai', 'met')) {
-    return `Selamat berjumpa! 👋 Saya asisten virtual **Ibah Misbah**. Ada yang ingin Anda tanyakan seputar portofolio atau jasa web development?`;
-  }
-
-  if (has('apa kabar', 'gimana kabar')) {
-    return `Kabar saya sangat baik dan siap membantu Anda! 😊 Ibah Misbah saat ini berstatus **Available for Work** (siap menerima proyek freelance website remote). Ada proyek yang ingin Anda diskusikan?`;
-  }
-
-  if (hasWord('halo', 'hai', 'hi', 'hey', 'hello', 'bro', 'min', 'gan', 'bang', 'mas', 'kak', 'cuy') && words.length <= 4) {
-    return `Halo! 👋 Selamat datang di portfolio resmi **Ibah Misbah**.\n\nSaya siap menjawab pertanyaan Anda tentang:\n• 💻 **Keahlian Web** (Laravel, PHP, MySQL, Tailwind, JS)\n• 📁 **4 Proyek Nyata** (Aplikasi Slip Gaji, Cipakat-Hub, Sistem Dinas Pariwisata, UMKM Rajut)\n• 🏢 **Pengalaman PKL & Organisasi** (Dinas Pariwisata Ciamis, Ketua HIMASI UBSI)\n• 📋 **Alur Kerja Sama & Pemesanan Website**\n• 🟢 **Kontak WhatsApp (0822-1967-8296)**`;
-  }
-
-  // Gratitude
-  if (has('terima kasih', 'makasih', 'thanks', 'thank you')) {
-    return `Sama-sama! Senang bisa membantu Anda 😊 Jika ingin konsultasi langsung atau memulai kerja sama proyek website, silakan hubungi Ibah via WhatsApp di **0822-1967-8296**!`;
-  }
-
-  if (has('keren', 'bagus', 'mantap', 'hebat', 'clean', 'suka')) {
-    return `Terima kasih banyak atas apresiasinya! ✨ Portofolio ini dibangun dengan dedikasi tinggi mengutamakan desain bersih dan performa cepat.`;
-  }
-
-  // Location
-  if (has('tinggal di mana', 'tinggal dimana', 'orang mana', 'domisili', 'lokasi', 'alamat', 'ciamis')) {
-    return `📍 **Domisili Ibah Misbah:** Kabupaten Ciamis, Jawa Barat, Indonesia.\n\nIbah siap melayani proyek secara **Remote (Daring)** dari seluruh wilayah Indonesia maupun luar negeri.`;
-  }
-
-  // Tech comparisons
-  if (has('kenapa laravel', 'mengapa laravel', 'apa itu laravel', 'kelebihan laravel', 'laravel vs', 'laravel dan bukan')) {
-    return `**Kenapa Ibah Memilih Framework Laravel?** 🚀\n\n1. 🏗️ **Arsitektur MVC:** Kode terstruktur rapi memisahkan database, logic, dan UI.\n2. 🛡️ **Keamanan Bawaan:** Proteksi CSRF, XSS, dan SQL Injection.\n3. ⚡ **Eloquent ORM:** Manipulasi database relasional yang ekspresif & cepat.\n4. 📦 **Mudah Di-maintain:** Standar industri modern yang memudahkan ekspansi fitur.`;
-  }
-
-  if (has('kenapa mysql', 'mengapa mysql', 'apa itu mysql', 'kelebihan mysql')) {
-    return `**Kenapa Ibah Menggunakan MySQL?** 🗄️\n\nMySQL adalah sistem basis data relasional (RDBMS) standar industri yang terbukti cepat, andal, dan aman untuk merancang skema relasi tabel yang terstruktur rapi (1NF–3NF).`;
-  }
-
-  // Projects
-  if (has('slip gaji', 'sortir', 'excel')) {
-    return `📄 **Proyek 01: Website Sortir Slip Gaji (Otomasi Dokumen)**\n\n• **Masalah:** Staf keuangan memilah ribuan baris data Excel secara manual yang boros kertas & waktu.\n• **Solusi:** Aplikasi web client-side untuk mem-parsing Excel dan mengonversinya langsung ke Word/PDF siap cetak.\n• **Teknologi:** HTML5, CSS3, JavaScript.\n• **Repo:** [github.com/githu423/website-slip-gaji](https://github.com/githu423/website-slip-gaji)`;
-  }
-
-  if (has('cipakat', 'sistem desa')) {
-    return `🏛️ **Proyek 02: Cipakat-Hub (Platform Desa Terpadu)**\n\n• **Masalah:** Pelayanan birokrasi surat warga desa masih manual & produk UMKM belum terekspos.\n• **Solusi:** Web portal terpadu untuk pengajuan surat mandiri, tiket pengaduan transparan, booking fasilitas, dan etalase UMKM desa.\n• **Teknologi:** Laravel, PHP, MySQL, Bootstrap 5.\n• **Repo:** [github.com/githu423/cipakat-hub](https://github.com/githu423/cipakat-hub)`;
-  }
-
-  if (has('dinas pariwisata', 'dispar', 'rapat')) {
-    return `🏢 **Proyek 03: Website Internal Dinas Pariwisata Ciamis**\n\n• **Masalah:** Koordinasi rapat sering terhambat penumpukan dokumen fisik kertas.\n• **Solusi:** Portal dashboard internal *paperless* dengan otentikasi multi-role, arsip digital, dan notulensi rapat.\n• **Teknologi:** Laravel, PHP, MySQL, Tailwind CSS.\n• **Repo:** [github.com/githu423/dinas-pariwisata-internal](https://github.com/githu423/dinas-pariwisata-internal)`;
-  }
-
-  if (has('rajut', 'tasikmalaya')) {
-    return `🧶 **Proyek 04: Landing Page UMKM Rajut Tasikmalaya**\n\n• **Masalah:** Perajin rajut lokal Tasikmalaya kesulitan menjangkau pasar luar daerah.\n• **Solusi:** Landing page komersial mobile-first dengan galeri produk & checkout order langsung via WhatsApp.\n• **Teknologi:** Laravel, PHP, MySQL, JavaScript.\n• **Repo:** [github.com/githu423/umkm-rajut-tasik](https://github.com/githu423/umkm-rajut-tasik)`;
-  }
-
-  if (has('proyek', 'project', 'portofolio', 'karya')) {
-    return `Berikut 4 proyek unggulan **Ibah Misbah**:\n1. 📄 **Website Sortir Slip Gaji** (HTML, CSS, JS)\n2. 🏛️ **Cipakat-Hub** (Laravel, PHP, MySQL, Bootstrap)\n3. 🏢 **Website Internal Dinas Pariwisata** (Laravel, PHP, MySQL, Tailwind)\n4. 🧶 **Landing Page UMKM Rajut** (Laravel, PHP, MySQL, JS)\n\nDetail lengkap dapat dilihat di menu **Projects**.`;
-  }
-
-  // Experience
-  if (has('pkl', 'magang', 'dinas')) {
-    return `🏢 **PKL di Dinas Pariwisata Ciamis (Agt – Okt 2026):** Web Developer di Bidang Perencanaan, membangun sistem rapat internal paperless dan aplikasi sortir slip gaji Excel.`;
-  }
-
-  if (has('ketua', 'himasi', 'bem', 'organisasi')) {
-    return `👑 **Kepemimpinan Organisasi Ibah Misbah:**\n• **Ketua Umum HIMASI UBSI** (2026–2027)\n• **Anggota Kominfo BEM Setasik** (2025–2026)\n• **Koordinator Kominfo BEM UBSI** (2024–2025)\n• **Litbang HIMASI UBSI** (2024–2025)`;
-  }
-
-  // Skills
-  if (has('skill', 'keahlian', 'stack', 'laravel', 'php', 'mysql', 'javascript', 'tools')) {
-    return `💻 **Tech Stack Ibah Misbah:**\n• **Back-End:** PHP, Laravel Framework (MVC), Node.js (Basic)\n• **Database:** MySQL (Relasional, Query CRUD, XAMPP)\n• **Front-End:** HTML5, CSS3, JavaScript, Tailwind CSS, Bootstrap 5\n• **Tools:** Git/GitHub, VS Code, Canva, CapCut, PixelLab, Photoshop.`;
-  }
-
-  // Why Hire
-  if (has('kenapa', 'mengapa', 'alasan', 'kelebihan', 'keunggulan', 'apa bedanya')) {
-    return `Alasan utama memilih **Ibah Misbah**:\n1. **Kode & Database Rapi:** Mengikuti arsitektur MVC Laravel & normalisasi MySQL.\n2. **Solutif Nyata:** Berpengalaman membangun sistem instansi dinas & UMKM.\n3. **Komunikasi Cepat:** Diskusi langsung & transparan via WhatsApp (0822-1967-8296).\n4. **Jiwa Kepemimpinan:** Ketua Umum HIMASI UBSI teruji memimpin tim & proyek.`;
-  }
-
-  // Workflow
-  if (has('cara kerja', 'alur', 'cara pesan', 'cara order', 'tahapan')) {
-    return `Alur kerja sama pembuatan website dengan Ibah:\n1. **Konsultasi Kebutuhan:** Sampaikan ide via WhatsApp (0822-1967-8296).\n2. **Rancangan & Estimasi:** Penentuan arsitektur, timeline, dan biaya.\n3. **Tahap Development:** Koding UI/UX, backend Laravel, dan database MySQL.\n4. **Testing & Review:** Uji coba responsivitas dan revisi bersama Anda.\n5. **Deployment:** Website online siap digunakan!`;
-  }
-
-  // Timeline
-  if (has('berapa lama', 'lama pengerjaan', 'durasi', 'deadline')) {
-    return `⏱️ **Estimasi Waktu Pengerjaan:**\n• Landing Page UMKM: 3–5 hari kerja\n• Sistem Informasi Standar: 1–2 minggu\n• Web Kustom Kompleks: 2–4 minggu\n(Bisa disesuaikan jika ada deadline mendesak).`;
-  }
-
-  // Pricing
-  if (has('harga', 'tarif', 'biaya', 'budget', 'duit', 'ongkos', 'nego')) {
-    return `💰 **Tarif Pembuatan Website:** Fleksibel dan dapat disesuaikan dengan anggaran Anda (ramah UMKM, instansi, & mahasiswa). Pembayaran bertahap (sistem termin/DP). Silakan hubungi Ibah langsung via WhatsApp di **0822-1967-8296**.`;
-  }
-
-  // Contact
-  if (has('kontak', 'whatsapp', 'wa', 'nomor hp', 'email', 'telepon', 'hubungi')) {
-    return `📬 **Kanal Kontak Resmi Ibah Misbah:**\n• 🟢 **WhatsApp:** [0822-1967-8296](https://wa.me/6282219678296)\n• ✉️ **Email:** [ibahmisbahh6@gmail.com](mailto:ibahmisbahh6@gmail.com)\n• 🐙 **GitHub:** [github.com/githu423](https://github.com/githu423)\n• 💼 **LinkedIn:** [linkedin.com/in/ibah-misbah](https://linkedin.com/in/ibah-misbah)\n• 📍 **Domisili:** Kabupaten Ciamis, Jawa Barat`;
-  }
-
-  // Education
-  if (has('kuliah', 'kampus', 'universitas', 'sekolah', 'pendidikan', 'ubsi', 'jurusan', 'prodi', 's1')) {
-    return `🎓 **Pendidikan Ibah Misbah:**\n• **Institusi:** Universitas Bina Sarana Informatika (UBSI) Kampus Tasikmalaya\n• **Program Studi:** S1 Sistem Informasi (2024–2027)\n• **Fakultas:** Fakultas Teknik & Informatika`;
-  }
-
-  return `Pertanyaan yang bagus! 😊 Saya siap menjelaskan seputar keahlian web, 4 proyek nyata, pengalaman PKL Dinas Pariwisata Ciamis, organisasi HIMASI/BEM, atau alur pembuatan website Ibah. Anda juga bisa langsung chat dengan Ibah di WhatsApp **0822-1967-8296**!`;
+  if (/terima kasih|makasih|matur suwun|hatur nuhun|thank|thanks/.test(text)) return t('chat.thanks');
+  if (/full.?time|full time|rekrut|career|karier|hire|magang|internship|peluang|opportunit/.test(text)) return t('chat.opportunities');
+  if (/kontak|contact|whatsapp|whats app|\bwa\b|email|hubungi|telepon|phone|mail/.test(text)) return t('chat.contact');
+  if (/siapa|profil|biodata|tentang|about|who/.test(text)) return t('chat.who');
+  if (/proyek|project|karya|portfolio|portofolio/.test(text)) return t('chat.projects');
+  if (/skill|keahlian|stack|laravel|php|mysql|javascript|tech|html|css/.test(text)) return t('chat.skills');
+  if (/pkl|magang|intern|pengalaman|experience|organisasi|organization|himasi|bem|ketua/.test(text)) return t('chat.experience');
+  if (/halo|hai|hi|hello|assalamu|selamat|hey|how are you|apa kabar/.test(text)) return t('chat.greeting');
+  return t('chat.default');
 }

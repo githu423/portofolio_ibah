@@ -9,7 +9,9 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const nodemailer = require('nodemailer');
 const IBAH_PROFILE = require('./data/ibah-profile');
+const { getEnglishReply, getEnglishFallback } = require('./data/chat-english');
 
 const app = express();
 const PORT = process.env.PORT || 5173;
@@ -46,6 +48,120 @@ function rateLimiter(req, res, next) {
   next();
 }
 
+// -----------------------------------------------------------------------------
+// CONTACT: send the visitor's message straight to Ibah's email inbox.
+// SMTP can be configured through environment variables. If it is not configured
+// yet, the API returns a prefilled mailto: link so the form still reaches Ibah.
+// -----------------------------------------------------------------------------
+const CONTACT_EMAIL_TO = process.env.CONTACT_EMAIL_TO || 'ibahmisbahh6@gmail.com';
+const SMTP_CONFIGURED = Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS);
+let mailTransporter = null;
+
+function getMailTransporter() {
+  if (!SMTP_CONFIGURED) return null;
+  if (!mailTransporter) {
+    mailTransporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT) || 587,
+      secure: process.env.SMTP_SECURE === 'true',
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS
+      }
+    });
+  }
+  return mailTransporter;
+}
+
+const contactRateMap = new Map();
+const CONTACT_WINDOW_MS = 10 * 60 * 1000;
+const MAX_CONTACT_PER_WINDOW = 12;
+
+function contactRateLimiter(req, res, next) {
+  const ip = req.ip || req.connection.remoteAddress || 'client';
+  const now = Date.now();
+  const entry = contactRateMap.get(ip) || { count: 0, first: now };
+  if (now - entry.first > CONTACT_WINDOW_MS) {
+    entry.count = 1;
+    entry.first = now;
+  } else {
+    entry.count += 1;
+  }
+  contactRateMap.set(ip, entry);
+  if (entry.count > MAX_CONTACT_PER_WINDOW) {
+    return res.status(429).json({
+      success: false,
+      error: 'Too many messages in a short time. Please try again in a few minutes.'
+    });
+  }
+  next();
+}
+
+function buildMailtoLink(payload) {
+  const body = `Nama: ${payload.name}\nEmail: ${payload.email}\nTopik: ${payload.subject}\n\n${payload.message}`;
+  return `mailto:${CONTACT_EMAIL_TO}?subject=${encodeURIComponent(`[Portfolio] ${payload.subject}`)}&body=${encodeURIComponent(body)}`;
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (char) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[char]));
+}
+
+app.post('/api/contact', contactRateLimiter, async (req, res) => {
+  const clean = (value) => (typeof value === 'string' ? value.replace(/[\r\n]+/g, ' ').trim() : '');
+  const payload = {
+    name: clean(req.body && req.body.name),
+    email: clean(req.body && req.body.email),
+    subject: clean(req.body && req.body.subject),
+    message: typeof (req.body && req.body.message) === 'string' ? req.body.message.trim() : ''
+  };
+  const mailto = buildMailtoLink(payload);
+
+  if (payload.name.length < 2 || payload.name.length > 100 ||
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email) ||
+      payload.subject.length < 3 || payload.subject.length > 150 ||
+      payload.message.length < 10 || payload.message.length > 5000) {
+    return res.status(400).json({
+      success: false,
+      error: 'Please complete all fields with valid details (message at least 10 characters).'
+    });
+  }
+
+  const transporter = getMailTransporter();
+  if (!transporter) {
+    return res.json({ success: false, mode: 'mailto', mailto });
+  }
+
+  try {
+    const info = await transporter.sendMail({
+      from: process.env.CONTACT_EMAIL_FROM || process.env.SMTP_USER,
+      to: CONTACT_EMAIL_TO,
+      replyTo: payload.email,
+      subject: `[Portfolio] ${payload.subject} — from ${payload.name}`,
+      text: `Nama: ${payload.name}\nEmail: ${payload.email}\nTopik: ${payload.subject}\n\n${payload.message}`,
+      html: `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#0F172A">
+        <h2>New message from your portfolio</h2>
+        <p><strong>Name:</strong> ${escapeHtml(payload.name)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(payload.email)}</p>
+        <p><strong>Topic:</strong> ${escapeHtml(payload.subject)}</p>
+        <hr style="border:none;border-top:1px solid #E2E8F0">
+        <p>${escapeHtml(payload.message).replace(/\n/g, '<br>')}</p>
+        <p style="color:#64748B;font-size:12px">Sent from ibahmisbahh6@gmail.com portfolio contact form.</p>
+      </div>`
+    });
+    return res.json({ success: true, mode: 'smtp', messageId: info.messageId });
+  } catch (error) {
+    console.error('Contact email error:', error.message);
+    return res.status(502).json({
+      success: false,
+      mode: 'mailto',
+      mailto,
+      error: 'Email could not be sent right now. A prefilled email has been prepared instead.'
+    });
+  }
+});
+
 app.get('/api/profile', (req, res) => {
   res.json({ success: true, data: IBAH_PROFILE });
 });
@@ -55,7 +171,7 @@ app.get('/api/profile', (req, res) => {
 // -----------------------------------------------------------------------------
 app.post('/api/chat', rateLimiter, async (req, res) => {
   try {
-    const { message } = req.body;
+    const { message, language } = req.body;
 
     if (!message || typeof message !== 'string' || message.trim().length === 0) {
       return res.status(400).json({ error: 'Pesan tidak boleh kosong.' });
@@ -70,8 +186,9 @@ app.post('/api/chat', rateLimiter, async (req, res) => {
     // 1. OpenAI Integration if API Key is available
     if (process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY !== 'YOUR_API_KEY') {
       try {
-        const systemPrompt = `You are ASK IBAH, the friendly, articulate, highly detailed AI Assistant for IBAH MISBAH (Freelance Web Developer & Information Systems student at UBSI Tasikmalaya).
+        const systemPrompt = `You are ASK IBAH, the friendly, articulate, highly detailed AI Assistant for IBAH MISBAH (Web Developer & Information Systems student at UBSI Tasikmalaya, open to full-time and freelance roles).
 Your goal is to provide deep, exhaustive, comprehensive, empathetic, and beautifully formatted answers about Ibah Misbah.
+Reply in ${language === 'en' ? 'English' : 'Bahasa Indonesia'} — match the language the visitor used.
 Always answer with rich context, structured bullet points, bold highlights, code snippets if relevant, and direct clickable action links.
 WhatsApp for consultation: 0822-1967-8296. Email: ibahmisbahh6@gmail.com. GitHub: https://github.com/githu423.
 
@@ -106,7 +223,7 @@ ${JSON.stringify(IBAH_PROFILE, null, 2)}`;
     }
 
     // 2. Comprehensive Deep NLP Dialogue Engine
-    const reply = generateComprehensiveDialogue(userMessage);
+    const reply = generateComprehensiveDialogue(userMessage, language);
     return res.json({ reply });
 
   } catch (error) {
@@ -122,7 +239,11 @@ ${JSON.stringify(IBAH_PROFILE, null, 2)}`;
  * EXHAUSTIVE DEEP DIALOGUE ENGINE
  * ==============================================================================
  */
-function generateComprehensiveDialogue(rawQuery) {
+function generateComprehensiveDialogue(rawQuery, language = 'id') {
+  if (language === 'en') {
+    return getEnglishReply(rawQuery) || getEnglishFallback();
+  }
+
   const text = rawQuery.toLowerCase();
   const clean = text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"']/g, ' ');
   const words = clean.split(/\s+/).filter(Boolean);
@@ -209,7 +330,7 @@ function generateComprehensiveDialogue(rawQuery) {
 
   // 6. WHO IS IBAH / PROFILE & BIO
   if (has('siapa ibah', 'profil', 'biodata', 'tentang ibah', 'latar belakang', 'siapakah', 'siapa anda', 'siapa developer', 'ceritakan tentang', 'kenalan')) {
-    return `**Ibah Misbah** adalah seorang **Freelance Web Developer** berdedikasi dan mahasiswa aktif S1 **Sistem Informasi di Universitas Bina Sarana Informatika (UBSI) Kampus Tasikmalaya** (periode 2024–2027).\n\n📌 **Ringkasan Profil & Dedikasi:**\n• **Spesialisasi:** Pengembangan aplikasi web terstruktur berbasis PHP & Framework Laravel, optimasi database relasional MySQL, dan antarmuka responsif modern.\n• **Domisili:** Kabupaten Ciamis, Jawa Barat, Indonesia.\n• **Pengalaman Nyata:** Berpengalaman membangun sistem internal instansi (*paperless meeting system* di Dinas Pariwisata Ciamis), platform pelayanan desa (*Cipakat-Hub*), landing page UMKM, serta dipercaya menjabat sebagai **Ketua Umum HIMASI UBSI Tasikmalaya (2026–2027)**.\n• **Filosofi Kerja:** Menghasilkan kode yang rapi (*clean code*), arsitektur database yang efisien, dan website yang menyelesaikan masalah nyata pengguna.`;
+    return `**Ibah Misbah** adalah seorang **web developer** berdedikasi dan mahasiswa aktif S1 **Sistem Informasi di Universitas Bina Sarana Informatika (UBSI) Kampus Tasikmalaya** (periode 2024–2027).\n\n📌 **Ringkasan Profil & Dedikasi:**\n• **Spesialisasi:** Pengembangan aplikasi web terstruktur berbasis PHP & Framework Laravel, optimasi database relasional MySQL, dan antarmuka responsif modern.\n• **Domisili:** Kabupaten Ciamis, Jawa Barat, Indonesia.\n• **Pengalaman Nyata:** Berpengalaman membangun sistem internal instansi (*paperless meeting system* di Dinas Pariwisata Ciamis), platform pelayanan desa (*Cipakat-Hub*), landing page UMKM, serta dipercaya menjabat sebagai **Ketua Umum HIMASI UBSI Tasikmalaya (2026–2027)**.\n• **Filosofi Kerja:** Menghasilkan kode yang rapi (*clean code*), arsitektur database yang efisien, dan website yang menyelesaikan masalah nyata.\n• **Ketersediaan:** Terbuka untuk peran **full-time**, proyek **freelance**, dan kolaborasi tim.`;
   }
 
   // 4. LOCATION & REACH
@@ -316,8 +437,8 @@ function generateComprehensiveDialogue(rawQuery) {
   }
 
   // 15. AVAILABILITY
-  if (has('tersedia', 'available', 'part time', 'remote', 'kapan bisa', 'bisa remote', 'jam kerja', 'waktu luang', 'malam bisa')) {
-    return `💼 **Ketersediaan Kerja Ibah Misbah:**\n\n• **Status:** Available for Projects (Tersedia menerima proyek baru)\n• **Tipe Kontrak:** Freelance Part-Time / Project-Based\n• **Metode Kolaborasi:** Remote (Daring) dari mana saja\n• **Waktu Kerja Aktif:** Fleksibel / Sore & Malam Hari.\n\nIbah sangat responsif dan siap berdiskusi daring mengenai ide proyek Anda.`;
+  if (has('tersedia', 'available', 'part time', 'part-time', 'full time', 'full-time', 'rekrut', 'karier', 'karir', 'pekerjaan', 'magang', 'remote', 'kapan bisa', 'bisa remote', 'jam kerja', 'waktu luang', 'malam bisa')) {
+    return `💼 **Ketersediaan Kerja Ibah Misbah:**\n\n• **Status:** Open to Work (Terbuka untuk peluang baru)\n• **Tipe Kerja:** Full-Time / Freelance / Magang & Kolaborasi\n• **Metode Kolaborasi:** Remote, Hybrid, atau On-site (Ciamis–Tasikmalaya)\n• **Waktu Kerja:** Fleksibel.\n\nUntuk peran full-time maupun proyek freelance, hubungi Ibah via WhatsApp **0822-1967-8296** atau email **ibahmisbahh6@gmail.com**.`;
   }
 
   // 16. EDUCATION (GENERAL)
@@ -327,7 +448,7 @@ function generateComprehensiveDialogue(rawQuery) {
 
   // 17. ENGLISH QUERY HANDLING
   if (has('who is', 'tell me about', 'skills', 'projects', 'contact', 'hire', 'services', 'price', 'experience', 'hello', 'hi')) {
-    return `**Ibah Misbah** is a professional **Freelance Web Developer** and Information Systems student at Universitas Bina Sarana Informatika (UBSI), located in Ciamis, West Java, Indonesia.\n\n• **Core Stack:** PHP, Laravel (MVC), MySQL Relational Database, HTML5, CSS3, JavaScript, Tailwind CSS, Bootstrap.\n• **Featured Works:** Excel-to-Word Salary Slip Automated Sorter, Cipakat-Hub Village System, Internal Paperless Meeting System for Dinas Pariwisata Ciamis, and UMKM Knitting Landing Page.\n• **Contact & Hiring:** Direct WhatsApp: [+62 822-1967-8296](https://wa.me/6282219678296) | Email: [ibahmisbahh6@gmail.com](mailto:ibahmisbahh6@gmail.com).`;
+    return `**Ibah Misbah** is a professional **web developer** and Information Systems student at Universitas Bina Sarana Informatika (UBSI), located in Ciamis, West Java, Indonesia.\n\n• **Core Stack:** PHP, Laravel (MVC), MySQL Relational Database, HTML5, CSS3, JavaScript, Tailwind CSS, Bootstrap.\n• **Featured Works:** Excel-to-Word Salary Slip Automated Sorter, Cipakat-Hub Village System, Internal Paperless Meeting System for Dinas Pariwisata Ciamis, and UMKM Knitting Landing Page.\n• **Open to:** full-time roles, freelance projects, and team collaborations.\n• **Contact & Hiring:** Direct WhatsApp: [+62 822-1967-8296](https://wa.me/6282219678296) | Email: [ibahmisbahh6@gmail.com](mailto:ibahmisbahh6@gmail.com).`;
   }
 
   // 18. NATURAL GUIDED FALLBACK
@@ -341,7 +462,7 @@ app.use((req, res) => {
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`===================================================`);
-  console.log(` IBAH MISBAH PORTFOLIO & ADVANCED AI SERVER RUNNING`);
+  console.log(` IBAH MISBAH PORTFOLIO & BILINGUAL AI SERVER RUNNING`);
   console.log(` Port: ${PORT}`);
   console.log(` Local: http://localhost:${PORT}`);
   console.log(`===================================================`);
