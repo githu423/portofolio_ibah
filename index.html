@@ -1,77 +1,49 @@
 <!doctype html>
 <html lang="id" data-theme="light">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title data-i18n="meta.title">
-      Ibah Misbah — Web Developer &amp; Sistem Informasi | Portofolio Personal
+        Ibah Misbah — Web Developer &amp; Sistem Informasi | Portofolio Personal
     </title>
-    <meta
-      name="description"
-      content="Portofolio personal Ibah Misbah — Web Developer & mahasiswa Sistem Informasi UBSI Tasikmalaya. Kenali saya, lihat karya saya, dan terhubung untuk peluang full-time, freelance, atau kolaborasi."
-    />
-    <meta
-      name="keywords"
-      content="Ibah Misbah, Ibah Misbah portfolio, Web Developer, Sistem Informasi UBSI, Laravel Developer, PHP MySQL, Full-Time Web Developer, Freelance Web Developer Ciamis, Tasikmalaya"
-    />
+    <meta name="description" content="Portofolio personal Ibah Misbah — Web Developer & mahasiswa Sistem Informasi UBSI Tasikmalaya. Kenali saya, lihat karya saya, dan terhubung untuk peluang full-time, freelance, atau kolaborasi." />
+    <meta name="keywords" content="Ibah Misbah, Ibah Misbah portfolio, Web Developer, Sistem Informasi UBSI, Laravel Developer, PHP MySQL, Full-Time Web Developer, Freelance Web Developer Ciamis, Tasikmalaya" />
     <meta name="author" content="Ibah Misbah" />
     <meta name="robots" content="index, follow" />
 
     <!-- Open Graph Basic Metadata -->
-    <meta
-      property="og:title"
-      content="Ibah Misbah — Web Developer &amp; Sistem Informasi"
-    />
-    <meta
-      property="og:description"
-      content="Kenali Ibah Misbah: web developer, mahasiswa sistem informasi, dan pembangun solusi digital untuk instansi, organisasi, dan UMKM."
-    />
+    <meta property="og:title" content="Ibah Misbah — Web Developer &amp; Sistem Informasi" />
+    <meta property="og:description" content="Kenali Ibah Misbah: web developer, mahasiswa sistem informasi, dan pembangun solusi digital untuk instansi, organisasi, dan UMKM." />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="assets/images/profile.jpg" />
 
     <!-- Favicon -->
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>"
-    />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
 
     <!-- Google Fonts: Poppins (Headline & Body) + Plus Jakarta Sans + JetBrains Mono (Code/Badges) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
     <!-- Font Awesome 6 Icons -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer"
     />
 
     <!-- Main Stylesheet -->
     <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
+</head>
+
+<body>
     <!-- Background Decorative Gradient Blobs -->
     <div class="bg-glow-orb orb-1" aria-hidden="true"></div>
     <div class="bg-glow-orb orb-2" aria-hidden="true"></div>
     <div class="bg-grid-overlay" aria-hidden="true"></div>
 
     <!-- Toast Notification Container -->
-    <div
-      class="toast-notification"
-      id="toastNotification"
-      role="alert"
-      aria-live="polite"
-    >
-      <i class="fa-solid fa-circle-check toast-icon"></i>
-      <span class="toast-message" id="toastMessage" data-i18n="t_d0fb5811d2"
-        >Teks berhasil disalin!</span
+    <div class="toast-notification" id="toastNotification" role="alert" aria-live="polite">
+        <i class="fa-solid fa-circle-check toast-icon"></i>
+        <span class="toast-message" id="toastMessage" data-i18n="t_d0fb5811d2">Teks berhasil disalin!</span
       >
     </div>
 
@@ -129,15 +101,10 @@
                 data-i18n-aria="nav.moreLabel"
               >
                 <span data-i18n="nav.more">Lainnya</span>
-                <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
-              </button>
-              <div class="nav-dropdown-menu" id="navMoreMenu" role="menu">
-                <a
-                  href="#experience"
-                  class="nav-link"
-                  role="menuitem"
-                  data-i18n="t_4038d5a859"
-                  >Experience</a
+        <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+        </button>
+        <div class="nav-dropdown-menu" id="navMoreMenu" role="menu">
+            <a href="#experience" class="nav-link" role="menuitem" data-i18n="t_4038d5a859">Experience</a
                 >
                 <a
                   href="#education"
@@ -224,30 +191,20 @@
             <span data-i18n="t_9c383d240c">Hubungi Saya</span>
           </a>
 
-          <!-- Mobile Hamburger Button -->
-          <button
-            class="hamburger-btn"
-            id="hamburgerBtn"
-            aria-label="Buka Menu Navigasi"
-            aria-expanded="false"
-            data-i18n-aria="a_a178f3fb4a"
-          >
+            <!-- Mobile Hamburger Button -->
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="Buka Menu Navigasi" aria-expanded="false" data-i18n-aria="a_a178f3fb4a">
             <span class="bar"></span>
             <span class="bar"></span>
             <span class="bar"></span>
           </button>
         </div>
-      </div>
+    </div>
 
-      <!-- Mobile Navigation Drawer -->
-      <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true">
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true">
         <ul class="mobile-nav-list">
-          <li>
-            <a
-              href="#home"
-              class="mobile-nav-link active"
-              data-i18n="t_8cf04a9734"
-              >Home</a
+            <li>
+                <a href="#home" class="mobile-nav-link active" data-i18n="t_8cf04a9734">Home</a
             >
           </li>
           <li>
@@ -352,21 +309,20 @@
             <i class="fa-brands fa-whatsapp"></i>
             <span data-i18n="t_f50e44028e">Hubungi via WhatsApp</span>
           </a>
-        </div>
-      </div>
+    </div>
+    </div>
     </header>
 
     <main>
-      <!-- ==================== 1. HERO SECTION ==================== -->
-      <section class="hero-section" id="home">
-        <div class="container hero-container">
-          <!-- Left Hero Content -->
-          <div class="hero-content reveal-on-scroll">
-            <!-- Live Status Badge -->
-            <div class="status-pill">
-              <span class="status-dot"></span>
-              <span class="status-text" data-i18n="t_84025e3b77"
-                >OPEN TO FULL-TIME ROLES &amp; FREELANCE PROJECTS</span
+        <!-- ==================== 1. HERO SECTION ==================== -->
+        <section class="hero-section" id="home">
+            <div class="container hero-container">
+                <!-- Left Hero Content -->
+                <div class="hero-content reveal-on-scroll">
+                    <!-- Live Status Badge -->
+                    <div class="status-pill">
+                        <span class="status-dot"></span>
+                        <span class="status-text" data-i18n="t_84025e3b77">OPEN TO FULL-TIME ROLES &amp; FREELANCE PROJECTS</span
               >
             </div>
 
@@ -380,19 +336,14 @@
 
             <div class="hero-role-wrapper">
               <span class="role-bracket" data-i18n="t_524a507821">&lt;</span>
-              <span
-                class="hero-role-typing"
-                id="heroRoleText"
-                data-i18n="t_6fb0815409"
-                >WEB DEVELOPER &amp; SISTEM INFORMASI</span
+                        <span class="hero-role-typing" id="heroRoleText" data-i18n="t_6fb0815409">WEB DEVELOPER &amp; SISTEM INFORMASI</span
               >
               <span class="role-cursor" data-i18n="t_b99834bc19">|</span>
-              <span class="role-bracket" data-i18n="t_18f68d1321">/&gt;</span>
-            </div>
+                        <span class="role-bracket" data-i18n="t_18f68d1321">/&gt;</span>
+                    </div>
 
-            <p class="hero-description">
-              <span data-i18n="t_012034987d"
-                >Saya adalah Ibah Misbah, web developer dan mahasiswa Sistem
+                    <p class="hero-description">
+                        <span data-i18n="t_012034987d">Saya adalah Ibah Misbah, web developer dan mahasiswa Sistem
                 Informasi yang suka membangun produk digital yang nyata dan
                 bermanfaat. Dari sistem internal instansi, platform desa, hingga
                 landing page UMKM—saya ingin dikenal lewat karya, cara kerja,
@@ -400,7 +351,7 @@
               >
               <strong data-i18n="t_2c78ae9100">full-time</strong
               ><span data-i18n="t_0ac0b12730">, proyek</span>
-              <strong data-i18n="t_96b6c545a1">freelance</strong
+                        <strong data-i18n="t_96b6c545a1">freelance</strong
               ><span data-i18n="t_61a2ad5d0e">, dan kolaborasi tim.</span>
             </p>
 
@@ -410,13 +361,11 @@
                 <i class="fa-solid fa-code-branch proof-icon"></i>
                 <span
                   ><strong data-i18n="t_c4fc93c934">4+</strong>
-                  <span data-i18n="t_9e620676e8">Proyek Nyata</span></span
-                >
-              </div>
-              <div class="proof-item">
-                <i class="fa-solid fa-layer-group proof-icon"></i>
-                <span
-                  ><strong data-i18n="t_44904c488b">5+</strong>
+                        <span data-i18n="t_9e620676e8">Proyek Nyata</span></span>
+                </div>
+                <div class="proof-item">
+                    <i class="fa-solid fa-layer-group proof-icon"></i>
+                    <span><strong data-i18n="t_44904c488b">5+</strong>
                   <span data-i18n="t_f84fcdbfe5"
                     >Pengalaman &amp; Organisasi</span
                   ></span
@@ -441,24 +390,20 @@
               >
                 <i class="fa-brands fa-whatsapp"></i>
                 <span data-i18n="t_9c383d240c">Hubungi Saya</span>
-              </a>
-              <a href="#projects" class="btn btn-outline btn-hero-secondary">
-                <i class="fa-solid fa-laptop-code"></i>
-                <span data-i18n="t_ae2d40a8e4">Lihat Karya Saya</span>
-              </a>
-              <button
-                class="btn btn-outline btn-hero-cv"
-                onclick="openCVModal()"
-              >
+                    </a>
+                    <a href="#projects" class="btn btn-outline btn-hero-secondary">
+                        <i class="fa-solid fa-laptop-code"></i>
+                        <span data-i18n="t_ae2d40a8e4">Lihat Karya Saya</span>
+                    </a>
+                    <button class="btn btn-outline btn-hero-cv" onclick="openCVModal()">
                 <i class="fa-solid fa-file-lines"></i>
                 <span data-i18n="t_0f3618b364">Lihat CV</span>
               </button>
-            </div>
+                </div>
 
-            <!-- Verified Direct Social Links -->
-            <div class="hero-social-links">
-              <span class="social-label" data-i18n="t_ef3c02ed97"
-                >KONEKSI RESMI:</span
+                <!-- Verified Direct Social Links -->
+                <div class="hero-social-links">
+                    <span class="social-label" data-i18n="t_ef3c02ed97">KONEKSI RESMI:</span
               >
               <a
                 href="https://wa.me/6282219678296?text=Halo%20Ibah,%20saya%20melihat%20portfolio%20Anda%20dan%20ingin%20berdiskusi%20mengenai%20project."
@@ -526,35 +471,23 @@
               <div class="profile-window-bar">
                 <div class="window-buttons">
                   <span class="win-btn win-red"></span>
-                  <span class="win-btn win-yellow"></span>
-                  <span class="win-btn win-green"></span>
+                    <span class="win-btn win-yellow"></span>
+                    <span class="win-btn win-green"></span>
                 </div>
                 <div class="window-title" data-i18n="t_961f7e4b3a">
-                  developer_profile.sh
+                    developer_profile.sh
                 </div>
                 <div class="window-badge" data-i18n="t_3035f31ccc">
-                  v2.4 Live
+                    v2.4 Live
                 </div>
-              </div>
+            </div>
 
-              <!-- Profile Photo Container -->
-              <div class="profile-image-frame">
-                <img
-                  src="assets/images/profile.jpg"
-                  alt="Foto Resmi Ibah Misbah"
-                  class="profile-photo"
-                  id="heroProfileImg"
-                  data-i18n-alt="a_3a1f76f5be"
-                />
+            <!-- Profile Photo Container -->
+            <div class="profile-image-frame">
+                <img src="assets/images/profile.jpg" alt="Foto Resmi Ibah Misbah" class="profile-photo" id="heroProfileImg" data-i18n-alt="a_3a1f76f5be" />
                 <div class="profile-location-chip">
-                  <i class="fa-solid fa-location-dot"></i>
-                  <a
-                    href="https://maps.google.com/?q=Kabupaten+Ciamis,+Jawa+Barat"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="chip-map-link"
-                    data-i18n="t_ec6d4e6bdf"
-                    >Kabupaten Ciamis, ID</a
+                    <i class="fa-solid fa-location-dot"></i>
+                    <a href="https://maps.google.com/?q=Kabupaten+Ciamis,+Jawa+Barat" target="_blank" rel="noopener noreferrer" class="chip-map-link" data-i18n="t_ec6d4e6bdf">Kabupaten Ciamis, ID</a
                   >
                 </div>
               </div>
@@ -866,22 +799,21 @@
                   <i class="fa-solid fa-download"></i>
                   <span data-i18n="t_7fd7789d88">Download CV PDF</span>
                 </a>
-                <a href="#contact" class="btn btn-outline">
-                  <i class="fa-solid fa-comments"></i>
-                  <span data-i18n="t_9c383d240c">Hubungi Saya</span>
-                </a>
-              </div>
+                    <a href="#contact" class="btn btn-outline">
+                        <i class="fa-solid fa-comments"></i>
+                        <span data-i18n="t_9c383d240c">Hubungi Saya</span>
+                    </a>
+                </div>
             </div>
-          </div>
-        </div>
-      </section>
+            </div>
+            </div>
+        </section>
 
-      <!-- ==================== 3. SERVICES SECTION ==================== -->
-      <section class="section-wrapper bg-white" id="services">
-        <div class="container">
-          <div class="section-title-wrapper reveal-on-scroll">
-            <span class="section-eyebrow" data-i18n="t_559fa6ef94"
-              >FOKUS &amp; KONTRIBUSI</span
+        <!-- ==================== 3. SERVICES SECTION ==================== -->
+        <section class="section-wrapper bg-white" id="services">
+            <div class="container">
+                <div class="section-title-wrapper reveal-on-scroll">
+                    <span class="section-eyebrow" data-i18n="t_559fa6ef94">FOKUS &amp; KONTRIBUSI</span
             >
             <h2 class="section-heading" data-i18n="t_1fd1922734">
               Apa yang Saya Bawa ke Tim Anda
@@ -898,16 +830,15 @@
             <div class="service-card reveal-on-scroll">
               <div class="service-card-top">
                 <span class="service-number" data-i18n="t_96a3be3cf2">01</span>
-                <div class="service-icon">
-                  <i class="fa-solid fa-globe"></i>
+                    <div class="service-icon">
+                        <i class="fa-solid fa-globe"></i>
+                    </div>
                 </div>
-              </div>
-              <h3 class="service-title" data-i18n="t_b57c601e3b">
-                PENGEMBANGAN WEBSITE
-              </h3>
-              <p class="service-description">
-                <span data-i18n="t_84e28d2733"
-                  >Membangun website dari awal hingga siap pakai: kebutuhan
+                <h3 class="service-title" data-i18n="t_b57c601e3b">
+                    PENGEMBANGAN WEBSITE
+                </h3>
+                <p class="service-description">
+                    <span data-i18n="t_84e28d2733">Membangun website dari awal hingga siap pakai: kebutuhan
                   akademik, portal instansi, organisasi, hingga landing page
                   bisnis.</span
                 >
@@ -921,25 +852,24 @@
                   data-wa-query="wa.website"
                 >
                   <span data-i18n="t_fec96db298">Diskusi</span>
-                  <i class="fa-solid fa-arrow-right"></i>
-                </a>
-              </div>
+                    <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+            </div>
             </div>
 
             <!-- Service Card 02 -->
             <div class="service-card reveal-on-scroll">
-              <div class="service-card-top">
-                <span class="service-number" data-i18n="t_a2ef406e2c">02</span>
-                <div class="service-icon">
-                  <i class="fa-solid fa-laptop-code"></i>
+                <div class="service-card-top">
+                    <span class="service-number" data-i18n="t_a2ef406e2c">02</span>
+                    <div class="service-icon">
+                        <i class="fa-solid fa-laptop-code"></i>
+                    </div>
                 </div>
-              </div>
-              <h3 class="service-title" data-i18n="t_413822e39d">
-                FRONT-END DEVELOPMENT
-              </h3>
-              <p class="service-description">
-                <span data-i18n="t_8d5434b97c"
-                  >Membuat antarmuka yang responsif dan nyaman dipakai di ponsel
+                <h3 class="service-title" data-i18n="t_413822e39d">
+                    FRONT-END DEVELOPMENT
+                </h3>
+                <p class="service-description">
+                    <span data-i18n="t_8d5434b97c">Membuat antarmuka yang responsif dan nyaman dipakai di ponsel
                   maupun desktop dengan HTML5, CSS3, JavaScript, Tailwind CSS,
                   dan Bootstrap.</span
                 >
@@ -953,57 +883,49 @@
                   data-wa-query="wa.frontend"
                 >
                   <span data-i18n="t_fec96db298">Diskusi</span>
-                  <i class="fa-solid fa-arrow-right"></i>
-                </a>
-              </div>
+                    <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+            </div>
             </div>
 
             <!-- Service Card 03 -->
             <div class="service-card reveal-on-scroll">
-              <div class="service-card-top">
-                <span class="service-number" data-i18n="t_e45ee7ce7e">03</span>
-                <div class="service-icon">
-                  <i class="fa-solid fa-gears"></i>
+                <div class="service-card-top">
+                    <span class="service-number" data-i18n="t_e45ee7ce7e">03</span>
+                    <div class="service-icon">
+                        <i class="fa-solid fa-gears"></i>
+                    </div>
                 </div>
-              </div>
-              <h3 class="service-title" data-i18n="t_069e8416a1">
-                BACK-END DEVELOPMENT
-              </h3>
-              <p class="service-description">
-                <span data-i18n="t_06fa7a1d4d"
-                  >Menulis logika aplikasi yang aman, cepat, dan terstruktur
+                <h3 class="service-title" data-i18n="t_069e8416a1">
+                    BACK-END DEVELOPMENT
+                </h3>
+                <p class="service-description">
+                    <span data-i18n="t_06fa7a1d4d">Menulis logika aplikasi yang aman, cepat, dan terstruktur
                   dengan PHP serta Laravel (arsitektur MVC, Eloquent, dan
                   pengujian dasar).</span
-                >
-              </p>
-              <div class="service-footer-action">
-                <a
-                  href="https://wa.me/6282219678296?text=Halo%20Ibah,%20saya%20ingin%20berkonsultasi%20layanan%20Back-End%20Laravel"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="service-link"
-                  data-wa-query="wa.backend"
-                >
-                  <span data-i18n="t_fec96db298">Diskusi</span>
-                  <i class="fa-solid fa-arrow-right"></i>
-                </a>
-              </div>
+>
+                </p>
+                <div class="service-footer-action">
+                    <a href="https://wa.me/6282219678296?text=Halo%20Ibah,%20saya%20ingin%20berkonsultasi%20layanan%20Back-End%20Laravel" target="_blank" rel="noopener noreferrer" class="service-link" data-wa-query="wa.backend">
+                        <span data-i18n="t_fec96db298">Diskusi</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
             </div>
 
             <!-- Service Card 04 -->
             <div class="service-card reveal-on-scroll">
-              <div class="service-card-top">
-                <span class="service-number" data-i18n="t_7d0665438e">04</span>
-                <div class="service-icon">
-                  <i class="fa-solid fa-database"></i>
+                <div class="service-card-top">
+                    <span class="service-number" data-i18n="t_7d0665438e">04</span>
+                    <div class="service-icon">
+                        <i class="fa-solid fa-database"></i>
+                    </div>
                 </div>
-              </div>
-              <h3 class="service-title" data-i18n="t_304ee21718">
-                DATABASE / MYSQL
-              </h3>
-              <p class="service-description">
-                <span data-i18n="t_bf48c4071e"
-                  >Merancang skema relasional, mengoptimasi query, dan mengelola
+                <h3 class="service-title" data-i18n="t_304ee21718">
+                    DATABASE / MYSQL
+                </h3>
+                <p class="service-description">
+                    <span data-i18n="t_bf48c4071e">Merancang skema relasional, mengoptimasi query, dan mengelola
                   data dengan MySQL serta XAMPP.</span
                 >
               </p>
@@ -1016,20 +938,19 @@
                   data-wa-query="wa.database"
                 >
                   <span data-i18n="t_fec96db298">Diskusi</span>
-                  <i class="fa-solid fa-arrow-right"></i>
-                </a>
-              </div>
+                    <i class="fa-solid fa-arrow-right"></i>
+                    </a>
             </div>
-          </div>
-        </div>
-      </section>
+            </div>
+            </div>
+            </div>
+        </section>
 
-      <!-- ==================== 4. SKILLS SECTION ==================== -->
-      <section class="section-wrapper bg-light" id="skills">
-        <div class="container">
-          <div class="section-title-wrapper reveal-on-scroll">
-            <span class="section-eyebrow" data-i18n="t_768fd8afc1"
-              >KEAHLIAN TEKNIS</span
+        <!-- ==================== 4. SKILLS SECTION ==================== -->
+        <section class="section-wrapper bg-light" id="skills">
+            <div class="container">
+                <div class="section-title-wrapper reveal-on-scroll">
+                    <span class="section-eyebrow" data-i18n="t_768fd8afc1">KEAHLIAN TEKNIS</span
             >
             <h2 class="section-heading" data-i18n="t_3781a4d107">
               Keahlian &amp; Penguasaan Tools
@@ -1047,32 +968,28 @@
               class="skill-tab-btn active"
               data-filter="all"
               onclick="filterSkills('all')"
-              data-i18n="t_5c0bd85496"
-            >
+              data-i18n="t_5c0bd85496">
               Semua Keahlian
             </button>
             <button
               class="skill-tab-btn"
               data-filter="web"
               onclick="filterSkills('web')"
-              data-i18n="t_e9f65fa400"
-            >
+              data-i18n="t_e9f65fa400">
               Web Development
             </button>
             <button
               class="skill-tab-btn"
               data-filter="tools"
               onclick="filterSkills('tools')"
-              data-i18n="t_f73a3dfcf8"
-            >
+              data-i18n="t_f73a3dfcf8">
               Dev Tools
             </button>
             <button
               class="skill-tab-btn"
               data-filter="design"
               onclick="filterSkills('design')"
-              data-i18n="t_5d7451d72f"
-            >
+              data-i18n="t_5d7451d72f">
               Desain &amp; Office
             </button>
           </div>
@@ -1099,12 +1016,8 @@
                   <div class="skill-meta">
                     <span class="skill-name"
                       ><i class="fa-brands fa-php text-blue"></i>
-                      <span data-i18n="t_2fec392304">PHP</span></span
-                    >
-                    <span
-                      class="skill-badge badge-advanced"
-                      data-i18n="t_6f745d1e20"
-                      >Advanced / Mahir</span
+                      <span data-i18n="t_2fec392304">PHP</span></span>
+                    <span class="skill-badge badge-advanced" data-i18n="t_6f745d1e20">Advanced / Mahir</span
                     >
                   </div>
                   <div class="skill-track">
@@ -1120,12 +1033,8 @@
                   <div class="skill-meta">
                     <span class="skill-name"
                       ><i class="fa-brands fa-laravel text-red"></i>
-                      <span data-i18n="t_a5c95b8629">Laravel</span></span
-                    >
-                    <span
-                      class="skill-badge badge-advanced"
-                      data-i18n="t_6f745d1e20"
-                      >Advanced / Mahir</span
+                      <span data-i18n="t_a5c95b8629">Laravel</span></span>
+                    <span class="skill-badge badge-advanced" data-i18n="t_6f745d1e20">Advanced / Mahir</span
                     >
                   </div>
                   <div class="skill-track">
@@ -1141,12 +1050,8 @@
                   <div class="skill-meta">
                     <span class="skill-name"
                       ><i class="fa-solid fa-database text-orange"></i>
-                      <span data-i18n="t_62a004b959">MySQL</span></span
-                    >
-                    <span
-                      class="skill-badge badge-advanced"
-                      data-i18n="t_6f745d1e20"
-                      >Advanced / Mahir</span
+                      <span data-i18n="t_62a004b959">MySQL</span></span>
+                    <span class="skill-badge badge-advanced" data-i18n="t_6f745d1e20">Advanced / Mahir</span
                     >
                   </div>
                   <div class="skill-track">
@@ -1162,12 +1067,8 @@
                   <div class="skill-meta">
                     <span class="skill-name"
                       ><i class="fa-brands fa-html5 text-orange"></i>
-                      <span data-i18n="t_4c4ad5fca2">HTML</span></span
-                    >
-                    <span
-                      class="skill-badge badge-advanced"
-                      data-i18n="t_6f745d1e20"
-                      >Advanced / Mahir</span
+                      <span data-i18n="t_4c4ad5fca2">HTML</span></span>
+                    <span class="skill-badge badge-advanced" data-i18n="t_6f745d1e20">Advanced / Mahir</span
                     >
                   </div>
                   <div class="skill-track">
@@ -1183,12 +1084,8 @@
                   <div class="skill-meta">
                     <span class="skill-name"
                       ><i class="fa-brands fa-css3-alt text-blue"></i>
-                      <span data-i18n="t_2c56c36058">CSS</span></span
-                    >
-                    <span
-                      class="skill-badge badge-advanced"
-                      data-i18n="t_6f745d1e20"
-                      >Advanced / Mahir</span
+                      <span data-i18n="t_2c56c36058">CSS</span></span>
+                    <span class="skill-badge badge-advanced" data-i18n="t_6f745d1e20">Advanced / Mahir</span
                     >
                   </div>
                   <div class="skill-track">
@@ -1204,12 +1101,8 @@
                   <div class="skill-meta">
                     <span class="skill-name"
                       ><i class="fa-brands fa-js text-yellow"></i>
-                      <span data-i18n="t_686155af75">JavaScript</span></span
-                    >
-                    <span
-                      class="skill-badge badge-advanced"
-                      data-i18n="t_6f745d1e20"
-                      >Advanced / Mahir</span
+                      <span data-i18n="t_686155af75">JavaScript</span></span>
+                    <span class="skill-badge badge-advanced" data-i18n="t_6f745d1e20">Advanced / Mahir</span
                     >
                   </div>
                   <div class="skill-track">
@@ -1225,12 +1118,8 @@
                   <div class="skill-meta">
                     <span class="skill-name"
                       ><i class="fa-brands fa-bootstrap text-purple"></i>
-                      <span data-i18n="t_6699fc2680">Bootstrap</span></span
-                    >
-                    <span
-                      class="skill-badge badge-advanced"
-                      data-i18n="t_6f745d1e20"
-                      >Advanced / Mahir</span
+                      <span data-i18n="t_6699fc2680">Bootstrap</span></span>
+                    <span class="skill-badge badge-advanced" data-i18n="t_6f745d1e20">Advanced / Mahir</span
                     >
                   </div>
                   <div class="skill-track">
@@ -1246,12 +1135,8 @@
                   <div class="skill-meta">
                     <span class="skill-name"
                       ><i class="fa-solid fa-wind text-teal"></i>
-                      <span data-i18n="t_ecaf86f5e6">Tailwind CSS</span></span
-                    >
-                    <span
-                      class="skill-badge badge-advanced"
-                      data-i18n="t_6f745d1e20"
-                      >Advanced / Mahir</span
+                      <span data-i18n="t_ecaf86f5e6">Tailwind CSS</span></span>
+                    <span class="skill-badge badge-advanced" data-i18n="t_6f745d1e20">Advanced / Mahir</span
                     >
                   </div>
                   <div class="skill-track">
@@ -1267,12 +1152,8 @@
                   <div class="skill-meta">
                     <span class="skill-name"
                       ><i class="fa-brands fa-node-js text-green"></i>
-                      <span data-i18n="t_3b2819dd4c">Node.js</span></span
-                    >
-                    <span
-                      class="skill-badge badge-basic"
-                      data-i18n="t_4e815ce503"
-                      >Basic / Dasar</span
+                      <span data-i18n="t_3b2819dd4c">Node.js</span></span>
+                    <span class="skill-badge badge-basic" data-i18n="t_4e815ce503">Basic / Dasar</span
                     >
                   </div>
                   <div class="skill-track">
@@ -1310,12 +1191,8 @@
                   <div class="skill-meta">
                     <span class="skill-name"
                       ><i class="fa-brands fa-github text-blue"></i>
-                      <span data-i18n="t_dc47da6601">Git / GitHub</span></span
-                    >
-                    <span
-                      class="skill-badge badge-advanced"
-                      data-i18n="t_6f745d1e20"
-                      >Advanced / Mahir</span
+                      <span data-i18n="t_dc47da6601">Git / GitHub</span></span>
+                    <span class="skill-badge badge-advanced" data-i18n="t_6f745d1e20">Advanced / Mahir</span
                     >
                   </div>
                   <div class="skill-track">
@@ -1331,12 +1208,8 @@
                   <div class="skill-meta">
                     <span class="skill-name"
                       ><i class="fa-solid fa-server text-orange"></i>
-                      <span data-i18n="t_f8756d88c7">XAMPP</span></span
-                    >
-                    <span
-                      class="skill-badge badge-advanced"
-                      data-i18n="t_6f745d1e20"
-                      >Advanced / Mahir</span
+                      <span data-i18n="t_f8756d88c7">XAMPP</span></span>
+                    <span class="skill-badge badge-advanced" data-i18n="t_6f745d1e20">Advanced / Mahir</span
                     >
                   </div>
                   <div class="skill-track">
@@ -1534,12 +1407,8 @@
                 <div class="timeline-card-header">
                   <span class="timeline-period"
                     ><i class="fa-regular fa-calendar"></i>
-                    <span data-i18n="t_d9c283d292">2026 – 2027</span></span
-                  >
-                  <span
-                    class="timeline-badge badge-active"
-                    data-i18n="t_8218025e75"
-                    >Kepengurusan Terkini</span
+                    <span data-i18n="t_d9c283d292">2026 – 2027</span></span>
+                    <span class="timeline-badge badge-active" data-i18n="t_8218025e75">Kepengurusan Terkini</span
                   >
                 </div>
                 <h3 class="timeline-org" data-i18n="t_2b21623869">
@@ -1568,10 +1437,8 @@
                 <div class="timeline-card-header">
                   <span class="timeline-period"
                     ><i class="fa-regular fa-calendar"></i>
-                    <span data-i18n="t_0f0324cc81">2025 – 2026</span></span
-                  >
-                  <span class="timeline-badge" data-i18n="t_d3980d3ab1"
-                    >Organisasi Wilayah</span
+                    <span data-i18n="t_0f0324cc81">2025 – 2026</span></span>
+                    <span class="timeline-badge" data-i18n="t_d3980d3ab1">Organisasi Wilayah</span
                   >
                 </div>
                 <h3 class="timeline-org" data-i18n="t_c042add00c">
@@ -1600,10 +1467,8 @@
                 <div class="timeline-card-header">
                   <span class="timeline-period"
                     ><i class="fa-regular fa-calendar"></i>
-                    <span data-i18n="t_d6d3108caa">2024 – 2025</span></span
-                  >
-                  <span class="timeline-badge" data-i18n="t_52ec8f9809"
-                    >Organisasi Kampus</span
+                    <span data-i18n="t_d6d3108caa">2024 – 2025</span></span>
+                    <span class="timeline-badge" data-i18n="t_52ec8f9809">Organisasi Kampus</span
                   >
                 </div>
                 <h3 class="timeline-org" data-i18n="t_ea9cbe8062">
@@ -1636,10 +1501,8 @@
                 <div class="timeline-card-header">
                   <span class="timeline-period"
                     ><i class="fa-regular fa-calendar"></i>
-                    <span data-i18n="t_d6d3108caa">2024 – 2025</span></span
-                  >
-                  <span class="timeline-badge" data-i18n="t_3d50f8b03f"
-                    >Riset &amp; Pengembangan</span
+                    <span data-i18n="t_d6d3108caa">2024 – 2025</span></span>
+                    <span class="timeline-badge" data-i18n="t_3d50f8b03f">Riset &amp; Pengembangan</span
                   >
                 </div>
                 <h3 class="timeline-org" data-i18n="t_2b21623869">
@@ -1672,7 +1535,7 @@
               >PORTOFOLIO PROYEK</span
             >
             <h2 class="section-heading" data-i18n="t_de42c8ae67">
-              Karya &amp; Implementasi Nyata
+              Karya &amp; Implementasi 
             </h2>
             <div class="heading-line"></div>
             <p class="section-subtext" data-i18n="t_b05880c299">
@@ -1749,9 +1612,8 @@
                 </p>
                 <div class="project-tech-badges">
                   <span class="tech-badge" data-i18n="t_6bff62b10d">HTML5</span>
-                  <span class="tech-badge" data-i18n="t_2be25667a8">CSS3</span>
-                  <span class="tech-badge" data-i18n="t_686155af75"
-                    >JavaScript</span
+                    <span class="tech-badge" data-i18n="t_2be25667a8">CSS3</span>
+                    <span class="tech-badge" data-i18n="t_686155af75">JavaScript</span
                   >
                 </div>
                 <div class="project-card-actions">
@@ -1774,24 +1636,16 @@
                   >
                     <i class="fa-brands fa-github"></i>
                     <span data-i18n="t_0f74adf138">Repo</span>
-                  </a>
+                    </a>
                 </div>
-              </div>
+            </div>
             </div>
 
             <!-- Project Card 02 -->
-            <div
-              class="project-card reveal-on-scroll"
-              data-category="laravel umkm"
-            >
-              <div class="project-card-image">
-                <img
-                  src="assets/images/project-02.jpg"
-                  alt="Cipakat-Hub Sistem Informasi Desa"
-                  data-i18n-alt="a_7acfd197e5"
-                />
-                <span class="project-badge" data-i18n="t_a350584c8f"
-                  >02 — Public Services / Full Stack</span
+            <div class="project-card reveal-on-scroll" data-category="laravel umkm">
+                <div class="project-card-image">
+                    <img src="assets/images/project-02.jpg" alt="Cipakat-Hub Sistem Informasi Desa" data-i18n-alt="a_7acfd197e5" />
+                    <span class="project-badge" data-i18n="t_a350584c8f">02 — Public Services / Full Stack</span
                 >
                 <span class="project-status-chip"
                   ><i class="fa-brands fa-github"></i>
@@ -1816,9 +1670,8 @@
                     >Laravel</span
                   >
                   <span class="tech-badge" data-i18n="t_2fec392304">PHP</span>
-                  <span class="tech-badge" data-i18n="t_62a004b959">MySQL</span>
-                  <span class="tech-badge" data-i18n="t_6699fc2680"
-                    >Bootstrap</span
+                    <span class="tech-badge" data-i18n="t_62a004b959">MySQL</span>
+                    <span class="tech-badge" data-i18n="t_6699fc2680">Bootstrap</span
                   >
                 </div>
                 <div class="project-card-actions">
@@ -1841,24 +1694,16 @@
                   >
                     <i class="fa-brands fa-github"></i>
                     <span data-i18n="t_0f74adf138">Repo</span>
-                  </a>
+                    </a>
                 </div>
-              </div>
+            </div>
             </div>
 
             <!-- Project Card 03 -->
-            <div
-              class="project-card reveal-on-scroll"
-              data-category="instansi laravel"
-            >
-              <div class="project-card-image">
-                <img
-                  src="assets/images/project-03.jpg"
-                  alt="Website Internal Dinas Pariwisata"
-                  data-i18n-alt="a_543b1b9e91"
-                />
-                <span class="project-badge" data-i18n="t_7522cc82d2"
-                  >03 — Government Internal System</span
+            <div class="project-card reveal-on-scroll" data-category="instansi laravel">
+                <div class="project-card-image">
+                    <img src="assets/images/project-03.jpg" alt="Website Internal Dinas Pariwisata" data-i18n-alt="a_543b1b9e91" />
+                    <span class="project-badge" data-i18n="t_7522cc82d2">03 — Government Internal System</span
                 >
                 <span class="project-status-chip"
                   ><i class="fa-brands fa-github"></i>
@@ -1884,51 +1729,31 @@
                     >Laravel</span
                   >
                   <span class="tech-badge" data-i18n="t_2fec392304">PHP</span>
-                  <span class="tech-badge" data-i18n="t_62a004b959">MySQL</span>
-                  <span class="tech-badge" data-i18n="t_ecaf86f5e6"
-                    >Tailwind CSS</span
-                  >
+                    <span class="tech-badge" data-i18n="t_62a004b959">MySQL</span>
+                    <span class="tech-badge" data-i18n="t_ecaf86f5e6">Blade</span>
+                    <span class="tech-badge" data-i18n="t_ecaf86f5e6">Tailwind CSS</span>
+                    <span class="tech-badge" data-i18n="t_ecaf86f5e6">Java script</span>
                 </div>
                 <div class="project-card-actions">
-                  <button
-                    class="btn btn-primary btn-sm"
-                    onclick="openProjectModal('proj-3')"
-                  >
+                    <button class="btn btn-primary btn-sm" onclick="openProjectModal('proj-3')">
                     <i class="fa-solid fa-circle-info"></i>
                     <span data-i18n="t_982d5e6613"
                       >Detail &amp; Arsitektur</span
                     >
                   </button>
-                  <a
-                    href="https://github.com/githu423"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="btn btn-outline btn-sm ml-2"
-                    title="Repositori privat — hubungi Ibah untuk akses"
-                    data-i18n-title="a_repo_private"
-                  >
-                    <i class="fa-brands fa-github"></i>
-                    <span data-i18n="t_btn_repo_profile"
-                      >Lihat Profil GitHub</span
-                    >
-                  </a>
+                    <a href="https://github.com/githu423/website-internal-disp" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm ml-2" title="Source Code di GitHub" data-i18n-title="a_337aa2dc7c">
+                        <i class="fa-brands fa-github"></i>
+                        <span data-i18n="t_0f74adf138">Repo</span>
+                    </a>
                 </div>
-              </div>
+            </div>
             </div>
 
             <!-- Project Card 04 -->
-            <div
-              class="project-card reveal-on-scroll"
-              data-category="umkm laravel"
-            >
-              <div class="project-card-image">
-                <img
-                  src="assets/images/project-04.jpg"
-                  alt="Landing Page UMKM Rajut Tasikmalaya"
-                  data-i18n-alt="a_48f7279581"
-                />
-                <span class="project-badge" data-i18n="t_f65554e854"
-                  >04 — Commercial Landing Page</span
+            <div class="project-card reveal-on-scroll" data-category="umkm laravel">
+                <div class="project-card-image">
+                    <img src="assets/images/project-04.jpg" alt="Landing Page UMKM Rajut Tasikmalaya" data-i18n-alt="a_48f7279581" />
+                    <span class="project-badge" data-i18n="t_f65554e854">04 — Commercial Landing Page</span
                 >
                 <span class="project-status-chip"
                   ><i class="fa-brands fa-github"></i>
@@ -1953,9 +1778,8 @@
                     >Laravel</span
                   >
                   <span class="tech-badge" data-i18n="t_2fec392304">PHP</span>
-                  <span class="tech-badge" data-i18n="t_62a004b959">MySQL</span>
-                  <span class="tech-badge" data-i18n="t_686155af75"
-                    >JavaScript</span
+                    <span class="tech-badge" data-i18n="t_62a004b959">MySQL</span>
+                    <span class="tech-badge" data-i18n="t_686155af75">JavaScript</span
                   >
                 </div>
                 <div class="project-card-actions">
@@ -1978,23 +1802,22 @@
                   >
                     <i class="fa-brands fa-github"></i>
                     <span data-i18n="t_0f74adf138">Repo</span>
-                  </a>
+                    </a>
                 </div>
-              </div>
             </div>
-          </div>
-        </div>
-      </section>
+            </div>
+            </div>
+            </div>
+        </section>
 
-      <!-- ==================== 7. EDUCATION & CERTIFICATIONS ==================== -->
-      <section class="section-wrapper bg-white" id="education">
-        <div class="container">
-          <div class="two-column-equal">
-            <!-- Column 1: Formal Education -->
-            <div class="reveal-on-scroll">
-              <div class="section-title-wrapper text-left">
-                <span class="section-eyebrow" data-i18n="t_f257ba872d"
-                  >PENDIDIKAN FORMAL</span
+        <!-- ==================== 7. EDUCATION & CERTIFICATIONS ==================== -->
+        <section class="section-wrapper bg-white" id="education">
+            <div class="container">
+                <div class="two-column-equal">
+                    <!-- Column 1: Formal Education -->
+                    <div class="reveal-on-scroll">
+                        <div class="section-title-wrapper text-left">
+                            <span class="section-eyebrow" data-i18n="t_f257ba872d">PENDIDIKAN FORMAL</span
                 >
                 <h2 class="section-heading" data-i18n="t_6dd41298e7">
                   Latar Belakang Akademik
@@ -2156,9 +1979,8 @@
             </h2>
             <p class="avail-text">
               <span data-i18n="t_283022335f">Saya terbuka untuk posisi</span>
-              <strong data-i18n="t_2c78ae9100">full-time</strong>
-              <span data-i18n="t_6d24cf0132"
-                >sebagai web developer, proyek</span
+                            <strong data-i18n="t_2c78ae9100">full-time</strong>
+                            <span data-i18n="t_6d24cf0132">sebagai web developer, proyek</span
               >
               <strong data-i18n="t_96b6c545a1">freelance</strong
               ><span data-i18n="t_67cc7a34a2"
@@ -2170,45 +1992,35 @@
             <div class="avail-pills">
               <span class="avail-pill"
                 ><i class="fa-solid fa-check"></i>
-                <span data-i18n="t_8318396823">Full-Time / Hybrid</span></span
-              >
-              <span class="avail-pill"
-                ><i class="fa-solid fa-check"></i>
+                <span data-i18n="t_8318396823">Full-Time / Hybrid</span></span>
+                            <span class="avail-pill"><i class="fa-solid fa-check"></i>
                 <span data-i18n="t_1b35878847"
                   >Freelance / Project-Based</span
                 ></span
               >
               <span class="avail-pill"
                 ><i class="fa-solid fa-check"></i>
-                <span data-i18n="t_4a48a8e6cd">Remote &amp; On-Site</span></span
-              >
-            </div>
-            <div class="avail-actions">
-              <a
-                href="https://wa.me/6282219678296?text=Halo%20Ibah,%20saya%20ingin%20berdiskusi%20mengenai%20peluang%20kerja%20sama"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="btn-avail-cta"
-                data-wa-query="wa.collab"
-              >
-                <i class="fa-brands fa-whatsapp"></i>
-                <span data-i18n="t_9274a73da4">Chat WhatsApp</span>
-              </a>
-              <a href="#contact" class="btn-avail-email">
-                <i class="fa-solid fa-envelope"></i>
-                <span data-i18n="t_1acd9ce798">Kirim Email</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
+                <span data-i18n="t_4a48a8e6cd">Remote &amp; On-Site</span></span>
+                        </div>
+                        <div class="avail-actions">
+                            <a href="https://wa.me/6282219678296?text=Halo%20Ibah,%20saya%20ingin%20berdiskusi%20mengenai%20peluang%20kerja%20sama" target="_blank" rel="noopener noreferrer" class="btn-avail-cta" data-wa-query="wa.collab">
+                                <i class="fa-brands fa-whatsapp"></i>
+                                <span data-i18n="t_9274a73da4">Chat WhatsApp</span>
+                            </a>
+                            <a href="#contact" class="btn-avail-email">
+                                <i class="fa-solid fa-envelope"></i>
+                                <span data-i18n="t_1acd9ce798">Kirim Email</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+        </section>
 
-      <!-- ==================== 10. CONTACT SECTION ==================== -->
-      <section class="section-wrapper bg-white" id="contact">
-        <div class="container">
-          <div class="section-title-wrapper reveal-on-scroll">
-            <span class="section-eyebrow" data-i18n="t_8bb058c459"
-              >HUBUNGI SAYA</span
+        <!-- ==================== 10. CONTACT SECTION ==================== -->
+        <section class="section-wrapper bg-white" id="contact">
+            <div class="container">
+                <div class="section-title-wrapper reveal-on-scroll">
+                    <span class="section-eyebrow" data-i18n="t_8bb058c459">HUBUNGI SAYA</span
             >
             <h2 class="section-heading" data-i18n="t_1c08f58028">
               Mari Terhubung
@@ -2356,15 +2168,14 @@
               >
                 <i class="fa-brands fa-whatsapp"></i>
                 <span data-i18n="t_364ada9b84">Chat Langsung via WhatsApp</span>
-              </a>
-            </div>
+                    </a>
+                </div>
 
-            <!-- Right: Interactive Validated Contact Form -->
-            <div class="contact-form-panel reveal-on-scroll">
-              <form id="contactForm" class="contact-form" novalidate>
-                <div class="form-group">
-                  <label class="form-label"
-                    ><span data-i18n="form.methodLabel">Kirim pesan lewat</span>
+                <!-- Right: Interactive Validated Contact Form -->
+                <div class="contact-form-panel reveal-on-scroll">
+                    <form id="contactForm" class="contact-form" novalidate>
+                        <div class="form-group">
+                            <label class="form-label"><span data-i18n="form.methodLabel">Kirim pesan lewat</span>
                     <span class="text-red">*</span></label
                   >
                   <div
@@ -2383,7 +2194,7 @@
                       <i class="fa-solid fa-envelope"></i>
                       <span data-i18n="form.methodEmail">Email</span>
                     </label>
-                    <label class="method-option method-whatsapp">
+                            <label class="method-option method-whatsapp">
                       <input
                         type="radio"
                         name="contactMethod"
@@ -2392,13 +2203,12 @@
                       <i class="fa-brands fa-whatsapp"></i>
                       <span data-i18n="form.methodWhatsapp">WhatsApp</span>
                     </label>
-                  </div>
+                        </div>
                 </div>
 
                 <div class="form-row">
-                  <div class="form-group">
-                    <label for="senderName" class="form-label"
-                      ><span data-i18n="form.name">Nama Lengkap Anda</span>
+                    <div class="form-group">
+                        <label for="senderName" class="form-label"><span data-i18n="form.name">Nama Lengkap Anda</span>
                       <span class="text-red" data-i18n="t_3389dae361"
                         >*</span
                       ></label
@@ -3095,4 +2905,5 @@
     <script src="i18n.js"></script>
     <script src="script.js"></script>
   </body>
+</html>
 </html>
