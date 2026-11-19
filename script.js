@@ -28,8 +28,7 @@ const PROJECT_LINKS = {
   "proj-4": {
     image: "assets/images/project-04.jpg",
     liveUrl: null,
-    githubUrl: "https://github.com/githu423?tab=repositories",
-    githubLabelKey: "t_btn_repo_list",
+    githubUrl: "https://github.com/githu423/umkm-rajut-tasik",
   },
 };
 
