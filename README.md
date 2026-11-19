@@ -15,7 +15,7 @@ Dibangun dengan **HTML5, CSS3, Vanilla JavaScript, Node.js/Express, dan asisten 
 | **Kontak dua kanal**        | **WhatsApp** (membuka chat dengan pesan siap kirim) dan **Email** (form dikirim langsung ke `ibahmisbahh6@gmail.com` melalui API SMTP). Jika SMTP belum dikonfigurasi, sistem membuka email dengan subjek & isi yang sudah terisi. |
 | **Ask Ibah (AI Assistant)** | Chatbot dengan knowledge base resmi, anti-halusinasi, balasan bilingual, dan opsi integrasi OpenAI API.                                                                                                                            |
 | **Tampilan**                | Light/Dark mode, animasi scroll, typewriter, skill & project filter, modal detail proyek, CV viewer, toast, dan layout responsif.                                                                                                  |
-| **Navigasi**                | Sidebar vertikal di desktop (lebih rapi daripada menu horizontal yang padat) dan drawer hamburger di tablet/mobile.                                                                                                                |
+| **Navigasi**                | Navbar horizontal yang ringkas di desktop (link sekunder masuk menu “Lainnya”) dan drawer hamburger di tablet/mobile.                                                                                                              |
 
 ---
 
@@ -24,7 +24,7 @@ Dibangun dengan **HTML5, CSS3, Vanilla JavaScript, Node.js/Express, dan asisten 
 ```text
 portofolio_ibah/
 ├── index.html                    # Struktur semantic HTML + atribut data-i18n-* (terformat rapi)
-├── style.css                     # Design system, sidebar desktop, tema, responsivitas
+├── style.css                     # Design system, navbar, tema, responsivitas
 ├── i18n.js                       # Kamus Bahasa Indonesia ↔ English + mesin switch bahasa
 ├── script.js                     # Interaksi, modal, filter, form WhatsApp/Email, chatbot
 ├── assets/
@@ -127,7 +127,7 @@ Untuk menambah/mengubah teks: cukup edit entri yang sesuai di `i18n.js` (keduany
 - Seluruh file HTML, CSS, dan JavaScript diformat dengan **Prettier** (`printWidth: 110`, `singleQuote: true`, `trailingComma: all`).
 - CSS dikelompokkan menjadi bagian bernomor dengan komentar deskriptif; variabel desain ada di `:root`.
 - Teks UI tidak ditanam langsung di banyak elemen: semuanya memakai atribut `data-i18n-*` dan diterjemahkan dari `i18n.js`.
-- Navigasi desktop memakai `.desktop-sidebar`; aktif link dikelola bersama menu mobile oleh `initNavbarScroll()`.
+- Navbar desktop memakai `.nav-links-desktop` dengan dropdown `.nav-dropdown`; aktif link dikelola bersama menu mobile oleh `initNavbarScroll()` dan `initNavDropdown()` handles menu “Lainnya”.
 
 ## 8. Kustomisasi Cepat
 
@@ -140,7 +140,7 @@ Untuk menambah/mengubah teks: cukup edit entri yang sesuai di `i18n.js` (keduany
 | Nomor WhatsApp / email                    | `index.html`, `script.js`, `backend/server.js`, `backend/data/ibah-profile.js` |
 | Skill, pengalaman, proyek (knowledge bot) | `backend/data/ibah-profile.js`                                                 |
 | Warna & tipografi                         | variabel di bagian atas `style.css`                                            |
-| Sidebar desktop                           | blok `DESKTOP SIDEBAR & VISUAL POLISH` di `style.css`                          |
+| Navbar & dropdown                         | blok `NAVBAR POLISH & LAYOUT RHYTHM` di `style.css`                            |
 
 ---
 

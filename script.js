@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initNavbarScroll();
   initMobileNav();
+  initNavDropdown();
   initTypewriter();
   initScrollAnimations();
   initCounters();
@@ -273,6 +274,37 @@ function initMobileNav() {
       });
     });
   }
+}
+
+// -------------------- NAVBAR "MORE" DROPDOWN --------------------
+function initNavDropdown() {
+  const dropdown = document.querySelector('.nav-dropdown');
+  const toggle = document.getElementById('navMoreBtn');
+  if (!dropdown || !toggle) return;
+
+  function closeDropdown() {
+    dropdown.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+
+  toggle.addEventListener('click', (event) => {
+    event.stopPropagation();
+    const shouldOpen = !dropdown.classList.contains('open');
+    dropdown.classList.toggle('open', shouldOpen);
+    toggle.setAttribute('aria-expanded', String(shouldOpen));
+  });
+
+  dropdown.querySelectorAll('.nav-link').forEach((link) => {
+    link.addEventListener('click', closeDropdown);
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!dropdown.contains(event.target)) closeDropdown();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeDropdown();
+  });
 }
 
 // -------------------- TYPEWRITER ANIMATION --------------------
