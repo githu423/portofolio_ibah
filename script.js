@@ -30,6 +30,14 @@ const PROJECT_LINKS = {
     liveUrl: null,
     githubUrl: "https://github.com/githu423/umkm-rajut-tasik",
   },
+  // Karya kreatif: etalase video editing & desain grafis di Instagram
+  "proj-5": {
+    image: "assets/images/project-05.jpg",
+    liveUrl: "https://instagram.com/ibah.codes",
+    githubUrl: "https://instagram.com/ibah.codes",
+    githubLabelKey: "t_btn_lihat_karya",
+    githubIcon: "fa-brands fa-instagram",
+  },
 };
 
 function getProjectData(projectId) {
@@ -451,6 +459,8 @@ function renderProjectModal() {
   }
   if (githubBtn) {
     githubBtn.href = project.githubUrl;
+    const ghIcon = githubBtn.querySelector("i");
+    if (ghIcon) ghIcon.className = project.githubIcon || "fa-brands fa-github";
     const ghLabel = githubBtn.querySelector("span[data-i18n]");
     const ghKey = project.githubLabelKey || "t_07093eb7d6";
     if (ghLabel) {
