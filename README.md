@@ -153,3 +153,16 @@ Catatan: identitas/avatar sengaja tidak ditampilkan di navbar; nama dan foto tet
 - Semua proyek di bagian _Karya & Implementasi_ masih berupa **repositori GitHub** — belum di-hosting atau dipublikasikan. Karena itu setiap kartu proyek memakai chip status "Repositori GitHub — belum di-hosting", dan tombol "Demo / Link" pada modal detail sengaja dinonaktifkan dengan label "Demo Belum Tersedia".
 - Link repositori disesuaikan dengan akun asli: `slip_gaji` dan `Cipakat-Hub` (publik), Website Internal Dinas Pariwisata (privat → mengarah ke profil GitHub), dan Landing Page UMKM Rajut (repo `umkm-rajut-tasik` mengikuti judul proyek; buat repo dengan nama tersebut agar link aktif).
 - Saat sebuah proyek nanti di-hosting, cukup isi `liveUrl` pada `PROJECT_LINKS` di `script.js`; tombol demo akan aktif otomatis dan labelnya kembali normal.
+
+## Layanan Kreatif: Video Editing & Desain Grafis
+
+Portofolio kini memosisikan Ibah sebagai **Web Developer + Video Editor + Desainer Grafis**:
+
+- **Hero & typewriter:** roles bergantian memuat "VIDEO EDITOR & DESAINER GRAFIS" (ID) / "VIDEO EDITOR & GRAPHIC DESIGNER" (EN); deskripsi hero menyebut karya kreatif.
+- **Skills:** tab "Desain & Kreatif" memuat grup ketiga — CapCut (editing video), Figma, Canva & PixelLab, Photoshop & After Effects — dengan bar level; grup "Development Tools & Office" dibersihkan dari item multimedia.
+- **Proyek 05 "Karya Video Editing & Desain":** kartu kreatif dengan chip Instagram (`@ibah.codes`), tombol "Lihat Karya" ke instagram.com/ibah.codes, dan filter kategori baru **Kreatif**; tombol GitHub di modal otomatis memakai ikon/label Instagram untuk kartu ini.
+- **AI chat:** chip baru "🎬 Desain & Video" dan rule jawaban jasa kreatif (CapCut/Figma/Canva) untuk bahasa Indonesia & Inggris.
+- **CV & opportunities:** profil singkat dan teks peluang menyebut editing video & desain; backend knowledge (`ibah-profile.js`) menambah Figma.
+- **Gambar:** `assets/images/project-05.jpg` ilustrasi timeline editing + kanvas desain (dibuat serasi dengan kartu lain).
+
+Catatan maintain: jumlah proyek pada tombol filter "Semua Proyek" ada di key i18n `t_375fc254e7` (ID & EN); link kartu 05 di `PROJECT_LINKS.proj-5` pada `script.js`.

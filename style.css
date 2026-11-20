@@ -1904,6 +1904,11 @@ body {
   color: #fbbf24;
 }
 
+/* Chip Instagram untuk kartu karya kreatif */
+.project-status-chip.status-chip-ig i {
+  color: #e1306c;
+}
+
 .project-card-body {
   padding: 24px;
   display: flex;
